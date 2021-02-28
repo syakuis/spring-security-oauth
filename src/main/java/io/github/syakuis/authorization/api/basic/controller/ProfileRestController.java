@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Profile("test")
 @RestController
-@RequestMapping("/api/basic")
-public class BasicRestController {
+@RequestMapping("/api/profile")
+public class ProfileRestController {
 
     @GetMapping
-    public ResponseEntity<String> basic() {
+    public ResponseEntity<String> profile() {
         return ResponseEntity.ok("ok");
     }
 }

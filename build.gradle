@@ -149,7 +149,7 @@ test {
 
 bootJar {
     enabled = true
-    mainClassName = "${groupId}.Application"
+    mainClassName = "${groupId}.AuthorizationApplication"
     launchScript()
 }
 

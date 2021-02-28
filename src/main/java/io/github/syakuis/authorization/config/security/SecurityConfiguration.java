@@ -1,7 +1,5 @@
 package io.github.syakuis.authorization.config.security;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +8,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -28,32 +27,34 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    /**
+     * PasswordEncoderFactories.createDelegatingPasswordEncoder();
+     * @return
+     */
     @Bean
     @Primary
     public PasswordEncoder passwordEncoder() {
         Map<String, PasswordEncoder> encoders = new HashMap<>();
-        encoders.put(EncodeId.BCRYPT.name(), new BCryptPasswordEncoder());
-        encoders.put(EncodeId.PBKDF2.name(), new Pbkdf2PasswordEncoder());
-        encoders.put(EncodeId.SCRYPT.name(), new SCryptPasswordEncoder());
+        encoders.put(EncodeId.BCRYPT.value(), new BCryptPasswordEncoder());
+        encoders.put(EncodeId.PBKDF2.value(), new Pbkdf2PasswordEncoder());
+        encoders.put(EncodeId.SCRYPT.value(), new SCryptPasswordEncoder());
 
-        return new DelegatingPasswordEncoder(EncodeId.BCRYPT.name(), encoders);
+        return new DelegatingPasswordEncoder(EncodeId.BCRYPT.value(), encoders);
     }
 
     /**
-     * protected void configure(AuthenticationManagerBuilder auth)
-     *         throws Exception {
-     *         auth.inMemoryAuthentication()
-     *             .withUser("test").password(passwordEncoder().encode("1234"))
-     *             .roles("USER")
-     *             .and()
-     *             .withUser("admin").password(passwordEncoder().encode("!@#$"))
-     *             .roles("ADMIN", "USER");
+     * protected void configure(AuthenticationManagerBuilder auth) throws Exception { auth.inMemoryAuthentication()
+     * .withUser("test").password(passwordEncoder().encode("1234")) .roles("USER") .and()
+     * .withUser("admin").password(passwordEncoder().encode("!@#$")) .roles("ADMIN", "USER");
      *
-     *     }
+     * }
+     *
      * @return UserDetailsService
      */
-    @Bean
-    public UserDetailsService aUserDetailsService() {
+    @Bean("userDetailsService")
+    @Primary
+    @Override
+    public UserDetailsService userDetailsServiceBean() {
         UserDetails user = User.builder()
             .username("test").password(passwordEncoder().encode("1234"))
             .roles("USER")
@@ -68,29 +69,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(aUserDetailsService());
+        authenticationProvider.setUserDetailsService(userDetailsServiceBean());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }
 
-    @Bean
+    @Bean("authenticationManager")
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(authenticationProvider());
     }
 
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.NEVER)
-            .and()
-            .authorizeRequests()
-            .anyRequest().fullyAuthenticated()
-            .and()
-            .formLogin(form -> form.loginPage("/login").permitAll())
-            .httpBasic(withDefaults())
-        ;
+            .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeRequests(authorize -> authorize.anyRequest().not().authenticated());
     }
 }
