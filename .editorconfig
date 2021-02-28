@@ -4,7 +4,7 @@ root = true
 charset = utf-8
 
 [*.{groovy,java,kt,kts,xml,xsd}]
-max_line_length = 80
+max_line_length = 120
 indent_style = space
 indent_size = 4
 tab_width = 4

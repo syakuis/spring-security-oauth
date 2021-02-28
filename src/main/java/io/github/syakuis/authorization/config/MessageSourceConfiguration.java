@@ -1,4 +1,4 @@
-package io.github.syakuis.config;
+package io.github.syakuis.authorization.config;
 
 import java.util.Locale;
 import org.springframework.context.MessageSource;

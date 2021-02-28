@@ -1,4 +1,4 @@
-package io.github.syakuis.config.jpa.converter;
+package io.github.syakuis.authorization.config.jpa.converter;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

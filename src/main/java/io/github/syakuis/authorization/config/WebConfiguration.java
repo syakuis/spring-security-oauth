@@ -1,4 +1,4 @@
-package io.github.syakuis.config;
+package io.github.syakuis.authorization.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;

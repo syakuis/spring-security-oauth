@@ -1,4 +1,4 @@
-package io.github.syakuis;
+package io.github.syakuis.authorization;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @Slf4j
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-class ApplicationTest {
+class AuthorizationApplicationTest {
 
     @Autowired
     private MessageSourceAccessor i18n;

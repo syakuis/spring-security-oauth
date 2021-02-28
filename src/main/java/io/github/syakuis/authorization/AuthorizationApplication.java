@@ -1,11 +1,11 @@
-package io.github.syakuis;
+package io.github.syakuis.authorization;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Application {
+public class AuthorizationApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(AuthorizationApplication.class, args);
     }
 }

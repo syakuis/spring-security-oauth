@@ -1,4 +1,4 @@
-package io.github.syakuis.config.support;
+package io.github.syakuis.authorization.config.support;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

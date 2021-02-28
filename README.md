@@ -1,30 +1,23 @@
-# Spring Gradle Template
+# Authorization Server
 
-## Installing Gradle 6.5
+## Objective
 
-https://docs.gradle.org/current/userguide/installation.html
+JWT 인증 서버 개발.
 
-spring boot 2.3.x 부터 gradle 6.x 버전 필요
+## TODO
 
-```
-$ ./gradlew wrapper --gradle-version=6.5
-```
+- 인증 구현
+- JWT 인증 방식 적용
+- Spring Security OAuth 내장 쿼리사용하지 않고 직접 JPA 구현
+- Redis 사용 인증 정보 캐싱 처리
+- Resource Server 테스트 (서버 부리 필수)
 
-## 개발
+### Addition
 
-기본적으로 개발 모드 profile 의 설정으로 구동됩니다.
+- Docker 서비스 구동
+- Github Actions 적용
 
-개인적으로 로컬 설정이 필요한 경우 `application-default.yml` 파일을 생성하여 사용하세요.
+## Done
 
-## 테스트
-
-참고: https://www.jetbrains.com/help/idea/work-with-tests-in-gradle.html#configure_gradle_test_runner
-
-테스트 실행시 spring profile 이 자동으로 test 설정되도록 아래와 같이 설정이 필요합니다.
-
-```
-IntelliJ IDEA > Build, Execution, Deployment > Build Tools > Gradle 메뉴에서
-
-Build and run using: Gradle
-Run tests using: Gradle
-```
+- 인증 구현
+    - form 인증, Http Basic 인증
