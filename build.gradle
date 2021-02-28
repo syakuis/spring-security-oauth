@@ -1,0 +1,182 @@
+buildscript {
+    ext.groupId = "io.github.syaku"
+    ext.versionName = "1.0.0.BUILD-SNAPSHOT"
+    ext.springBootVersion = "2.3.9.RELEASE"
+    ext.junitVersion = "5.6.2"
+    ext.lombokVersion = "1.18.12"
+    ext.restDocsVersion = "2.0.4.RELEASE"
+    ext.jacksonVersion = "2.11.0"
+    ext.queryDslVersion = "4.3.1"
+
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "net.ltgt.gradle:gradle-apt-plugin:0.18"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1"
+        classpath "io.franzbecker:gradle-lombok:3.1.0"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.8.RELEASE"
+        classpath "org.asciidoctor:asciidoctor-gradle-plugin:1.5.3"
+        classpath "gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:1.0.10"
+    }
+}
+
+wrapper {
+    gradleVersion = "6.5"
+}
+
+apply plugin: "java"
+apply plugin: "java-library"
+apply plugin: "idea"
+apply plugin: "io.franzbecker.gradle-lombok"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
+apply plugin: "org.asciidoctor.convert"
+apply plugin: "com.ewerk.gradle.plugins.querydsl"
+apply plugin: "org.sonarqube"
+//apply plugin: "checkstyle"
+
+// IntelliJ IDEA : project build path
+idea {
+    module {
+        inheritOutputDirs = true
+        outputDir = compileJava.destinationDir
+        testOutputDir = compileTestJava.destinationDir
+    }
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+group groupId
+version versionName
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+compileJava.options.encoding = 'UTF-8'
+
+configurations {
+    implementation.exclude module: "spring-boot-starter-tomcat"
+    testImplementation.exclude group: "junit", module: "junit"
+}
+
+processResources {
+    filesMatching('*.yml') {
+        expand(project.properties)
+    }
+}
+
+dependencies {
+    implementation "org.modelmapper:modelmapper:2.3.0"
+    implementation "org.apache.commons:commons-lang3:3.7"
+
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    asciidoctor "org.springframework.restdocs:spring-restdocs-asciidoctor:${restDocsVersion}"
+    testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:${restDocsVersion}"
+
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:${jacksonVersion}"
+
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "com.querydsl:querydsl-jpa"
+    implementation "com.querydsl:querydsl-apt"
+
+    compileOnly "org.springframework.boot:spring-boot-configuration-processor"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+
+    implementation "org.springframework.boot:spring-boot-starter-undertow"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    // or implementation "org.springframework.boot:spring-boot-starter"
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+    }
+
+    testImplementation "com.h2database:h2:1.4.191"
+    compileOnly "com.h2database:h2:1.4.191"
+}
+
+// <------- QueryDSL
+def queryDslSrcDir = "src/main/generated"
+
+querydsl {
+    library = "com.querydsl:querydsl-apt"
+    jpa = true
+    querydslSourcesDir = queryDslSrcDir
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ["src/main/java", queryDslSrcDir]
+        }
+    }
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+// ------- QueryDSL ->
+
+// <------- RestDocs & Asciidoctor
+def snippetsDir = file("${buildDir}/generated-snippets")
+
+asciidoctor {
+    attributes "snippets": snippetsDir
+    inputs.dir snippetsDir
+    dependsOn test
+}
+// ------- RestDocs & Asciidoctor ->
+
+sonarqube {
+    properties {
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.language", "java"
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.sources", "src/main/java"
+        property "sonar.exclusions", "**/*Test*.*, **/Q*.java"
+        property "sonar.test.inclusions", "**/*Test.java"
+        property "sonar.coverage.exclusions", "**/*Test*.*, **/Q*.java"
+        property "sonar.java.junit.reportPaths", "${buildDir}/test-results"
+        property "sonar.jacoco.reportPaths", "${buildDir}/jacoco/jacoco.exec"
+    }
+}
+
+//checkstyle {
+//    configFile = file("./.platform-settings/google-checkstyle.xml")
+//    toolVersion = '8.33'
+//}
+
+test {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+    systemProperty 'spring.profiles.active', 'test'
+}
+
+bootJar {
+    enabled = true
+    mainClassName = "${groupId}.Application"
+    launchScript()
+}
+
+jar {
+    enabled true
+}

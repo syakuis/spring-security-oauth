@@ -1,0 +1,15 @@
+# Production profile
+logging:
+  level:
+    io.github.syakuis: info
+    org.hibernate.sql: off
+    org.hibernate.type.descriptor.sql.BasicBinder: off
+    org.hibernate.type.descriptor.sql.BasicExtractor: off
+  file:
+    path:
+spring:
+  main:
+    banner-mode: log
+  devtools:
+    livereload:
+      enabled: false

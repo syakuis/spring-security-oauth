@@ -1,0 +1,8 @@
+logging:
+  level:
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.hibernate.type.descriptor.sql.BasicExtractor: trace
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
