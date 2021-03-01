@@ -25,33 +25,13 @@ public class AuthorizationConfiguration extends AuthorizationServerConfigurerAda
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
 
-    /*@Bean
-    public TokenStore tokenStore() {
-        return new InMemoryTokenStore();
-    }
-
     @Bean
-    @Primary
-    public DefaultTokenServices tokenServices() {
-        DefaultTokenServices tokenServices = new DefaultTokenServices();
-        tokenServices.setSupportRefreshToken(true);
-        tokenServices.setTokenStore(tokenStore());
-        return tokenServices;
-    }*/
-
-    private JwtAccessTokenConverter asymmetricKeyEncryption() {
+    public JwtAccessTokenConverter accessTokenConverter() {
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         KeyStoreKeyFactory keyStoreKeyFactory =
             new KeyStoreKeyFactory(resolver.getResource("classpath:certificate/authorization.jks"), "syaku@pass1234".toCharArray());
         converter.setKeyPair(keyStoreKeyFactory.getKeyPair("syaku"));
-        return converter;
-    }
-
-    @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("syaku");
         return converter;
     }
 
