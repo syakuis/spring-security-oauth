@@ -40,7 +40,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 @Profile("test")
 @Configuration
 @EnableResourceServer
-public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
     private final AuthenticationManager authenticationManager;
 
     @Bean

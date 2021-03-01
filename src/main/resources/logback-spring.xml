@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="30 seconds">
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <springProfile name="!prod">
-        <include resource="logging/console-appender.xml"/>
-    </springProfile>
+    <include resource="logging/console-appender.xml"/>
     <springProfile name="prod">
         <include resource="logging/file-appender.xml"/>
     </springProfile>

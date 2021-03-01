@@ -37,7 +37,7 @@ class TokenAuthenticationTest {
     private static final String testPassword = "1234";
 
     /**
-     * curl -u bar:foo http://localhost:8080/oauth/token -d  "grant_type=password&username=test&password=1234"
+     * curl -u clientId:1234 http://localhost:8080/oauth/token -d  "grant_type=password&username=test&password=1234"
      * @param username
      * @param password
      * @return

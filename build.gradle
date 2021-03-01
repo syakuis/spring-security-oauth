@@ -105,6 +105,7 @@ dependencies {
     implementation "org.springframework.security:spring-security-jwt:1.1.1.RELEASE"
     implementation "io.jsonwebtoken:jjwt:0.9.1"
 
+    implementation "com.h2database:h2:1.4.191"
     testImplementation "com.h2database:h2:1.4.191"
     compileOnly "com.h2database:h2:1.4.191"
 }
@@ -149,10 +150,10 @@ test {
 
 bootJar {
     enabled = true
-    mainClassName = "${groupId}.AuthorizationApplication"
+    mainClassName = "io.github.syakuis.authorization.AuthorizationApplication"
     launchScript()
 }
 
 jar {
-    enabled true
+    enabled false
 }

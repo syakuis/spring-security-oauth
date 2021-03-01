@@ -2,6 +2,7 @@ package io.github.syakuis.authorization.config.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -25,12 +26,15 @@ public class AuthorizationConfiguration extends AuthorizationServerConfigurerAda
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
 
+    @Value("${authorization.oauth2.jwt.jks-location}")
+    private String jksLocation;
+
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         KeyStoreKeyFactory keyStoreKeyFactory =
-            new KeyStoreKeyFactory(resolver.getResource("classpath:certificate/authorization.jks"), "syaku@pass1234".toCharArray());
+            new KeyStoreKeyFactory(resolver.getResource(jksLocation), "syaku@pass1234".toCharArray());
         converter.setKeyPair(keyStoreKeyFactory.getKeyPair("syaku"));
         return converter;
     }

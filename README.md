@@ -25,6 +25,8 @@ JWT 인증 서버 개발.
     - form 인증, Http Basic 인증
 - OAuth2 Token 인증 방식 적용
 - JWT 인증 방식 적용
+- JWT 인증 방식 적용 (비대칭키 암호화 적용)
+- Docker 서비스 구동
 
 ## 참고
 
@@ -43,6 +45,18 @@ keytool -genkeypair -alias syaku -keyalg RSA -keypass syaku@1234 -keystore autho
 
 ```
 keytool -list -rfc --keystore authorization.jks | openssl x509 -inform pem -pubkey > publicKey.txt
+```
+
+### docker compose test
+
+gradle build ...
+
+```
+docker-compose up -d
+
+// access token
+curl -u clientId:1234 http://localhost:8080/oauth/token -d  "grant_type=password&username=test&password=1234"
+
 ```
 
 

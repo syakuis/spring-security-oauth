@@ -6,10 +6,14 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: off
     org.hibernate.type.descriptor.sql.BasicExtractor: off
   file:
-    path:
+    path: /var/authorization-server/logs
 spring:
   main:
-    banner-mode: log
+    banner-mode: console
   devtools:
     livereload:
       enabled: false
+authorization:
+  oauth2:
+    jwt:
+      jks-location: file:/var/authorization-server/certificate/authorization.jks

@@ -60,3 +60,7 @@ spring:
       hibernate:
         show_sql: false
         format_sql: true
+authorization:
+  oauth2:
+    jwt:
+      jks-location:
