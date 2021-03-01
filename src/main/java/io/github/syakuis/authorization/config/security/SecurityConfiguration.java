@@ -29,7 +29,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     /**
      * PasswordEncoderFactories.createDelegatingPasswordEncoder();
-     * @return
      */
     @Bean
     @Primary
@@ -51,10 +50,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      *
      * @return UserDetailsService
      */
-    @Bean("userDetailsService")
-    @Primary
+    @Bean
     @Override
-    public UserDetailsService userDetailsServiceBean() {
+    public UserDetailsService userDetailsService() {
         UserDetails user = User.builder()
             .username("test").password(passwordEncoder().encode("1234"))
             .roles("USER")
@@ -69,7 +67,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsServiceBean());
+        authenticationProvider.setUserDetailsService(userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }
@@ -89,7 +87,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-            .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeRequests(authorize -> authorize.anyRequest().not().authenticated());
+            .sessionManagement(
+                sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeRequests(
+                authorize -> authorize.anyRequest().not()
+                    .authenticated());
     }
 }

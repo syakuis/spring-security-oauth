@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,9 +13,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,7 +25,7 @@ public class AuthorizationConfiguration extends AuthorizationServerConfigurerAda
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
 
-    @Bean
+    /*@Bean
     public TokenStore tokenStore() {
         return new InMemoryTokenStore();
     }
@@ -38,6 +37,22 @@ public class AuthorizationConfiguration extends AuthorizationServerConfigurerAda
         tokenServices.setSupportRefreshToken(true);
         tokenServices.setTokenStore(tokenStore());
         return tokenServices;
+    }*/
+
+    private JwtAccessTokenConverter asymmetricKeyEncryption() {
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        KeyStoreKeyFactory keyStoreKeyFactory =
+            new KeyStoreKeyFactory(resolver.getResource("classpath:certificate/authorization.jks"), "syaku@pass1234".toCharArray());
+        converter.setKeyPair(keyStoreKeyFactory.getKeyPair("syaku"));
+        return converter;
+    }
+
+    @Bean
+    public JwtAccessTokenConverter accessTokenConverter() {
+        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        converter.setSigningKey("syaku");
+        return converter;
     }
 
     @Override
@@ -46,20 +61,22 @@ public class AuthorizationConfiguration extends AuthorizationServerConfigurerAda
             .authorizedGrantTypes(
 //                AuthorizedGrantType.AUTHORIZATION_CODE.getValue(),
 //                AuthorizedGrantType.CLIENT_CREDENTIALS.getValue(),
-                AuthorizedGrantType.PASSWORD.getValue(),
+                AuthorizedGrantType.PASSWORD.value(),
 //                AuthorizedGrantType.IMPLICIT.getValue(),
-                AuthorizedGrantType.REFRESH_TOKEN.getValue()
+                AuthorizedGrantType.REFRESH_TOKEN.value()
             )
             .authorities("CLIENT")
             .scopes("read")
-            .resourceIds("resourceId")
+//            .resourceIds("resourceId")
             .accessTokenValiditySeconds(60 * 60 * 12)
             .refreshTokenValiditySeconds(60 * 60 * 24 * 30);
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        endpoints.tokenStore(tokenStore())
+        endpoints
+//            .tokenStore(tokenStore())
+            .accessTokenConverter(accessTokenConverter())
             .authenticationManager(authenticationManager)
             .userDetailsService(userDetailsService);
     }
@@ -68,6 +85,9 @@ public class AuthorizationConfiguration extends AuthorizationServerConfigurerAda
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security
             .tokenKeyAccess("permitAll()")
-            .checkTokenAccess("isAuthenticated()").passwordEncoder(passwordEncoder);
+            .checkTokenAccess("isAuthenticated()")
+            // 클라이언드에 대한 양식 인증 허용.
+            .allowFormAuthenticationForClients()
+            .passwordEncoder(passwordEncoder);
     }
 }

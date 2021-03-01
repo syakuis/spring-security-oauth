@@ -1,4 +1,4 @@
-package io.github.syakuis.authorization.api.basic.controller;
+package io.github.syakuis.authorization.api.profile.controller;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;

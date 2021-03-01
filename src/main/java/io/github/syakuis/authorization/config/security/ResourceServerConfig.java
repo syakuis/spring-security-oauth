@@ -81,14 +81,14 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public WebInvocationPrivilegeEvaluator webInvocationPrivilegeEvaluator() {
         return new DefaultWebInvocationPrivilegeEvaluator(filterSecurityInterceptor());
     }
-
+/*
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
         // https://stackoverflow.com/questions/41824885/use-withmockuser-with-springboottest-inside-an-oauth2-resource-server-applic
         resources.stateless(false)
-            .resourceId("resourceId")
+//            .resourceId("resourceId")
             .expressionHandler(expressionHandler());
-    }
+    }*/
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
