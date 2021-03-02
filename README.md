@@ -6,27 +6,24 @@ JWT 인증 서버 개발.
 
 ## TODO
 
-- 기본 인증 구현
-- OAuth2 Token 인증 방식 적용
-- JWT 인증 방식 적용
-- Resource Server 테스트 확인 (서버 분리 필수)
-- 인증 저장을 내장 저장소를 DB 사용
-- Spring Security OAuth 내장 쿼리사용하지 않고 직접 JPA 구현
-- Redis 사용 인증 정보 캐싱 처리
+- [x] 기본 인증 구현
+- [x] OAuth2 Token 인증 방식 적용
+- [x] JWT 인증 방식 적용
+    - [x] 디비 이용
+    - [x] 비대칭키 암호 적용
+- [ ] Resource Server 테스트 확인 (서버 분리 필수)
+- [ ] Token 을 관리할 수 있는 기능 제공
+    - [ ] 사용자가 인증한 토큰 목록 보기 (삭제)
+    - [ ] 만료일과 관계없이 토큰 블록 처리
+    - [ ] 블록 처리된 토큰은 만료일이 지나면 삭제되어야 함.
+- [ ] Spring Security OAuth 내장 쿼리사용하지 않고 직접 JPA 구현
+- [ ] Redis 사용 인증 정보 캐싱 처리
 
 ### Addition
 
-- Docker 서비스 구동
-- Github Actions 적용
+- [x] Docker 서비스 구동
+- [ ] Github Actions 적용
 
-## Done
-
-- 기본 인증 구현
-    - form 인증, Http Basic 인증
-- OAuth2 Token 인증 방식 적용
-- JWT 인증 방식 적용
-- JWT 인증 방식 적용 (비대칭키 암호화 적용)
-- Docker 서비스 구동
 
 ## 참고
 
