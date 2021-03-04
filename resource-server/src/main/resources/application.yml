@@ -1,0 +1,75 @@
+# Develop or Default profile
+application:
+  name: resource-server
+  version: ${version}
+debug: false
+trace: false
+logging:
+  file:
+    name: resource-server.log
+    path:
+  logback:
+    rollingpolicy:
+      #      file-name-pattern:
+      clean-history-on-start: false
+      max-file-size: 10MB
+      total-size-cap: 20GB
+      max-history: 30
+  level:
+    root: info
+    io.github.syakuis: trace
+    org.springframework: info
+    org.springframework.web: info
+    org.hibernate.sql: trace
+    #    org.hibernate.type.descriptor.sql: trace
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.hibernate.type.descriptor.sql.BasicExtractor: off
+server:
+  port: 8080
+#  forward-headers-strategy: native
+#  tomcat:
+#    port-header: X-Forwarded-Port
+#    remote-ip-header: X-Forwarded-For
+#    protocol-header: X-Forwarded-Proto
+#    accesslog:
+#      directory:
+#      enabled: false
+#      file-date-format: .yyyy-MM-dd
+spring:
+  main:
+    banner-mode: console
+  devtools:
+    livereload:
+      enabled: true
+  messages:
+    basename: i18n/message
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      driver-class-name: org.h2.Driver
+      jdbc-url: jdbc:h2:mem:testdb
+      username: sa
+      password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+      use-new-id-generator-mappings: false
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: true
+security:
+  oauth2:
+    client:
+      clientId: clientId
+      clientSecret: 1234
+    resource:
+      token-info-uri: https://idp.example.com/oauth2/check_token
+      jwt:
+        key-value:
+authorization:
+  oauth2:
+    jwt:
+      public-key-location:

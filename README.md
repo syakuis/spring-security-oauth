@@ -11,7 +11,8 @@ JWT 인증 서버 개발.
 - [x] JWT 인증 방식 적용
     - [x] 디비 이용
     - [x] 비대칭키 암호 적용
-- [ ] Resource Server 테스트 확인 (서버 분리 필수)
+- [x] 인증 서버와 자원 서버 분리하기 (멀티 프로젝트)
+- [ ] Resource Server 테스트 확인
 - [ ] Token 을 관리할 수 있는 기능 제공
     - [ ] 사용자가 인증한 토큰 목록 보기 (삭제)
     - [ ] 만료일과 관계없이 토큰 블록 처리
@@ -66,3 +67,6 @@ curl -u clientId:1234 http://localhost:8080/oauth/token -d  "grant_type=password
 
 #### JWT
 - https://www.baeldung.com/spring-security-oauth-jwt
+
+#### Resource Server
+- https://docs.spring.io/spring-security/site/docs/5.3.8.RELEASE/reference/html5/#oauth2resourceserver

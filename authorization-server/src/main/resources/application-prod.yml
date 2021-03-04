@@ -1,0 +1,19 @@
+# Production profile
+logging:
+  level:
+    io.github.syakuis: info
+    org.hibernate.sql: off
+    org.hibernate.type.descriptor.sql.BasicBinder: off
+    org.hibernate.type.descriptor.sql.BasicExtractor: off
+  file:
+    path: /var/authorization-server/logs
+spring:
+  main:
+    banner-mode: console
+  devtools:
+    livereload:
+      enabled: false
+authorization:
+  oauth2:
+    jwt:
+      jks-location: file:/var/authorization/certificate/authorization.jks

@@ -25,135 +25,124 @@ buildscript {
     }
 }
 
-wrapper {
-    gradleVersion = "6.5"
-}
+subprojects {
+    apply plugin: "java"
+    apply plugin: "java-library"
+    apply plugin: "idea"
+    apply plugin: "io.franzbecker.gradle-lombok"
+    apply plugin: "org.springframework.boot"
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: "org.asciidoctor.convert"
+    apply plugin: "org.sonarqube"
+    //apply plugin: "checkstyle"
 
-apply plugin: "java"
-apply plugin: "java-library"
-apply plugin: "idea"
-apply plugin: "io.franzbecker.gradle-lombok"
-apply plugin: "org.springframework.boot"
-apply plugin: "io.spring.dependency-management"
-apply plugin: "org.asciidoctor.convert"
-apply plugin: "org.sonarqube"
-//apply plugin: "checkstyle"
-
-// IntelliJ IDEA : project build path
-idea {
-    module {
-        inheritOutputDirs = true
-        outputDir = compileJava.destinationDir
-        testOutputDir = compileTestJava.destinationDir
-    }
-}
-
-repositories {
-    mavenCentral()
-    jcenter()
-}
-
-group groupId
-version versionName
-
-sourceCompatibility = 11
-targetCompatibility = 11
-
-compileJava.options.encoding = 'UTF-8'
-
-configurations {
-    implementation.exclude module: "spring-boot-starter-tomcat"
-    testImplementation.exclude group: "junit", module: "junit"
-}
-
-processResources {
-    filesMatching('*.yml') {
-        expand(project.properties)
-    }
-}
-
-dependencies {
-    implementation "org.modelmapper:modelmapper:2.3.0"
-    implementation "org.apache.commons:commons-lang3:3.7"
-
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
-    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:${jacksonVersion}"
-
-    compileOnly "org.springframework.boot:spring-boot-configuration-processor"
-    implementation "org.springframework.boot:spring-boot-starter-validation"
-
-    asciidoctor "org.springframework.restdocs:spring-restdocs-asciidoctor:${restDocsVersion}"
-    testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:${restDocsVersion}"
-    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
-
-    implementation "org.springframework.boot:spring-boot-starter-undertow"
-    implementation "org.springframework.boot:spring-boot-starter-web"
-    // or implementation "org.springframework.boot:spring-boot-starter"
-    testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+    wrapper {
+        gradleVersion = "6.5"
     }
 
-    implementation "org.springframework.boot:spring-boot-starter-security"
-    testCompile "org.springframework.security:spring-security-test"
-    implementation "org.springframework.security:spring-security-oauth2-core"
-    implementation "org.springframework.security:spring-security-oauth2-jose"
-    implementation "org.springframework.security.oauth:spring-security-oauth2:2.5.0.RELEASE"
-    implementation "org.springframework.security:spring-security-jwt:1.1.1.RELEASE"
-    implementation "io.jsonwebtoken:jjwt:0.9.1"
 
-    implementation "com.h2database:h2:1.4.191"
-    testImplementation "com.h2database:h2:1.4.191"
-    compileOnly "com.h2database:h2:1.4.191"
-}
-
-// <------- RestDocs & Asciidoctor
-def snippetsDir = file("${buildDir}/generated-snippets")
-
-asciidoctor {
-    attributes "snippets": snippetsDir
-    inputs.dir snippetsDir
-    dependsOn test
-}
-// ------- RestDocs & Asciidoctor ->
-
-sonarqube {
-    properties {
-        property "sonar.host.url", "https://sonarcloud.io"
-        property "sonar.language", "java"
-        property "sonar.sourceEncoding", "UTF-8"
-        property "sonar.sources", "src/main/java"
-        property "sonar.exclusions", "**/*Test*.*, **/Q*.java"
-        property "sonar.test.inclusions", "**/*Test.java"
-        property "sonar.coverage.exclusions", "**/*Test*.*, **/Q*.java"
-        property "sonar.java.junit.reportPaths", "${buildDir}/test-results"
-        property "sonar.jacoco.reportPaths", "${buildDir}/jacoco/jacoco.exec"
+    // IntelliJ IDEA : project build path
+    idea {
+        module {
+            inheritOutputDirs = true
+            outputDir = compileJava.destinationDir
+            testOutputDir = compileTestJava.destinationDir
+        }
     }
-}
 
-//checkstyle {
-//    configFile = file("./.platform-settings/google-checkstyle.xml")
-//    toolVersion = '8.33'
-//}
-
-test {
-    outputs.dir snippetsDir
-    useJUnitPlatform()
-    testLogging {
-        events "passed", "skipped", "failed"
+    repositories {
+        mavenCentral()
+        jcenter()
     }
-    systemProperty 'spring.profiles.active', 'test'
-}
 
-bootJar {
-    enabled = true
-    mainClassName = "io.github.syakuis.authorization.AuthorizationApplication"
-    launchScript()
-}
+    group groupId
+    version versionName
 
-jar {
-    enabled false
+    sourceCompatibility = 11
+    targetCompatibility = 11
+
+    compileJava.options.encoding = 'UTF-8'
+
+    configurations {
+        implementation.exclude module: "spring-boot-starter-tomcat"
+        testImplementation.exclude group: "junit", module: "junit"
+    }
+
+    processResources {
+        filesMatching('*.yml') {
+            expand(project.properties)
+        }
+    }
+
+    dependencies {
+        implementation "org.modelmapper:modelmapper:2.3.0"
+        implementation "org.apache.commons:commons-lang3:3.7"
+        implementation "commons-io:commons-io:2.6"
+
+        compileOnly "org.projectlombok:lombok:${lombokVersion}"
+        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+        testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+        implementation "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:${jacksonVersion}"
+
+        compileOnly "org.springframework.boot:spring-boot-configuration-processor"
+        implementation "org.springframework.boot:spring-boot-starter-validation"
+
+        asciidoctor "org.springframework.restdocs:spring-restdocs-asciidoctor:${restDocsVersion}"
+        testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:${restDocsVersion}"
+        implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+
+        implementation "org.springframework.boot:spring-boot-starter-undertow"
+        implementation "org.springframework.boot:spring-boot-starter-web"
+        // or implementation "org.springframework.boot:spring-boot-starter"
+        testImplementation("org.springframework.boot:spring-boot-starter-test") {
+            exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+        }
+
+        implementation "org.springframework.boot:spring-boot-starter-security"
+        testCompile "org.springframework.security:spring-security-test"
+
+        implementation "com.h2database:h2:1.4.191"
+        testImplementation "com.h2database:h2:1.4.191"
+        compileOnly "com.h2database:h2:1.4.191"
+    }
+
+    // <------- RestDocs & Asciidoctor
+    def snippetsDir = file("${buildDir}/generated-snippets")
+
+    asciidoctor {
+        attributes "snippets": snippetsDir
+        inputs.dir snippetsDir
+        dependsOn test
+    }
+    // ------- RestDocs & Asciidoctor ->
+
+    sonarqube {
+        properties {
+            property "sonar.host.url", "https://sonarcloud.io"
+            property "sonar.language", "java"
+            property "sonar.sourceEncoding", "UTF-8"
+            property "sonar.sources", "src/main/java"
+            property "sonar.exclusions", "**/*Test*.*, **/Q*.java"
+            property "sonar.test.inclusions", "**/*Test.java"
+            property "sonar.coverage.exclusions", "**/*Test*.*, **/Q*.java"
+            property "sonar.java.junit.reportPaths", "${buildDir}/test-results"
+            property "sonar.jacoco.reportPaths", "${buildDir}/jacoco/jacoco.exec"
+        }
+    }
+
+    //checkstyle {
+    //    configFile = file("./.platform-settings/google-checkstyle.xml")
+    //    toolVersion = '8.33'
+    //}
+
+    test {
+        outputs.dir snippetsDir
+        useJUnitPlatform()
+        testLogging {
+            events "passed", "skipped", "failed"
+        }
+        systemProperty 'spring.profiles.active', 'test'
+    }
 }
