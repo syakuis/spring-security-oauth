@@ -60,15 +60,6 @@ spring:
       hibernate:
         show_sql: false
         format_sql: true
-security:
-  oauth2:
-    client:
-      clientId: clientId
-      clientSecret: 1234
-    resource:
-      token-info-uri: https://idp.example.com/oauth2/check_token
-      jwt:
-        key-value:
 authorization:
   oauth2:
     jwt:

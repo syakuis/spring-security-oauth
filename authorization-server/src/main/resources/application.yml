@@ -20,6 +20,7 @@ logging:
     io.github.syakuis: trace
     org.springframework: info
     org.springframework.web: info
+    org.springframework.security: debug
     org.hibernate.sql: trace
     #    org.hibernate.type.descriptor.sql: trace
     org.hibernate.type.descriptor.sql.BasicBinder: trace
