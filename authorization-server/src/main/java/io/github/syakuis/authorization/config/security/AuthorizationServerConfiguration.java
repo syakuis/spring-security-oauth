@@ -27,7 +27,6 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final UserDetailsService userDetailsService;
 
     @Value("${authorization.oauth2.jwt.jks-location}")
     private String jksLocation;
@@ -38,7 +37,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     }
 
     @Bean
-    public DefaultTokenServices tokenServices() {
+    public DefaultTokenServices defaultTokenServices() {
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setSupportRefreshToken(true);
         tokenServices.setTokenStore(tokenStore());
@@ -46,7 +45,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     }
 
     @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
+    public JwtAccessTokenConverter jwtAccessTokenConverter() {
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         KeyStoreKeyFactory keyStoreKeyFactory =
@@ -75,10 +74,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints
-            .tokenStore(tokenStore())
-            .accessTokenConverter(accessTokenConverter())
+            .tokenServices(defaultTokenServices())
+            .accessTokenConverter(jwtAccessTokenConverter())
             .authenticationManager(authenticationManager);
-//            .userDetailsService(userDetailsService);
     }
 
     @Override
@@ -88,6 +86,5 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
             .checkTokenAccess("isAuthenticated()")
             // 클라이언드에 대한 양식 인증 허용.
             .allowFormAuthenticationForClients();
-//            .passwordEncoder(passwordEncoder);
     }
 }

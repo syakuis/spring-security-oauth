@@ -26,11 +26,10 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.DefaultWebInvocationPrivilegeEvaluator;
 import org.springframework.security.web.access.WebInvocationPrivilegeEvaluator;
@@ -57,6 +56,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     private String publicKeyLocation;
 
     private final UserDetailsService userDetailsService;
+    private final DefaultTokenServices defaultTokenServices;
 
     @Bean
     public SecurityExpressionHandler<FilterInvocation> expressionHandler() {
@@ -115,9 +115,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-//        resources.tokenServices(new DefaultTokenServices());
         resources
-//            .tokenStore(tokenStore())
+            .tokenServices(defaultTokenServices)
             .stateless(true);
 //            .expressionHandler(expressionHandler);
 
@@ -125,12 +124,12 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         /*
         curl -u iplms:iplms -X POST "http://localhost:8080/oauth/check_token" -d "token=토큰"
          */
-        RemoteTokenServices tokenService = new RemoteTokenServices();
+       /* RemoteTokenServices tokenService = new RemoteTokenServices();
         tokenService.setClientId("clientId");
         tokenService.setClientSecret("1234");
         tokenService.setCheckTokenEndpointUrl("http://localhost:8080/oauth/check_token");
         tokenService.setAccessTokenConverter(resourceAccessTokenConverter());
-        resources.tokenServices(tokenService);
+        resources.tokenServices(tokenService);*/
     }
 
     @Override
