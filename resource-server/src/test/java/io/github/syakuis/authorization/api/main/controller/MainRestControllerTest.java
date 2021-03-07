@@ -94,7 +94,7 @@ class MainRestControllerTest {
         assertNotNull(accessToken);
 
         this.mvc.perform(get("/api/main")
-            .header(Headers.AUTHORIZATION_STRING, "Bearer " + accessToken))
+            .header(Headers.AUTHORIZATION_STRING, OAuth2AccessToken.BEARER_TYPE + " " + accessToken))
             .andExpect(status().isOk());
     }
 

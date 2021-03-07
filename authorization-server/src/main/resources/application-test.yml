@@ -1,5 +1,6 @@
 logging:
   level:
+    org.springframework.jdbc.core.JdbcTemplate: debug
     org.hibernate.type.descriptor.sql.BasicBinder: trace
     org.hibernate.type.descriptor.sql.BasicExtractor: trace
 spring:

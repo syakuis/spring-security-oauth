@@ -56,7 +56,6 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     private String publicKeyLocation;
 
     private final UserDetailsService userDetailsService;
-    private final DefaultTokenServices defaultTokenServices;
 
     @Bean
     public SecurityExpressionHandler<FilterInvocation> expressionHandler() {
@@ -108,15 +107,9 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         return converter;
     }
 
-    /*@Bean
-    public TokenStore tokenStore() throws IOException {
-        return new JwtTokenStore(resourceAccessTokenConverter());
-    }*/
-
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources
-            .tokenServices(defaultTokenServices)
             .stateless(true);
 //            .expressionHandler(expressionHandler);
 

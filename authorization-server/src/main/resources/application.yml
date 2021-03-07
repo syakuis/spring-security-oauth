@@ -20,7 +20,7 @@ logging:
     io.github.syakuis: trace
     org.springframework: info
     org.springframework.web: info
-    org.springframework.security: debug
+    org.springframework.security: info
     org.hibernate.sql: trace
     #    org.hibernate.type.descriptor.sql: trace
     org.hibernate.type.descriptor.sql.BasicBinder: trace
@@ -45,6 +45,8 @@ spring:
   messages:
     basename: i18n/message
   datasource:
+    initialization-mode: embedded
+    schema: classpath:schema/oauth2.sql
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       driver-class-name: org.h2.Driver
