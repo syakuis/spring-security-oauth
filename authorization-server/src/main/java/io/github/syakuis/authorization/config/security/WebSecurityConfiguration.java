@@ -25,7 +25,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     /**
      * PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -81,16 +81,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
-    }
-
-
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http
-            .sessionManagement(
-                sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeRequests(
-                authorize -> authorize.anyRequest().not()
-                    .authenticated());
     }
 }

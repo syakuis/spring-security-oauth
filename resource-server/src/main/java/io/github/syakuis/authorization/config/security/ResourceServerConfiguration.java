@@ -35,6 +35,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
+import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -100,17 +101,6 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     }
 
     @Bean
-    @Primary
-    public PasswordEncoder passwordEncoder() {
-        Map<String, PasswordEncoder> encoders = new HashMap<>();
-        encoders.put(EncodeId.BCRYPT.value(), new BCryptPasswordEncoder());
-        encoders.put(EncodeId.PBKDF2.value(), new Pbkdf2PasswordEncoder());
-        encoders.put(EncodeId.SCRYPT.value(), new SCryptPasswordEncoder());
-
-        return new DelegatingPasswordEncoder(EncodeId.BCRYPT.value(), encoders);
-    }
-
-    @Bean
     public UserDetailsService userDetailsService() {
 
         // TODO REST API 변경 혹은 View 테이블 제공 받기
@@ -152,7 +142,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         curl -u iplms:iplms -X POST "http://localhost:8080/oauth/check_token" -d "token=토큰"
          */
 
-        /*DefaultUserAuthenticationConverter defaultUserAuthenticationConverter = new DefaultUserAuthenticationConverter();
+        DefaultUserAuthenticationConverter defaultUserAuthenticationConverter = new DefaultUserAuthenticationConverter();
         defaultUserAuthenticationConverter.setUserDetailsService(userDetailsService());
         DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
         defaultAccessTokenConverter.setUserTokenConverter(defaultUserAuthenticationConverter);
@@ -161,8 +151,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         tokenService.setClientId("clientId");
         tokenService.setClientSecret("1234");
         tokenService.setCheckTokenEndpointUrl("http://localhost:8080/oauth/check_token");
-        tokenService.setAccessTokenConverter(defaultAccessTokenConverter);
-        resources.tokenServices(tokenService);*/
+        tokenService.setAccessTokenConverter(accessTokenConverter());
+        resources.tokenServices(tokenService);
     }
 
     @Override

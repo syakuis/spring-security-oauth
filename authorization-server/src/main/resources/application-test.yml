@@ -6,3 +6,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+authorization:
+  oauth2:
+    jwt:
+      public-key-location: classpath:/certificate/publicKey.txt
