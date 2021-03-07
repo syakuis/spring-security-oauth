@@ -123,12 +123,6 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-//        resources.tokenServices(new DefaultTokenServices());
-        resources
-//            .tokenStore(tokenStore())
-            .stateless(true);
-//            .expressionHandler(expressionHandler);
-
         // TODO REST API 변경 혹은 View 테이블 제공 받기
         /*
         curl -u iplms:iplms -X POST "http://localhost:8080/oauth/check_token" -d "token=토큰"
@@ -149,7 +143,6 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
             .authorizeRequests(
                 authorize -> authorize.anyRequest().not()
                     .authenticated())
-//            .addFilterBefore(new OAuth2AuthenticationProcessingFilter(), AbstractPreAuthenticatedProcessingFilter.class)
             .addFilterAt(filterSecurityInterceptor(), FilterSecurityInterceptor.class)
             .exceptionHandling();
     }

@@ -24,11 +24,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
-import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.DefaultWebInvocationPrivilegeEvaluator;
@@ -108,24 +105,6 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     }
 
     @Override
-    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources
-            .stateless(true);
-//            .expressionHandler(expressionHandler);
-
-        // TODO REST API 변경 혹은 View 테이블 제공 받기
-        /*
-        curl -u iplms:iplms -X POST "http://localhost:8080/oauth/check_token" -d "token=토큰"
-         */
-       /* RemoteTokenServices tokenService = new RemoteTokenServices();
-        tokenService.setClientId("clientId");
-        tokenService.setClientSecret("1234");
-        tokenService.setCheckTokenEndpointUrl("http://localhost:8080/oauth/check_token");
-        tokenService.setAccessTokenConverter(resourceAccessTokenConverter());
-        resources.tokenServices(tokenService);*/
-    }
-
-    @Override
     public void configure(HttpSecurity http) throws Exception {
         http
             .sessionManagement(
@@ -133,7 +112,6 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
             .authorizeRequests(
                 authorize -> authorize.anyRequest().not()
                     .authenticated())
-//            .addFilterBefore(new OAuth2AuthenticationProcessingFilter(), AbstractPreAuthenticatedProcessingFilter.class)
             .addFilterAt(filterSecurityInterceptor(), FilterSecurityInterceptor.class)
             .exceptionHandling();
     }
