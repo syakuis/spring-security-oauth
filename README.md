@@ -4,6 +4,19 @@
 
 JWT 인증 서버 개발
 
+## Lifecycle
+
+```plantuml
+actor user
+user -> login
+login -> accessToken
+login <-- accessToken
+note right : POST http://localhost:8080/oauth/token
+user -> tokenCheck
+note right : POST http://localhost:8080/oauth/check_token
+tokenCheck -> page
+```
+
 ## HOW
 
 - 인증 서버 역할
@@ -37,16 +50,20 @@ JWT 인증 서버 개발
 - [x] 인증 서버와 자원 서버 분리하기 (멀티 프로젝트)
 - [x] 자원 서버 인증 테스트 확인
 - [x] 자원 서버 : 토큰 검증 HTTP 요청으로 변경
-- [ ] 자원 서버 OAuth2 라이브러리 최신화 변경
+- [ ] 인증 서버 : profile REST API 개발
+    - 사용자 정보
+    - 사용자 액세스 토큰 관리
 - [ ] 인증 서버 토큰 관리 디비로 변경
 - [ ] 인증 서버 토큰 관리 REST APIs 개발
     - [ ] Redis cache 사용
 - [ ] 인증 서버 클라언드 관리 REST APIs 개발
     - [ ] Redis cache 사용
+
 ### Addition
 
 - [x] Docker 서비스 구동
 - [ ] Github Actions 적용
+- [ ] Spring Security OAuth2 라이브러리 최신화 변경 (자원 서버)
 
 
 ## 참고

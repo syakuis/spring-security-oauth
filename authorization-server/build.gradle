@@ -4,6 +4,7 @@ dependencies {
     implementation "org.springframework.security.oauth:spring-security-oauth2:2.5.0.RELEASE"
     implementation "org.springframework.security:spring-security-jwt:1.1.1.RELEASE"
     implementation "io.jsonwebtoken:jjwt:0.9.1"
+    implementation "org.mariadb.jdbc:mariadb-java-client:2.3.0"
 }
 
 bootJar {
@@ -13,5 +14,5 @@ bootJar {
 }
 
 jar {
-    enabled false
+    enabled true
 }
