@@ -13,6 +13,16 @@ spring:
   devtools:
     livereload:
       enabled: false
+  datasource:
+    initialization-mode: never
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url:
+      username:
+      password:
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
 authorization:
   oauth2:
     jwt:

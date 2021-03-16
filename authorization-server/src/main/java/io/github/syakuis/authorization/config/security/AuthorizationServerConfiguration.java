@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -25,7 +24,6 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
-    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final DataSource dataSource;
@@ -50,19 +48,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory().withClient("clientId").secret(passwordEncoder.encode("1234"))
-            .authorizedGrantTypes(
-//                AuthorizedGrantType.AUTHORIZATION_CODE.getValue(),
-//                AuthorizedGrantType.CLIENT_CREDENTIALS.getValue(),
-                AuthorizedGrantType.PASSWORD.value(),
-//                AuthorizedGrantType.IMPLICIT.getValue(),
-                AuthorizedGrantType.REFRESH_TOKEN.value()
-            )
-            .authorities("CLIENT")
-            .scopes("read")
-//            .resourceIds("resourceId")
-            .accessTokenValiditySeconds(60 * 60 * 12)
-            .refreshTokenValiditySeconds(60 * 60 * 24 * 30);
+        clients.jdbc(this.dataSource);
     }
 
     @Override

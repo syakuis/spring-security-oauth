@@ -62,6 +62,7 @@ tokenCheck -> page
 ### Addition
 
 - [x] Docker 서비스 구동
+    - [x] mariadb 추가
 - [ ] Github Actions 적용
 - [ ] Spring Security OAuth2 라이브러리 최신화 변경 (자원 서버)
 
