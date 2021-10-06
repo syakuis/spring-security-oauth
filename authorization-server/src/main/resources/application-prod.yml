@@ -9,7 +9,7 @@ logging:
     path: /var/authorization-server/logs
 spring:
   main:
-    banner-mode: console
+    banner-mode: log
   devtools:
     livereload:
       enabled: false

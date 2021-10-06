@@ -94,14 +94,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public FilterInvocationSecurityMetadataSource securityMetadataSource() {
         LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>> requestMap = new LinkedHashMap<>();
         requestMap.put(new AntPathRequestMatcher("/api/**"), SecurityConfig.createList("hasRole('ROLE_USER')"));
-        return new ExpressionBasedFilterInvocationSecurityMetadataSource(requestMap, expressionHandler);
+        return new ExpressionBasedFilterInvocationSecurityMetadataSource(requestMap, expressionHandler());
     }
 
     @Bean
     public FilterSecurityInterceptor filterSecurityInterceptor() {
         FilterSecurityInterceptor filterSecurityInterceptor = new FilterSecurityInterceptor();
         filterSecurityInterceptor.setAuthenticationManager(authenticationManagerBean());
-        filterSecurityInterceptor.setAccessDecisionManager(accessDecisionManager);
+        filterSecurityInterceptor.setAccessDecisionManager(accessDecisionManager());
         filterSecurityInterceptor.setSecurityMetadataSource(securityMetadataSource());
 
         filterSecurityInterceptor.afterPropertiesSet();
