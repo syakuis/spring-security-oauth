@@ -7,7 +7,7 @@ services:
       - './authorization-server/build/libs/authorization-server-1.0.0.BUILD-SNAPSHOT.jar:/var/authorization/authorization-server.jar'
       - './authorization-server/build/resources/main/certificate/authorization.jks:/var/authorization/certificate/authorization.jks'
     ports:
-      - 8080:8080
+      - "8080:8080"
     command: "java -Xmx256m -Xms256m -Dfile.encoding=UTF-8 -Duser.timezone=GMT+9 -Dspring.profiles.active=prod,log -jar /var/authorization/authorization-server.jar"
     links:
       - maraidb
@@ -15,7 +15,7 @@ services:
     container_name: authorization-mariadb
     image: mariadb
     ports:
-      - 3306:3306
+      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=1234
       - MYSQL_DATABASE=authorization

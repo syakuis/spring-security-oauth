@@ -1,7 +1,7 @@
 buildscript {
     ext.groupId = "io.github.syaku"
     ext.versionName = "1.0.0.BUILD-SNAPSHOT"
-    ext.springBootVersion = "2.3.9.RELEASE"
+    ext.springBootVersion = "2.4.5"
     ext.junitVersion = "5.6.2"
     ext.lombokVersion = "1.18.12"
     ext.restDocsVersion = "2.0.4.RELEASE"
@@ -12,11 +12,9 @@ buildscript {
             url "https://plugins.gradle.org/m2/"
         }
         mavenCentral()
-        jcenter()
     }
 
     dependencies {
-        classpath "net.ltgt.gradle:gradle-apt-plugin:0.18"
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1"
         classpath "io.franzbecker:gradle-lombok:3.1.0"
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
@@ -27,21 +25,18 @@ buildscript {
 
 subprojects {
     apply plugin: "java"
-    apply plugin: "java-library"
+    apply plugin: "application"
     apply plugin: "idea"
     apply plugin: "io.franzbecker.gradle-lombok"
     apply plugin: "org.springframework.boot"
     apply plugin: "io.spring.dependency-management"
     apply plugin: "org.asciidoctor.convert"
     apply plugin: "org.sonarqube"
-    //apply plugin: "checkstyle"
 
     wrapper {
         gradleVersion = "6.5"
     }
 
-
-    // IntelliJ IDEA : project build path
     idea {
         module {
             inheritOutputDirs = true
@@ -52,14 +47,13 @@ subprojects {
 
     repositories {
         mavenCentral()
-        jcenter()
     }
 
     group groupId
     version versionName
 
-    sourceCompatibility = 11
-    targetCompatibility = 11
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 
     compileJava.options.encoding = 'UTF-8'
 
@@ -95,10 +89,7 @@ subprojects {
 
         implementation "org.springframework.boot:spring-boot-starter-undertow"
         implementation "org.springframework.boot:spring-boot-starter-web"
-        // or implementation "org.springframework.boot:spring-boot-starter"
-        testImplementation("org.springframework.boot:spring-boot-starter-test") {
-            exclude group: "org.junit.vintage", module: "junit-vintage-engine"
-        }
+        testImplementation "org.springframework.boot:spring-boot-starter-test"
 
         implementation "org.springframework.boot:spring-boot-starter-security"
         testCompile "org.springframework.security:spring-security-test"

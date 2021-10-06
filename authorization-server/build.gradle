@@ -7,12 +7,15 @@ dependencies {
     implementation "org.mariadb.jdbc:mariadb-java-client:2.3.0"
 }
 
+application {
+    mainClass = "io.github.syakuis.authorization.AuthorizationServerApplication"
+}
+
 bootJar {
     enabled = true
-    mainClassName = "io.github.syakuis.authorization.AuthorizationServerApplication"
     launchScript()
 }
 
 jar {
-    enabled true
+    enabled false
 }

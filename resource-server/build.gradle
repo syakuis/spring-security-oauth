@@ -1,17 +1,18 @@
 dependencies {
-    implementation "org.springframework.security:spring-security-oauth2-core"
-    implementation "org.springframework.security:spring-security-oauth2-jose"
-    implementation "org.springframework.security.oauth:spring-security-oauth2:2.5.0.RELEASE"
-    implementation "org.springframework.security:spring-security-jwt:1.1.1.RELEASE"
+    implementation "org.springframework.boot:spring-boot-starter-oauth2-resource-server"
+    implementation "com.nimbusds:oauth2-oidc-sdk:7.1.1"
     implementation "io.jsonwebtoken:jjwt:0.9.1"
+}
+
+application {
+    mainClass = "io.github.syakuis.authorization.ResourceServerApplication"
 }
 
 bootJar {
     enabled = true
-    mainClassName = "io.github.syakuis.authorization.ResourceServerApplication"
     launchScript()
 }
 
 jar {
-    enabled true
+    enabled false
 }
