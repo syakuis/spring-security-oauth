@@ -5,7 +5,7 @@ dependencies {
 }
 
 application {
-    mainClass = "io.github.syakuis.authorization.ResourceServerApplication"
+    mainClass = "io.github.syakuis.oauth2.authorization.ResourceServerApplication"
 }
 
 bootJar {

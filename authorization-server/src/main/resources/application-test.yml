@@ -1,13 +1,4 @@
-logging:
-  level:
-    org.springframework.jdbc.core.JdbcTemplate: debug
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
-    org.hibernate.type.descriptor.sql.BasicExtractor: trace
 spring:
   jpa:
     hibernate:
       ddl-auto: create
-authorization:
-  oauth2:
-    jwt:
-      public-key-location: classpath:/certificate/publicKey.txt

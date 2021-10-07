@@ -1,29 +1,16 @@
 # Production profile
 logging:
-  level:
-    io.github.syakuis: info
-    org.hibernate.sql: off
-    org.hibernate.type.descriptor.sql.BasicBinder: off
-    org.hibernate.type.descriptor.sql.BasicExtractor: off
   file:
     path: /var/authorization-server/logs
+  level:
+    io.github.syakuis: info
 spring:
   main:
     banner-mode: log
-  devtools:
-    livereload:
-      enabled: false
   datasource:
-    initialization-mode: never
-    type: com.zaxxer.hikari.HikariDataSource
-    hikari:
-      driver-class-name: org.mariadb.jdbc.Driver
-      jdbc-url:
-      username:
-      password:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/authorization
+    username: authorization
+    password: 1234
   jpa:
     database-platform: org.hibernate.dialect.MariaDB103Dialect
-authorization:
-  oauth2:
-    jwt:
-      jks-location: file:/var/authorization/certificate/authorization.jks

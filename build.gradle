@@ -1,11 +1,13 @@
 buildscript {
     ext.groupId = "io.github.syaku"
-    ext.versionName = "1.0.0.BUILD-SNAPSHOT"
+    ext.versionName = "1.0.0-SNAPSHOT"
     ext.springBootVersion = "2.4.5"
+    ext.springSecurityOAuth2Version = "2.3.8.RELEASE"
     ext.junitVersion = "5.6.2"
     ext.lombokVersion = "1.18.12"
     ext.restDocsVersion = "2.0.4.RELEASE"
     ext.jacksonVersion = "2.11.0"
+    ext.querydslVersion = "4.4.0"
 
     repositories {
         maven {
@@ -15,7 +17,6 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1"
         classpath "io.franzbecker:gradle-lombok:3.1.0"
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
         classpath "io.spring.gradle:dependency-management-plugin:1.0.8.RELEASE"
@@ -31,7 +32,6 @@ subprojects {
     apply plugin: "org.springframework.boot"
     apply plugin: "io.spring.dependency-management"
     apply plugin: "org.asciidoctor.convert"
-    apply plugin: "org.sonarqube"
 
     wrapper {
         gradleVersion = "6.5"
@@ -99,6 +99,12 @@ subprojects {
         compileOnly "com.h2database:h2:1.4.191"
     }
 
+    def querydslDir = "${buildDir}/generated/querydsl"
+
+    sourceSets {
+        main.java.srcDir querydslDir
+    }
+
     // <------- RestDocs & Asciidoctor
     def snippetsDir = file("${buildDir}/generated-snippets")
 
@@ -107,26 +113,17 @@ subprojects {
         inputs.dir snippetsDir
         dependsOn test
     }
+
+    task copyAsciidoc(type: Copy) {
+        dependsOn asciidoctor
+        from file("${buildDir}/asciidoc/html5")
+        into file("src/main/resources/static/docs")
+    }
     // ------- RestDocs & Asciidoctor ->
 
-    sonarqube {
-        properties {
-            property "sonar.host.url", "https://sonarcloud.io"
-            property "sonar.language", "java"
-            property "sonar.sourceEncoding", "UTF-8"
-            property "sonar.sources", "src/main/java"
-            property "sonar.exclusions", "**/*Test*.*, **/Q*.java"
-            property "sonar.test.inclusions", "**/*Test.java"
-            property "sonar.coverage.exclusions", "**/*Test*.*, **/Q*.java"
-            property "sonar.java.junit.reportPaths", "${buildDir}/test-results"
-            property "sonar.jacoco.reportPaths", "${buildDir}/jacoco/jacoco.exec"
-        }
+    build {
+        dependsOn copyAsciidoc
     }
-
-    //checkstyle {
-    //    configFile = file("./.platform-settings/google-checkstyle.xml")
-    //    toolVersion = '8.33'
-    //}
 
     test {
         outputs.dir snippetsDir
@@ -135,5 +132,9 @@ subprojects {
             events "passed", "skipped", "failed"
         }
         systemProperty 'spring.profiles.active', 'test'
+    }
+
+    clean {
+        delete file('src/main/resources/static/docs')
     }
 }

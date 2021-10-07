@@ -1,7 +1,4 @@
 # Develop or Default profile
-application:
-  name: authroization-server
-  version: ${version}
 debug: false
 trace: false
 logging:
@@ -21,38 +18,28 @@ logging:
     org.springframework: info
     org.springframework.web: info
     org.springframework.security: info
-    org.hibernate.sql: trace
-    #    org.hibernate.type.descriptor.sql: trace
+    org.hibernate: info
+    org.hibernate.SQL: trace
     org.hibernate.type.descriptor.sql.BasicBinder: trace
     org.hibernate.type.descriptor.sql.BasicExtractor: off
+    org.hibernate.engine.jdbc.batch.internal.BatchingBatch: off
+    com.zaxxer.hikari: info
+    org.hibernate.transaction.JDBCTrabsaction: info
+    org.hibernate.jdbc.ConnectionManager: info
+    org.springframework.orm.jpa.JpaTransactionManager: info
 server:
   port: 8080
-#  forward-headers-strategy: native
-#  tomcat:
-#    port-header: X-Forwarded-Port
-#    remote-ip-header: X-Forwarded-For
-#    protocol-header: X-Forwarded-Proto
-#    accesslog:
-#      directory:
-#      enabled: false
-#      file-date-format: .yyyy-MM-dd
 spring:
   main:
     banner-mode: console
-  devtools:
-    livereload:
-      enabled: true
   messages:
     basename: i18n/message
   datasource:
-    initialization-mode: embedded
-    schema: classpath:schema/oauth.table.sql
     type: com.zaxxer.hikari.HikariDataSource
-    hikari:
-      driver-class-name: org.h2.Driver
-      jdbc-url: jdbc:h2:mem:testdb
-      username: sa
-      password:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     open-in-view: false
@@ -63,7 +50,3 @@ spring:
       hibernate:
         show_sql: false
         format_sql: true
-authorization:
-  oauth2:
-    jwt:
-      jks-location: classpath:certificate/authorization.jks
