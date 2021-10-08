@@ -2,7 +2,8 @@ dependencies {
     implementation "org.springframework.security:spring-security-oauth2-core"
     implementation "org.springframework.security:spring-security-oauth2-jose"
     implementation "org.springframework.security.oauth:spring-security-oauth2:${springSecurityOAuth2Version}"
-    implementation "org.springframework.security:spring-security-jwt:1.1.1.RELEASE"
+    implementation "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springSecurityOAuth2Version}"
+    implementation "org.springframework.security:spring-security-jwt:1.0.11.RELEASE"
     implementation "io.jsonwebtoken:jjwt:0.9.1"
     implementation "org.mariadb.jdbc:mariadb-java-client:2.3.0"
 
@@ -12,6 +13,8 @@ dependencies {
             "jakarta.annotation:jakarta.annotation-api",
             "com.querydsl:querydsl-apt:${querydslVersion}:jpa"
     )
+
+    implementation "org.springframework.boot:spring-boot-starter-data-redis"
 }
 
 application {

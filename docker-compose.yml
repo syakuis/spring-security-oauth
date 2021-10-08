@@ -8,7 +8,7 @@ services:
       - './authorization-server/build/resources/main/certificate/authorization.jks:/var/authorization/certificate/authorization.jks'
     ports:
       - "8080:8080"
-    command: "java -Xmx256m -Xms256m -Dfile.encoding=UTF-8 -Duser.timezone=GMT+9 -Dspring.profiles.active=prod,log -jar /var/authorization/authorization-server.jar"
+    command: "java -Xmx128m -Xms128m -Dfile.encoding=UTF-8 -Duser.timezone=GMT+9 -Dspring.profiles.active=prod,log -jar /var/authorization/authorization-server.jar"
     links:
       - maraidb
   maraidb:
@@ -24,3 +24,12 @@ services:
     volumes:
       - ./docker/mariadb/data:/var/lib/mysql
       - ./docker/mariadb/conf.d:/etc/mysql/conf.d
+  redis:
+    image: redis:latest
+    container_name: ipom-redis
+    command: redis-server --requirepass platform@2020 --port 6379
+    ports:
+      - "6379:6379"
+    labels:
+      - "name=redis"
+      - "mode=standalone"
