@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.authorization.oauth2.application.client;
+package io.github.syakuis.oauth2.authorization.client.application;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -23,8 +22,7 @@ class OAuth2ClientDetailsRestController {
 
     // todo 토큰 유효기간을 0으로 설정할 수 없도록 강제할 것. 초단위
     @PostMapping
-    @ResponseStatus
-    ResponseEntity<ClientDetailsResponseDTO.Body> register(@RequestBody ClientDetailsRequestDTO.Register register) {
+    ResponseEntity<OAuth2ClientDetailsResponseDTO.Body> register(@RequestBody OAuth2ClientDetailsRequestDTO.Register register) {
         return ResponseEntity.ok(oAuthClientDetailsService.register(register));
     }
 

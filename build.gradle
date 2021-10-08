@@ -5,7 +5,6 @@ buildscript {
     ext.springSecurityOAuth2Version = "2.3.8.RELEASE"
     ext.junitVersion = "5.6.2"
     ext.lombokVersion = "1.18.12"
-    ext.restDocsVersion = "2.0.4.RELEASE"
     ext.jacksonVersion = "2.11.0"
     ext.querydslVersion = "4.4.0"
 
@@ -20,7 +19,6 @@ buildscript {
         classpath "io.franzbecker:gradle-lombok:3.1.0"
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
         classpath "io.spring.gradle:dependency-management-plugin:1.0.8.RELEASE"
-        classpath "org.asciidoctor:asciidoctor-gradle-plugin:1.5.3"
     }
 }
 
@@ -31,7 +29,6 @@ subprojects {
     apply plugin: "io.franzbecker.gradle-lombok"
     apply plugin: "org.springframework.boot"
     apply plugin: "io.spring.dependency-management"
-    apply plugin: "org.asciidoctor.convert"
 
     wrapper {
         gradleVersion = "6.5"
@@ -83,8 +80,6 @@ subprojects {
         compileOnly "org.springframework.boot:spring-boot-configuration-processor"
         implementation "org.springframework.boot:spring-boot-starter-validation"
 
-        asciidoctor "org.springframework.restdocs:spring-restdocs-asciidoctor:${restDocsVersion}"
-        testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:${restDocsVersion}"
         implementation "org.springframework.boot:spring-boot-starter-data-jpa"
 
         implementation "org.springframework.boot:spring-boot-starter-undertow"
@@ -105,36 +100,11 @@ subprojects {
         main.java.srcDir querydslDir
     }
 
-    // <------- RestDocs & Asciidoctor
-    def snippetsDir = file("${buildDir}/generated-snippets")
-
-    asciidoctor {
-        attributes "snippets": snippetsDir
-        inputs.dir snippetsDir
-        dependsOn test
-    }
-
-    task copyAsciidoc(type: Copy) {
-        dependsOn asciidoctor
-        from file("${buildDir}/asciidoc/html5")
-        into file("src/main/resources/static/docs")
-    }
-    // ------- RestDocs & Asciidoctor ->
-
-    build {
-        dependsOn copyAsciidoc
-    }
-
     test {
-        outputs.dir snippetsDir
         useJUnitPlatform()
         testLogging {
             events "passed", "skipped", "failed"
         }
         systemProperty 'spring.profiles.active', 'test'
-    }
-
-    clean {
-        delete file('src/main/resources/static/docs')
     }
 }

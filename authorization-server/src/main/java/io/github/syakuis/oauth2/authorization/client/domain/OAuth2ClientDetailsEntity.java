@@ -1,10 +1,10 @@
-package io.github.syakuis.oauth2.authorization.oauth2.domain.client;
+package io.github.syakuis.oauth2.authorization.client.domain;
 
 import io.github.syakuis.oauth2.authorization.core.jpa.conveter.GrantedAuthorityToStringConverter;
 import io.github.syakuis.oauth2.authorization.core.jpa.conveter.JsonToStringConverter;
 import io.github.syakuis.oauth2.authorization.core.jpa.conveter.ListToStringConverter;
 import io.github.syakuis.oauth2.authorization.core.jpa.conveter.SetToStringConverter;
-import io.github.syakuis.oauth2.authorization.oauth2.support.ClientKeyGenerator;
+import io.github.syakuis.oauth2.authorization.client.support.ClientKeyGenerator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -33,12 +33,12 @@ import org.springframework.security.core.GrantedAuthority;
 @ToString
 @Entity
 @Table(
-    name = "oauth_client_details",
+    name = "oauth2_client_details",
     uniqueConstraints = {
-        @UniqueConstraint(name = "UK_oauth_client_details_client_id", columnNames = "clientId")
+        @UniqueConstraint(name = "UK_oauth2_client_details_client_id", columnNames = "clientId")
     }
 )
-public class OAuthClientDetailsEntity {
+public class OAuth2ClientDetailsEntity {
 
     @Id
     @GeneratedValue
@@ -85,7 +85,7 @@ public class OAuthClientDetailsEntity {
     private Set<String> autoApprove;
 
     @Builder
-    public OAuthClientDetailsEntity(List<String> resourceIds, List<String> scopes,
+    public OAuth2ClientDetailsEntity(List<String> resourceIds, List<String> scopes,
         List<String> authorizedGrantTypes, Set<String> webServerRedirectUri,
         List<GrantedAuthority> authorities, Integer accessTokenValidity,
         Integer refreshTokenValidity,
@@ -123,7 +123,7 @@ public class OAuthClientDetailsEntity {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
-        OAuthClientDetailsEntity that = (OAuthClientDetailsEntity) o;
+        OAuth2ClientDetailsEntity that = (OAuth2ClientDetailsEntity) o;
         return Objects.equals(clientId, that.clientId);
     }
 

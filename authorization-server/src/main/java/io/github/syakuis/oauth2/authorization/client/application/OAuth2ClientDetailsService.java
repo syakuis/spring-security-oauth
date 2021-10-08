@@ -1,6 +1,6 @@
-package io.github.syakuis.oauth2.authorization.oauth2.application.client;
+package io.github.syakuis.oauth2.authorization.client.application;
 
-import io.github.syakuis.oauth2.authorization.oauth2.domain.client.OAuthClientDetailsRepository;
+import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetailsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 class OAuth2ClientDetailsService {
 
-    private final OAuthClientDetailsRepository oAuthClientDetailsRepository;
+    private final OAuth2ClientDetailsRepository oAuthClientDetailsRepository;
 
-    public ClientDetailsResponseDTO.Body register(ClientDetailsRequestDTO.Register register) {
-        return ClientDetailsResponseDTO.Body
+    public OAuth2ClientDetailsResponseDTO.Body register(OAuth2ClientDetailsRequestDTO.Register register) {
+        return OAuth2ClientDetailsResponseDTO.Body
             .create(oAuthClientDetailsRepository.save(register.toOAuthClientDetails()));
     }
 

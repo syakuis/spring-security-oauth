@@ -1,5 +1,6 @@
-package io.github.syakuis.oauth2.authorization.oauth2.application.client;
+package io.github.syakuis.oauth2.authorization.client.application;
 
+import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetailsEntity;
 import java.util.List;
 import java.util.Set;
 import lombok.AccessLevel;
@@ -14,7 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
  * @since 2021-10-08
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ClientDetailsResponseDTO {
+public class OAuth2ClientDetailsResponseDTO {
 
     @Value
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -32,7 +33,7 @@ public class ClientDetailsResponseDTO {
         String clientId;
         String clientSecret;
 
-        static Body create(io.github.syakuis.oauth2.authorization.oauth2.domain.client.OAuthClientDetailsEntity oAuthClientDetailsEntity) {
+        static Body create(OAuth2ClientDetailsEntity oAuthClientDetailsEntity) {
             return Body.builder()
                 .clientId(oAuthClientDetailsEntity.getClientId())
                 .clientSecret(oAuthClientDetailsEntity.getClientSecret())
