@@ -1,10 +1,10 @@
 package io.github.syakuis.oauth2.authorization.client.domain;
 
+import io.github.syakuis.oauth2.authorization.client.support.ClientKeyGenerator;
 import io.github.syakuis.oauth2.authorization.core.jpa.conveter.GrantedAuthorityToStringConverter;
 import io.github.syakuis.oauth2.authorization.core.jpa.conveter.JsonToStringConverter;
 import io.github.syakuis.oauth2.authorization.core.jpa.conveter.ListToStringConverter;
 import io.github.syakuis.oauth2.authorization.core.jpa.conveter.SetToStringConverter;
-import io.github.syakuis.oauth2.authorization.client.support.ClientKeyGenerator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
