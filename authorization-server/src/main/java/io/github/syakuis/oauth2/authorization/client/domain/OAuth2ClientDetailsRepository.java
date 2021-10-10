@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
  * @since 2021-05-21
  */
 @Repository
-public interface OAuth2ClientDetailsRepository extends JpaRepository<OAuth2ClientDetailsEntity, Long> {
+interface OAuth2ClientDetailsRepository extends JpaRepository<OAuth2ClientDetailsEntity, Long> {
     Optional<OAuth2ClientDetailsEntity> findByClientId(String clientId);
 }

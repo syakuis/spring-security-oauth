@@ -1,7 +1,8 @@
 package io.github.syakuis.oauth2.authorization.client.application;
 
+import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetails;
 import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetailsEntity;
-import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetailsRepository;
+import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -22,40 +23,39 @@ import org.springframework.transaction.annotation.Transactional;
 public class DefaultClientDetailsService implements ClientDetailsService {
 
     // TODO cache
-    private final OAuth2ClientDetailsRepository oAuthClientDetailsRepository;
+    private final OAuth2ClientDetailsService oAuth2ClientDetailsService;
 
     @Override
     public ClientDetails loadClientByClientId(
         String clientId) throws ClientRegistrationException {
-        OAuth2ClientDetailsEntity oAuthClientDetailsEntity = oAuthClientDetailsRepository.findByClientId(clientId)
-            .orElseThrow();
+        OAuth2ClientDetails oAuthClientDetails = oAuth2ClientDetailsService.findByClientId(clientId);
 
         BaseClientDetails baseClientDetails = new BaseClientDetails();
-        baseClientDetails.setClientId(oAuthClientDetailsEntity.getClientId());
-        baseClientDetails.setClientSecret(oAuthClientDetailsEntity.getClientSecret().replace("{noop}", ""));
-        baseClientDetails.setAccessTokenValiditySeconds(oAuthClientDetailsEntity.getAccessTokenValidity());
-        baseClientDetails.setRefreshTokenValiditySeconds(oAuthClientDetailsEntity.getRefreshTokenValidity());
+        baseClientDetails.setClientId(oAuthClientDetails.getClientId());
+        baseClientDetails.setClientSecret(oAuthClientDetails.getClientSecret());
+        baseClientDetails.setAccessTokenValiditySeconds(oAuthClientDetails.getAccessTokenValidity());
+        baseClientDetails.setRefreshTokenValiditySeconds(oAuthClientDetails.getRefreshTokenValidity());
 
-        if (oAuthClientDetailsEntity.getAuthorities() != null) {
-            baseClientDetails.setAuthorities(oAuthClientDetailsEntity.getAuthorities());
+        if (oAuthClientDetails.getAuthorities() != null) {
+            baseClientDetails.setAuthorities(oAuthClientDetails.getAuthorities());
         }
-        if (oAuthClientDetailsEntity.getAuthorizedGrantTypes() != null) {
-            baseClientDetails.setAuthorizedGrantTypes(oAuthClientDetailsEntity.getAuthorizedGrantTypes());
+        if (oAuthClientDetails.getAuthorizedGrantTypes() != null) {
+            baseClientDetails.setAuthorizedGrantTypes(oAuthClientDetails.getAuthorizedGrantTypes());
         }
-        if (oAuthClientDetailsEntity.getAdditionalInformation() != null) {
+        if (oAuthClientDetails.getAdditionalInformation() != null) {
             baseClientDetails.setAdditionalInformation(null);
         }
-        if (oAuthClientDetailsEntity.getWebServerRedirectUri() != null) {
-            baseClientDetails.setRegisteredRedirectUri(oAuthClientDetailsEntity.getWebServerRedirectUri());
+        if (oAuthClientDetails.getWebServerRedirectUri() != null) {
+            baseClientDetails.setRegisteredRedirectUri(oAuthClientDetails.getWebServerRedirectUri());
         }
-        if (oAuthClientDetailsEntity.getAutoApprove() != null) {
-            baseClientDetails.setAutoApproveScopes(oAuthClientDetailsEntity.getAutoApprove());
+        if (oAuthClientDetails.getAutoApprove() != null) {
+            baseClientDetails.setAutoApproveScopes(oAuthClientDetails.getAutoApprove());
         }
-        if (oAuthClientDetailsEntity.getResourceIds() != null) {
-            baseClientDetails.setResourceIds(oAuthClientDetailsEntity.getResourceIds());
+        if (oAuthClientDetails.getResourceIds() != null) {
+            baseClientDetails.setResourceIds(oAuthClientDetails.getResourceIds());
         }
-        if (oAuthClientDetailsEntity.getScopes() != null) {
-            baseClientDetails.setScope(oAuthClientDetailsEntity.getScopes());
+        if (oAuthClientDetails.getScopes() != null) {
+            baseClientDetails.setScope(oAuthClientDetails.getScopes());
         }
         return baseClientDetails;
     }

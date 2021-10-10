@@ -1,21 +1,18 @@
 package io.github.syakuis.oauth2.authorization.client.application;
 
-import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetailsEntity;
+import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetails;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+
 import java.util.List;
 import java.util.Set;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Value;
-import org.springframework.security.core.GrantedAuthority;
 
 /**
  * @author Seok Kyun. Choi.
  * @since 2021-10-08
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class OAuth2ClientDetailsResponseDTO {
+class OAuth2ClientDetailsResponseDTO {
 
     @Value
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -33,11 +30,11 @@ public class OAuth2ClientDetailsResponseDTO {
         String clientId;
         String clientSecret;
 
-        static Body create(String clientSecret, OAuth2ClientDetailsEntity oAuthClientDetailsEntity) {
+        static Body create(String clientSecret, OAuth2ClientDetails oAuthClientDetails) {
             return Body.builder()
-                .clientId(oAuthClientDetailsEntity.getClientId())
+                .clientId(oAuthClientDetails.getClientId())
                 .clientSecret(clientSecret)
-                .accessTokenValidity(oAuthClientDetailsEntity.getAccessTokenValidity())
+                .accessTokenValidity(oAuthClientDetails.getAccessTokenValidity())
                 .build();
         }
     }

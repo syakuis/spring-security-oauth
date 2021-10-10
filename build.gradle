@@ -5,6 +5,7 @@ buildscript {
     ext.springSecurityOAuth2Version = "2.3.8.RELEASE"
     ext.junitVersion = "5.6.2"
     ext.lombokVersion = "1.18.12"
+    ext.mapStructVersion = "1.4.2.Final"
     ext.jacksonVersion = "2.11.0"
     ext.querydslVersion = "4.4.0"
 
@@ -66,14 +67,21 @@ subprojects {
     }
 
     dependencies {
-        implementation "org.modelmapper:modelmapper:2.3.0"
-        implementation "org.apache.commons:commons-lang3:3.7"
-        implementation "commons-io:commons-io:2.6"
+        implementation "org.mapstruct:mapstruct:${mapStructVersion}"
+        implementation "org.mapstruct.extensions.spring:mapstruct-spring-annotations:0.1.0"
 
         compileOnly "org.projectlombok:lombok:${lombokVersion}"
-        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
         testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+
+        annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+        annotationProcessor "org.mapstruct.extensions.spring:mapstruct-spring-annotations:0.1.0"
+        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+
+        testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+        testAnnotationProcessor "org.mapstruct.extensions.spring:mapstruct-spring-annotations:0.1.0"
         testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        testAnnotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
 
         implementation "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:${jacksonVersion}"
 
@@ -85,6 +93,7 @@ subprojects {
         implementation "org.springframework.boot:spring-boot-starter-undertow"
         implementation "org.springframework.boot:spring-boot-starter-web"
         testImplementation "org.springframework.boot:spring-boot-starter-test"
+        testImplementation "org.springframework.boot:spring-boot-starter-webflux"
 
         implementation "org.springframework.boot:spring-boot-starter-security"
         testCompile "org.springframework.security:spring-security-test"

@@ -15,7 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
  * @since 2021-10-08
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class OAuth2ClientDetailsRequestDTO {
+class OAuth2ClientDetailsRequestDTO {
 
     @Value
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -31,7 +31,7 @@ public class OAuth2ClientDetailsRequestDTO {
         String additionalInformation;
         Set<String> autoApprove;
 
-        OAuth2ClientDetailsEntity toOAuthClientDetails(String clientId, String clientSecret) {
+        OAuth2ClientDetailsEntity toOAuthClientDetailsEntity(String clientId, String clientSecret) {
             return OAuth2ClientDetailsEntity.builder()
                 .clientId(clientId)
                 .clientSecret(clientSecret)
