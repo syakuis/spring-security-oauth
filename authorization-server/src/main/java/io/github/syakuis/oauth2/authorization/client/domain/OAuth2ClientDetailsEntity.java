@@ -1,25 +1,20 @@
 package io.github.syakuis.oauth2.authorization.client.domain;
 
-import io.github.syakuis.oauth2.authorization.client.support.ClientKeyGenerator;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import javax.persistence.*;
-
 import io.github.syakuis.oauth2.authorization.core.jpa.converter.GrantedAuthorityToStringConverter;
 import io.github.syakuis.oauth2.authorization.core.jpa.converter.JsonToStringConverter;
 import io.github.syakuis.oauth2.authorization.core.jpa.converter.ListToStringConverter;
 import io.github.syakuis.oauth2.authorization.core.jpa.converter.SetToStringConverter;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.UnaryOperator;
 
 /**
  * @author Seok Kyun. Choi.
@@ -106,6 +101,10 @@ public class OAuth2ClientDetailsEntity implements OAuth2ClientDetails {
     @PreUpdate
     public void preUpdate() {
         this.updatedOn = LocalDateTime.now();
+    }
+
+    public void updateClientSecret(UnaryOperator<String> passwordEncoder, String clientSecret) {
+        this.clientSecret = passwordEncoder.apply(clientSecret);
     }
 
     @Override

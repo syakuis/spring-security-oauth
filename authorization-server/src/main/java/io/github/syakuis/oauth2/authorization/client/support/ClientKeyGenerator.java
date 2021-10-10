@@ -25,7 +25,7 @@ public final class ClientKeyGenerator {
     public static String clientSecret() {
         char[] possibleCharacters = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?")
             .toCharArray();
-        return "{noop}" + Base64.getEncoder().encodeToString(RandomStringUtils
+        return Base64.getEncoder().encodeToString(RandomStringUtils
             .random(15, 0, possibleCharacters.length - 1, false, false, possibleCharacters, new SecureRandom())
             .getBytes(
                 StandardCharsets.UTF_8));
