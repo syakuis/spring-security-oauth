@@ -1,17 +1,5 @@
 package io.github.syakuis.oauth2.authorization.token.application;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.List;
-import java.util.Map;
-
 import io.github.syakuis.oauth2.authorization.account.domain.AccountEntity;
 import io.github.syakuis.oauth2.authorization.account.domain.AccountService;
 import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetailsEntity;
@@ -32,6 +20,17 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.MockMvc;
 import org.wildfly.common.Assert;
 
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 /**
  * @author Seok Kyun. Choi.
  * @since 2021-09-14
@@ -40,6 +39,7 @@ import org.wildfly.common.Assert;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@Transactional
 class OAuthTokenRestControllerTest {
 
     @Autowired
@@ -77,10 +77,13 @@ class OAuthTokenRestControllerTest {
 
         username = "test";
         password = "1234";
+
         accountService.save(AccountEntity.builder()
             .username(username)
             .password(password)
             .name("테스트")
+                .disabled(false)
+                .blocked(false)
             .build());
 
         oAuthTokenService = OAuthTokenService.builder()
@@ -94,7 +97,6 @@ class OAuthTokenRestControllerTest {
 
     @Test
     void accessToken() throws Exception {
-
 
         mvc.perform(post("/oauth/token")
                 .param("grant_type", "password")

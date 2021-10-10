@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.authorization.client.application;
+package io.github.syakuis.oauth2.authorization.client.domain;
 
 import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetails;
 import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetailsEntity;
@@ -22,13 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DefaultClientDetailsService implements ClientDetailsService {
 
-    // TODO cache
-    private final OAuth2ClientDetailsService oAuth2ClientDetailsService;
+    // todo cache
+    private final OAuth2ClientDetailsRepository oAuth2ClientDetailsRepository;
 
     @Override
     public ClientDetails loadClientByClientId(
         String clientId) throws ClientRegistrationException {
-        OAuth2ClientDetails oAuthClientDetails = oAuth2ClientDetailsService.findByClientId(clientId);
+        OAuth2ClientDetailsEntity oAuthClientDetails = oAuth2ClientDetailsRepository.findByClientId(clientId).orElseThrow();
 
         BaseClientDetails baseClientDetails = new BaseClientDetails();
         baseClientDetails.setClientId(oAuthClientDetails.getClientId());
