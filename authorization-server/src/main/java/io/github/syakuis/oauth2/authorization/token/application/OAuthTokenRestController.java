@@ -31,7 +31,6 @@ class OAuthTokenRestController {
     private ConsumerTokenServices tokenServices;
 
     @DeleteMapping("/revoke")
-    @ResponseStatus(HttpStatus.OK)
     public void revoke(HttpServletRequest request) {
         BearerTokenExtractor bearerTokenExtractor = new BearerTokenExtractor();
         Authentication authentication = bearerTokenExtractor.extract(request);
