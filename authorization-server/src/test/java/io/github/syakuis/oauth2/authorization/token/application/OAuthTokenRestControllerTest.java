@@ -1,10 +1,5 @@
 package io.github.syakuis.oauth2.authorization.token.application;
 
-import io.github.syakuis.oauth2.authorization.account.domain.AccountEntity;
-import io.github.syakuis.oauth2.authorization.account.domain.AccountService;
-import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetailsEntity;
-import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetailsService;
-import io.github.syakuis.oauth2.authorization.client.support.ClientKeyGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,13 +10,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.MockMvc;
 import org.wildfly.common.Assert;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -48,44 +43,15 @@ class OAuthTokenRestControllerTest {
     @Autowired
     private WebTestClient webTestClient;
 
-    @Autowired
-    private OAuth2ClientDetailsService oAuth2ClientDetailsServer;
-
-    @Autowired
-    private AccountService accountService;
-
     private OAuthTokenService oAuthTokenService;
 
-    private String username;
-    private String password;
-    private String clientId;
-    private String clientSecret;
+    private String username = "test";
+    private String password = "1234";
+    private String clientId = "4ecbf0cda5cd57250ecf0d81c00292713ba732f2101ee9416b5bc14e1c10997592276648bb1bb841";
+    private String clientSecret = "dUd6N3ojXSI0dGVseUwy";
 
     @BeforeEach
     void init() {
-        clientId = ClientKeyGenerator.clientId();
-        clientSecret = ClientKeyGenerator.clientSecret();
-
-        oAuth2ClientDetailsServer.save(OAuth2ClientDetailsEntity.builder()
-            .clientId(clientId)
-            .clientSecret(clientSecret)
-            .authorizedGrantTypes(List.of("password"))
-            .scopes(List.of("read"))
-            .refreshTokenValidity(60_000)
-            .accessTokenValidity(50_000)
-            .build());
-
-        username = "test";
-        password = "1234";
-
-        accountService.save(AccountEntity.builder()
-            .username(username)
-            .password(password)
-            .name("테스트")
-                .disabled(false)
-                .blocked(false)
-            .build());
-
         oAuthTokenService = OAuthTokenService.builder()
             .webTestClient(webTestClient)
             .clientId(clientId)
@@ -93,6 +59,8 @@ class OAuthTokenRestControllerTest {
             .username(username)
             .password(password)
             .build();
+
+        log.debug("{}", oAuthTokenService);
     }
 
     @Test
@@ -157,6 +125,7 @@ class OAuthTokenRestControllerTest {
     }
 
     @Test
+    @WithMockUser
     void revoke() throws Exception {
         Map<String, Object> oauth = oAuthTokenService.obtainAccessToken();
         String accessToken = oauth.get("access_token").toString();

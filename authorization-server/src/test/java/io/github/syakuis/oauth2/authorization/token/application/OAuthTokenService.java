@@ -1,10 +1,8 @@
 package io.github.syakuis.oauth2.authorization.token.application;
 
 import java.util.Map;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.http.MediaType;
@@ -17,15 +15,15 @@ import org.springframework.util.MultiValueMap;
  * @since 2021-09-16
  */
 @Slf4j
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Value
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 public class OAuthTokenService {
-    private WebTestClient webTestClient;
-    private String username;
-    private String password;
-    private String clientId;
-    private String clientSecret;
+    WebTestClient webTestClient;
+    String username;
+    String password;
+    String clientId;
+    String clientSecret;
 
     public Map<String, Object> obtainAccessToken(){
         return this.obtainAccessToken(clientId, clientSecret, username, password);
