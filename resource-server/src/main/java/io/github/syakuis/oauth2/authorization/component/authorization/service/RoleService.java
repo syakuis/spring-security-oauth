@@ -2,16 +2,17 @@ package io.github.syakuis.oauth2.authorization.component.authorization.service;
 
 import io.github.syakuis.oauth2.authorization.component.authorization.entity.RoleEntity;
 import io.github.syakuis.oauth2.authorization.component.authorization.repository.RoleRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchyUtils;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service

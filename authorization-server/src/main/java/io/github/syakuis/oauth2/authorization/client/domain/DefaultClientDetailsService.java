@@ -1,8 +1,5 @@
 package io.github.syakuis.oauth2.authorization.client.domain;
 
-import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetails;
-import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetailsEntity;
-import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.provider.ClientDetails;

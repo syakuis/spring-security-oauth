@@ -1,9 +1,9 @@
 package io.github.syakuis.oauth2.authorization.core.jpa.converter;
 
-import java.util.Collections;
-import java.util.Set;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+import java.util.Collections;
+import java.util.Set;
 
 /**
  * @author Seok Kyun. Choi.

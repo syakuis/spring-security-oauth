@@ -2,9 +2,10 @@ package io.github.syakuis.oauth2.authorization.core.jpa.converter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.Serializable;
+
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+import java.io.Serializable;
 
 /**
  * @author Seok Kyun. Choi.
