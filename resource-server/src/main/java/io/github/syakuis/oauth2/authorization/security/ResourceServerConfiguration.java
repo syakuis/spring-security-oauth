@@ -1,7 +1,5 @@
 package io.github.syakuis.oauth2.authorization.security;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +16,9 @@ import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
 
 /**
  * ResourceServer Spring Security Configuration

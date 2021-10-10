@@ -1,12 +1,13 @@
 package io.github.syakuis.oauth2.authorization.core.jpa.converter;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 
 /**
  * @author Seok Kyun. Choi.
