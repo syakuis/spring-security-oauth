@@ -35,7 +35,7 @@ import org.springframework.security.core.GrantedAuthority;
         @UniqueConstraint(name = "UK_oauth2_client_details_client_id", columnNames = "clientId")
     }
 )
-public class OAuth2ClientDetailsEntity {
+public class OAuth2ClientDetailsEntity implements OAuth2ClientDetails {
 
     @Id
     @GeneratedValue

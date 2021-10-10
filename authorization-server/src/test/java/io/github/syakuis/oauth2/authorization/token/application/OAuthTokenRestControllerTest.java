@@ -9,7 +9,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.List;
 import java.util.Map;
+
+import io.github.syakuis.oauth2.authorization.account.domain.AccountEntity;
+import io.github.syakuis.oauth2.authorization.account.domain.AccountService;
+import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetailsEntity;
+import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetailsService;
+import io.github.syakuis.oauth2.authorization.client.support.ClientKeyGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,6 +48,12 @@ class OAuthTokenRestControllerTest {
     @Autowired
     private WebTestClient webTestClient;
 
+    @Autowired
+    private OAuth2ClientDetailsService oAuth2ClientDetailsServer;
+
+    @Autowired
+    private AccountService accountService;
+
     private OAuthTokenService oAuthTokenService;
 
     private String username;
@@ -50,6 +63,25 @@ class OAuthTokenRestControllerTest {
 
     @BeforeEach
     void init() {
+        clientId = ClientKeyGenerator.clientId();
+        clientSecret = ClientKeyGenerator.clientSecret();
+
+        oAuth2ClientDetailsServer.save(OAuth2ClientDetailsEntity.builder()
+            .clientId(clientId)
+            .clientSecret(clientSecret)
+            .authorizedGrantTypes(List.of("password"))
+            .scopes(List.of("read"))
+            .refreshTokenValidity(60_000)
+            .accessTokenValidity(50_000)
+            .build());
+
+        username = "test";
+        password = "1234";
+        accountService.save(AccountEntity.builder()
+            .username(username)
+            .password(password)
+            .name("테스트")
+            .build());
 
         oAuthTokenService = OAuthTokenService.builder()
             .webTestClient(webTestClient)
@@ -62,10 +94,7 @@ class OAuthTokenRestControllerTest {
 
     @Test
     void accessToken() throws Exception {
-        assertNotNull(username);
-        assertNotNull(password);
-        assertNotNull(clientId);
-        assertNotNull(clientSecret);
+
 
         mvc.perform(post("/oauth/token")
                 .param("grant_type", "password")

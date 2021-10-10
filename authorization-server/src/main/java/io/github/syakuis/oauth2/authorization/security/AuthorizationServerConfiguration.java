@@ -5,15 +5,11 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.KeyUse;
 import com.nimbusds.jose.jwk.RSAKey;
 import io.github.syakuis.oauth2.authorization.client.application.DefaultClientDetailsService;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.jwt.JwtHelper;
@@ -31,7 +27,9 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 
 /**
  * @author Seok Kyun. Choi.
@@ -45,21 +43,15 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final DefaultClientDetailsService defaultClientDetailsService;
-    private final DataSource dataSource;
-    private final RedisConnectionFactory redisConnectionFactory;
     private final RSAPrivateKey jwtSigningKey;
     private final RSAPublicKey jwtValidationKey;
-
-    @Bean
-    public TokenStore tokenStore() {
-        return new RedisTokenStore(redisConnectionFactory);
-    }
+    private final TokenStore tokenStore;
 
     @Bean
     @Primary
     public DefaultTokenServices tokenServices() {
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        defaultTokenServices.setTokenStore(tokenStore());
+        defaultTokenServices.setTokenStore(tokenStore);
         defaultTokenServices.setSupportRefreshToken(true);
         return defaultTokenServices;
     }
@@ -98,15 +90,14 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(dataSource)
-            .clients(defaultClientDetailsService);
+        clients.withClientDetails(defaultClientDetailsService);
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
 
         endpoints
-            .tokenStore(tokenStore())
+            .tokenStore(tokenStore)
             .reuseRefreshTokens(false)
             .accessTokenConverter(jwtAccessTokenConverter())
             .authenticationManager(authenticationManager)
