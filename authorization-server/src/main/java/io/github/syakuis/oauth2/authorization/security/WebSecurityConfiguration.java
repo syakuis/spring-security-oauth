@@ -62,6 +62,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .formLogin(AbstractHttpConfigurer::disable)
             .sessionManagement(
                 sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeRequests(authorize -> authorize.anyRequest().authenticated());
+            .authorizeRequests(authorize -> authorize
+                .anyRequest().authenticated());
     }
 }

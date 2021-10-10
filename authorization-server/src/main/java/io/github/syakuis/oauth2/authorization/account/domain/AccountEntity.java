@@ -13,6 +13,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -49,7 +50,7 @@ import org.hibernate.annotations.Where;
         "SET deleted = true " +
         "WHERE id = ?")
 @Where(clause = "deleted = false")
-public class AccountEntity {
+public class AccountEntity implements Account {
     @Id
     @GeneratedValue
     private Long id;
@@ -71,11 +72,11 @@ public class AccountEntity {
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     @Type(type = "org.hibernate.type.NumericBooleanType")
-    private boolean disabled;
+    private Boolean disabled;
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     @Type(type = "org.hibernate.type.NumericBooleanType")
-    private boolean blocked;
+    private Boolean blocked;
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     @Type(type = "org.hibernate.type.NumericBooleanType")
@@ -89,8 +90,7 @@ public class AccountEntity {
     private LocalDateTime updatedOn;
 
     @Builder
-    public AccountEntity(String username, String name, String password, boolean disabled,
-        boolean blocked) {
+    public AccountEntity(String username, String name, String password, Boolean disabled, Boolean blocked) {
         this.username = username;
         this.name = name;
         this.password = password;

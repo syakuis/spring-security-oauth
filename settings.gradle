@@ -3,4 +3,5 @@ rootProject.name = 'spring-security-oauth'
 include 'authorization-server'
 include 'resource-server'
 include 'spring-security-oauth-common'
+include 'spring-security-oauth-core'
 

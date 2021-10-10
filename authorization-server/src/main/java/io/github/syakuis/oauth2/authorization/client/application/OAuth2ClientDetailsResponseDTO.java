@@ -33,10 +33,10 @@ public class OAuth2ClientDetailsResponseDTO {
         String clientId;
         String clientSecret;
 
-        static Body create(OAuth2ClientDetailsEntity oAuthClientDetailsEntity) {
+        static Body create(String clientSecret, OAuth2ClientDetailsEntity oAuthClientDetailsEntity) {
             return Body.builder()
                 .clientId(oAuthClientDetailsEntity.getClientId())
-                .clientSecret(oAuthClientDetailsEntity.getClientSecret())
+                .clientSecret(clientSecret)
                 .accessTokenValidity(oAuthClientDetailsEntity.getAccessTokenValidity())
                 .build();
         }
