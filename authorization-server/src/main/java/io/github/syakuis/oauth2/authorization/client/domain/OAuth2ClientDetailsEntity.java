@@ -1,27 +1,24 @@
 package io.github.syakuis.oauth2.authorization.client.domain;
 
 import io.github.syakuis.oauth2.authorization.client.support.ClientKeyGenerator;
-import io.github.syakuis.oauth2.authorization.core.jpa.conveter.GrantedAuthorityToStringConverter;
-import io.github.syakuis.oauth2.authorization.core.jpa.conveter.JsonToStringConverter;
-import io.github.syakuis.oauth2.authorization.core.jpa.conveter.ListToStringConverter;
-import io.github.syakuis.oauth2.authorization.core.jpa.conveter.SetToStringConverter;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
+
+import io.github.syakuis.oauth2.authorization.core.jpa.converter.GrantedAuthorityToStringConverter;
+import io.github.syakuis.oauth2.authorization.core.jpa.converter.JsonToStringConverter;
+import io.github.syakuis.oauth2.authorization.core.jpa.converter.ListToStringConverter;
+import io.github.syakuis.oauth2.authorization.core.jpa.converter.SetToStringConverter;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -84,12 +81,17 @@ public class OAuth2ClientDetailsEntity {
     @Convert(converter = SetToStringConverter.class)
     private Set<String> autoApprove;
 
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false, length = 6)
+    private LocalDateTime registeredOn;
+
+    @Column(insertable = false, length = 6)
+    private LocalDateTime updatedOn;
+
     @Builder
-    public OAuth2ClientDetailsEntity(List<String> resourceIds, List<String> scopes,
-        List<String> authorizedGrantTypes, Set<String> webServerRedirectUri,
-        List<GrantedAuthority> authorities, Integer accessTokenValidity,
-        Integer refreshTokenValidity,
-        String additionalInformation, Set<String> autoApprove) {
+    public OAuth2ClientDetailsEntity(String clientId, String clientSecret, List<String> resourceIds, List<String> scopes, List<String> authorizedGrantTypes, Set<String> webServerRedirectUri, List<GrantedAuthority> authorities, Integer accessTokenValidity, Integer refreshTokenValidity, String additionalInformation, Set<String> autoApprove) {
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
         this.resourceIds = resourceIds;
         this.scopes = scopes;
         this.authorizedGrantTypes = authorizedGrantTypes;
@@ -101,18 +103,9 @@ public class OAuth2ClientDetailsEntity {
         this.autoApprove = autoApprove;
     }
 
-    @PrePersist
-    public void prePersist() {
-        this.clientId = clientId();
-        this.clientSecret = clientSecret();
-    }
-
-    private String clientId() {
-        return ClientKeyGenerator.clientId();
-    }
-
-    private String clientSecret() {
-        return ClientKeyGenerator.clientSecret();
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedOn = LocalDateTime.now();
     }
 
     @Override

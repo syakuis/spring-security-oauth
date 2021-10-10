@@ -31,8 +31,10 @@ public class OAuth2ClientDetailsRequestDTO {
         String additionalInformation;
         Set<String> autoApprove;
 
-        OAuth2ClientDetailsEntity toOAuthClientDetails() {
+        OAuth2ClientDetailsEntity toOAuthClientDetails(String clientId, String clientSecret) {
             return OAuth2ClientDetailsEntity.builder()
+                .clientId(clientId)
+                .clientSecret(clientSecret)
                 .scopes(this.scopes)
                 .accessTokenValidity(this.accessTokenValidity)
                 .refreshTokenValidity(this.refreshTokenValidity)
