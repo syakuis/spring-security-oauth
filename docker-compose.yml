@@ -5,12 +5,12 @@ services:
     image: adoptopenjdk:11.0.10_9-jdk-openj9-0.24.0
     volumes:
       - './authorization-server/build/libs/authorization-server-1.0.0.BUILD-SNAPSHOT.jar:/var/authorization/authorization-server.jar'
-      - './authorization-server/build/resources/main/certificate/authorization.jks:/var/authorization/certificate/authorization.jks'
     ports:
-      - "8080:8080"
+      - "8084:8084"
     command: "java -Xmx128m -Xms128m -Dfile.encoding=UTF-8 -Duser.timezone=GMT+9 -Dspring.profiles.active=prod,log -jar /var/authorization/authorization-server.jar"
     links:
       - maraidb
+      - redis
   maraidb:
     container_name: authorization-mariadb
     image: mariadb
@@ -25,8 +25,8 @@ services:
       - ./docker/mariadb/data:/var/lib/mysql
       - ./docker/mariadb/conf.d:/etc/mysql/conf.d
   redis:
+    container_name: authorization-redis
     image: redis:latest
-    container_name: ipom-redis
     command: redis-server --requirepass platform@2020 --port 6379
     ports:
       - "6379:6379"
