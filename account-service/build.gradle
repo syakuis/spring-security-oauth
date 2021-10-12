@@ -6,7 +6,7 @@ dependencies {
 }
 
 application {
-    mainClass = "io.github.syakuis.todo.TodoApplication"
+    mainClass = "io.github.syakuis.account.AccountApplication"
 }
 
 bootJar {
@@ -15,5 +15,5 @@ bootJar {
 }
 
 jar {
-    enabled false
+    enabled = true
 }

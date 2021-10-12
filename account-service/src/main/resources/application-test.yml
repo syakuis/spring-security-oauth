@@ -1,0 +1,8 @@
+logging:
+  level:
+    org.springframework.security: trace
+    org.hibernate.type.descriptor.sql.BasicExtractor: trace
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create

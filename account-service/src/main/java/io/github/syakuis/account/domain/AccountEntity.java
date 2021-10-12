@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.authorization.account.domain;
+package io.github.syakuis.account.domain;
 
 import lombok.*;
 import org.hibernate.Hibernate;

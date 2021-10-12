@@ -1,6 +1,6 @@
 package io.github.syakuis.oauth2.authorization.token.application;
 
-import io.github.syakuis.oauth2.authorization.account.domain.AccountService;
+import io.github.syakuis.account.domain.AccountService;
 import io.github.syakuis.oauth2.authorization.token.model.OAuth2UserDetails;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
