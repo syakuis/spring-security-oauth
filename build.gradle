@@ -67,6 +67,8 @@ subprojects {
     }
 
     dependencies {
+        implementation "org.apache.commons:commons-lang3:3.7"
+
         implementation "org.mapstruct:mapstruct:${mapStructVersion}"
         implementation "org.mapstruct.extensions.spring:mapstruct-spring-annotations:0.1.0"
 
@@ -83,12 +85,8 @@ subprojects {
         testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
         testAnnotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
 
-        implementation "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:${jacksonVersion}"
-
         compileOnly "org.springframework.boot:spring-boot-configuration-processor"
         implementation "org.springframework.boot:spring-boot-starter-validation"
-
-        implementation "org.springframework.boot:spring-boot-starter-data-jpa"
 
         implementation "org.springframework.boot:spring-boot-starter-undertow"
         implementation "org.springframework.boot:spring-boot-starter-web"
@@ -97,6 +95,19 @@ subprojects {
 
         implementation "org.springframework.boot:spring-boot-starter-security"
         testCompile "org.springframework.security:spring-security-test"
+
+        implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+
+        implementation "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:${jacksonVersion}"
+
+        implementation "com.querydsl:querydsl-jpa:${querydslVersion}"
+        annotationProcessor(
+                "jakarta.persistence:jakarta.persistence-api",
+                "jakarta.annotation:jakarta.annotation-api",
+                "com.querydsl:querydsl-apt:${querydslVersion}:jpa"
+        )
+
+        implementation "org.mariadb.jdbc:mariadb-java-client:2.3.0"
 
         implementation "com.h2database:h2:1.4.191"
         testImplementation "com.h2database:h2:1.4.191"

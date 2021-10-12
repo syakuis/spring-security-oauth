@@ -1,6 +1,6 @@
-package io.github.syakuis.oauth2.authorization.account.domain;
+package io.github.syakuis.account.domain;
 
-import io.github.syakuis.oauth2.authorization.account.mapper.AccountEntityMapper;
+import io.github.syakuis.account.mapper.AccountEntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,8 @@ public class AccountService {
     private final AccountRepository accountRepository;
 
     public Account save(AccountEntity account) {
-        return accountRepository.save(AccountEntityMapper.INSTANCE.updatePassword(passwordEncoder.encode(account.getPassword()), account));
+        return accountRepository.save(
+            AccountEntityMapper.INSTANCE.updatePassword(passwordEncoder.encode(account.getPassword()), account));
     }
 
     public void delete(Long id) {

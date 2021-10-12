@@ -1,6 +1,6 @@
 package io.github.syakuis.oauth2.authorization.token.model;
 
-import io.github.syakuis.oauth2.authorization.account.domain.Account;
+import io.github.syakuis.account.domain.Account;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

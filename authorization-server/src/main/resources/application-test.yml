@@ -1,6 +1,6 @@
 logging:
   level:
-    org.springframework.security: trace
+    org.springframework.security: info
     org.hibernate.type.descriptor.sql.BasicExtractor: trace
 spring:
   jpa:

@@ -1,5 +1,24 @@
 # [Legacy] Spring Security oauth server
 
+## 할일
+
+- [ ] 단위 테스트는 Mock 으로 작성할 것.
+- [ ] 각 서비스 개별 프로젝트로 분리할 것.
+- [ ] client-id 서비스 추가
+
+---
+
+## 의존성 버전
+
+- spring boot - 2.4.5
+- spring security oauth server - 2.3.8.RELEASE
+
+## 서비스
+- authorization-service
+- account-service
+- clientid-service
+- todo-service
+
 ## 용어정리
 
 - authorization server - 인증, 인가를 처리하는 서버 프로그램이며 인증 서버라고 부른다.
