@@ -1,13 +1,16 @@
 buildscript {
-    ext.groupId = "io.github.syaku"
-    ext.versionName = "1.0.0-SNAPSHOT"
-    ext.springBootVersion = "2.4.5"
-    ext.springSecurityOAuth2Version = "2.3.8.RELEASE"
-    ext.junitVersion = "5.6.2"
-    ext.lombokVersion = "1.18.12"
-    ext.mapStructVersion = "1.4.2.Final"
-    ext.jacksonVersion = "2.11.0"
-    ext.querydslVersion = "4.4.0"
+    ext {
+        groupId = "io.github.syaku"
+        versionName = "1.0.0-SNAPSHOT"
+        springBootVersion = "2.4.5"
+        springCloudVersion = "2020.0.3"
+        springSecurityOAuth2Version = "2.3.8.RELEASE"
+        junitVersion = "5.6.2"
+        lombokVersion = "1.18.12"
+        mapStructVersion = "1.4.2.Final"
+        jacksonVersion = "2.11.0"
+        querydslVersion = "4.4.0"
+    }
 
     repositories {
         maven {
@@ -58,11 +61,18 @@ subprojects {
     configurations {
         implementation.exclude module: "spring-boot-starter-tomcat"
         testImplementation.exclude group: "junit", module: "junit"
+        querydsl.extendsFrom compileClasspath
     }
 
     processResources {
         filesMatching('*.yml') {
             expand(project.properties)
+        }
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
         }
     }
 
@@ -112,6 +122,8 @@ subprojects {
         implementation "com.h2database:h2:1.4.191"
         testImplementation "com.h2database:h2:1.4.191"
         compileOnly "com.h2database:h2:1.4.191"
+
+        testImplementation "org.springframework.cloud:spring-cloud-starter-contract-stub-runner"
     }
 
     def querydslDir = "${buildDir}/generated/querydsl"
