@@ -2,9 +2,6 @@
 
 ## 할일
 
-- [ ] 단위 테스트는 Mock 으로 작성할 것.
-- [ ] 각 서비스 개별 프로젝트로 분리할 것.
-- [ ] client-id 서비스 추가
 
 ---
 
@@ -13,11 +10,6 @@
 - spring boot - 2.4.5
 - spring security oauth server - 2.3.8.RELEASE
 
-## 서비스
-- authorization-service
-- account-service
-- clientid-service
-- todo-service
 
 ## 용어정리
 
