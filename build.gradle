@@ -152,3 +152,17 @@ test {
     }
     systemProperty 'spring.profiles.active', 'test'
 }
+
+
+application {
+    mainClass = "io.github.syakuis.oauth2.OAuth2Application"
+}
+
+bootJar {
+    enabled = true
+    launchScript()
+}
+
+jar {
+    enabled = false
+}
