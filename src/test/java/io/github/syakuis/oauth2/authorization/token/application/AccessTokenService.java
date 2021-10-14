@@ -21,18 +21,18 @@ import java.util.Map;
 @Value
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class OAuthTokenService {
+public class AccessTokenService {
     WebTestClient webTestClient;
     String username;
     String password;
     String clientId;
     String clientSecret;
 
-    public Map<String, Object> obtainAccessToken(){
-        return this.obtainAccessToken(clientId, clientSecret, username, password);
+    public Map<String, Object> obtain(){
+        return this.obtain(clientId, clientSecret, username, password);
     }
 
-    public Map<String, Object> obtainAccessToken(String clientId, String clientSecret, String username, String password) {
+    public Map<String, Object> obtain(String clientId, String clientSecret, String username, String password) {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "password");
@@ -48,7 +48,17 @@ public class OAuthTokenService {
             .expectStatus().isOk()
             .returnResult(String.class).getResponseBody().blockFirst();
 
+        log.debug("{}", resultString);
+
         JacksonJsonParser jsonParser = new JacksonJsonParser();
         return jsonParser.parseMap(resultString);
+    }
+
+    public String accessToken(Map<String, Object> data) {
+        return (String) data.get("access_token");
+    }
+
+    public String refreshToken(Map<String, Object> data) {
+        return (String) data.get("refresh_token");
     }
 }

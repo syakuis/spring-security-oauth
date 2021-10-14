@@ -108,7 +108,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
         endpoints
             .tokenStore(tokenStore)
-            .reuseRefreshTokens(false)
+            .reuseRefreshTokens(true)
             .tokenEnhancer(tokenEnhancerChain)
             .authenticationManager(authenticationManager)
             .userDetailsService(userDetailsService);

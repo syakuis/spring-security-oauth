@@ -1,0 +1,34 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "POST",
+        "url": "/oauth/check_token",
+        "bodyPatterns": [
+          {
+            "matches": "token=(.*)"
+          }
+        ]
+      },
+      "response": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "status": 200,
+        "jsonBody": {
+          "uid": "c7b782b5-f8b5-11eb-972f-02a208506bd6",
+          "additionalInformation": null,
+          "user_name": "test",
+          "scope": [
+            "read"
+          ],
+          "name": "테스트",
+          "active": true,
+          "exp": 315359999,
+          "jti": "a8ba6044-8310-4b4d-befd-600905eea207",
+          "client_id": "4ecbf0cda5cd57250ecf0d81c00292713ba732f2101ee9416b5bc14e1c10997592276648bb1bb841"
+        }
+      }
+    }
+  ]
+}
