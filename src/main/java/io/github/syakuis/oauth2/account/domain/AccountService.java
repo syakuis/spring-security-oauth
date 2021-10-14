@@ -1,6 +1,7 @@
 package io.github.syakuis.oauth2.account.domain;
 
 import io.github.syakuis.oauth2.account.mapper.AccountEntityMapper;
+import io.jsonwebtoken.lang.Assert;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class AccountService {
     }
 
     public Account findByUsername(String username) {
+        Assert.notNull(username, "username 값을 입력하세요.");
         return accountRepository.findByUsername(username).orElseThrow(EntityNotFoundException::new);
     }
 }

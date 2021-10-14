@@ -16,13 +16,13 @@ logging:
     root: info
     io.github.syakuis: trace
     org.springframework: info
-    org.springframework.web: info
-    org.springframework.security: info
-    org.hibernate: info
+    org.springframework.web: debug
+#    org.springframework.security: info
+#    org.hibernate: info
     org.hibernate.SQL: trace
     org.hibernate.type.descriptor.sql.BasicBinder: trace
-    org.hibernate.type.descriptor.sql.BasicExtractor: off
-    org.hibernate.engine.jdbc.batch.internal.BatchingBatch: off
+#    org.hibernate.type.descriptor.sql.BasicExtractor: off
+#    org.hibernate.engine.jdbc.batch.internal.BatchingBatch: off
 #    com.zaxxer.hikari: info
 #    org.hibernate.transaction.JDBCTrabsaction: info
 #    org.hibernate.jdbc.ConnectionManager: info

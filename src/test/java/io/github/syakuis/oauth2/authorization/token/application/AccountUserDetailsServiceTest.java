@@ -1,5 +1,6 @@
 package io.github.syakuis.oauth2.authorization.token.application;
 
+import io.github.syakuis.oauth2.configuration.TestProperties;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 class AccountUserDetailsServiceTest {
     @Autowired
+    private TestProperties props;
+
+    @Autowired
     private AccountUserDetailsService accountUserDetailsService;
 
     @Test
     void loadUserByUsername() {
-        UserDetails userDetails = accountUserDetailsService.loadUserByUsername("test");
+        UserDetails userDetails = accountUserDetailsService.loadUserByUsername(props.getUsername());
         assertNotNull(userDetails);
-        assertEquals("test", userDetails.getUsername());
+        assertEquals(props.getUsername(), userDetails.getUsername());
     }
 }
