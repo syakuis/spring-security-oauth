@@ -2,7 +2,6 @@ package io.github.syakuis.oauth2.authorization.token.application;
 
 import io.github.syakuis.oauth2.account.domain.AccountService;
 import io.github.syakuis.oauth2.authorization.token.model.OAuth2UserDetails;
-import lombok.NonNull;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

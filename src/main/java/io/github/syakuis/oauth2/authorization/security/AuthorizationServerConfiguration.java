@@ -25,6 +25,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -52,10 +53,11 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Bean
     @Primary
-    public DefaultTokenServices tokenServices() {
+    public AuthorizationServerTokenServices tokenServices() {
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setTokenStore(tokenStore);
         defaultTokenServices.setSupportRefreshToken(true);
+        defaultTokenServices.setTokenEnhancer(tokenEnhancer());
         return defaultTokenServices;
     }
 
@@ -107,11 +109,13 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), jwtAccessTokenConverter()));
 
         endpoints
+//            .pathMapping("/oauth/confirm_access", "/oauth2/confirm_access")
             .tokenStore(tokenStore)
             .reuseRefreshTokens(true)
             .tokenEnhancer(tokenEnhancerChain)
             .authenticationManager(authenticationManager)
-            .userDetailsService(userDetailsService);
+            .userDetailsService(userDetailsService)
+        ;
     }
 
     @Override
