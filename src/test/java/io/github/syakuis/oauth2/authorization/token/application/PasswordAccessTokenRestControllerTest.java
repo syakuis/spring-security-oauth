@@ -1,5 +1,6 @@
 package io.github.syakuis.oauth2.authorization.token.application;
 
+import com.nimbusds.oauth2.sdk.GrantType;
 import io.github.syakuis.oauth2.configuration.TestProperties;
 import io.github.syakuis.oauth2.configuration.WireMockTest;
 import lombok.extern.slf4j.Slf4j;
@@ -70,7 +71,7 @@ class PasswordAccessTokenRestControllerTest {
     @Test
     void accessToken() throws Exception {
         mvc.perform(post("/oauth/token")
-                .param("grant_type", "password")
+                .param("grant_type", GrantType.PASSWORD.getValue())
                 .param("username", username)
                 .param("password", password)
                 .with(httpBasic(clientId, clientSecret))
@@ -78,6 +79,7 @@ class PasswordAccessTokenRestControllerTest {
                 .accept(MediaType.APPLICATION_JSON_VALUE)
             )
             .andExpect(status().isOk())
+            .andExpect(jsonPath("$.access_token").isNotEmpty())
             .andExpect(jsonPath("$.uid").isNotEmpty())
             .andExpect(jsonPath("$.name").isNotEmpty())
         ;
