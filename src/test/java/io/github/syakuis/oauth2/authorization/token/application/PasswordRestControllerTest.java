@@ -30,13 +30,14 @@ import org.springframework.test.web.servlet.MockMvc;
 /**
  * @author Seok Kyun. Choi.
  * @since 2021-09-14
+ * @see org.springframework.security.oauth2.provider.endpoint.TokenEndpoint
  */
 @Slf4j
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @WireMockTest
-class PasswordGrantTypeRestControllerTest {
+class PasswordRestControllerTest {
     @Autowired
     private MockMvc mvc;
 
