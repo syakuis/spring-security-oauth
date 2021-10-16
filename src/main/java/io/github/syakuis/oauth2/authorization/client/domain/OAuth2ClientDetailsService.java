@@ -1,11 +1,10 @@
 package io.github.syakuis.oauth2.authorization.client.domain;
 
 import io.github.syakuis.oauth2.authorization.client.mapper.OAuth2ClientDetailsEntityMapper;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 
 /**
  * @author Seok Kyun. Choi.
