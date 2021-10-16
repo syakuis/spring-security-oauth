@@ -1,5 +1,6 @@
 package io.github.syakuis.oauth2.authorization.token.application;
 
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,8 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-
-import java.util.Map;
 
 /**
  * @author Seok Kyun. Choi.

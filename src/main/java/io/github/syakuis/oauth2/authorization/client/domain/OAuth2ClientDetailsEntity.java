@@ -4,17 +4,27 @@ import io.github.syakuis.oauth2.configuration.jpa.converter.GrantedAuthorityToSt
 import io.github.syakuis.oauth2.configuration.jpa.converter.JsonToStringConverter;
 import io.github.syakuis.oauth2.configuration.jpa.converter.ListToStringConverter;
 import io.github.syakuis.oauth2.configuration.jpa.converter.SetToStringConverter;
-import lombok.*;
-import org.hibernate.Hibernate;
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.security.core.GrantedAuthority;
-
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.UnaryOperator;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.PreUpdate;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.hibernate.Hibernate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  * @author Seok Kyun. Choi.

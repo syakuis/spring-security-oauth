@@ -1,6 +1,10 @@
 package io.github.syakuis.oauth2.todo.application;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.Value;
 
 /**
  * @author Seok Kyun. Choi.

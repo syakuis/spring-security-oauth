@@ -3,10 +3,9 @@ package io.github.syakuis.oauth2.todo.application;
 import io.github.syakuis.oauth2.todo.application.mapper.TodoDtoMapper;
 import io.github.syakuis.oauth2.todo.domain.TodoEntity;
 import io.github.syakuis.oauth2.todo.domain.TodoRepository;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 
 /**
  * @author Seok Kyun. Choi.

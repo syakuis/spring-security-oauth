@@ -1,11 +1,14 @@
 package io.github.syakuis.oauth2.authorization.client.application;
 
 import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetails;
-import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-
 import java.util.List;
 import java.util.Set;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.Value;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  * @author Seok Kyun. Choi.

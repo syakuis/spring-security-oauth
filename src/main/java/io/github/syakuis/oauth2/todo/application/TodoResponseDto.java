@@ -1,9 +1,12 @@
 package io.github.syakuis.oauth2.todo.application;
 
 import io.github.syakuis.oauth2.todo.domain.Todo;
-import lombok.*;
-
 import java.time.LocalDateTime;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.Value;
 
 /**
  * @author Seok Kyun. Choi.
