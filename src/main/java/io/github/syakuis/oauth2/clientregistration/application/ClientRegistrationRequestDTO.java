@@ -1,6 +1,6 @@
-package io.github.syakuis.oauth2.authorization.client.application;
+package io.github.syakuis.oauth2.clientregistration.application;
 
-import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetailsEntity;
+import io.github.syakuis.oauth2.clientregistration.domain.ClientRegistrationEntity;
 import java.util.List;
 import java.util.Set;
 import lombok.AccessLevel;
@@ -15,7 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
  * @since 2021-10-08
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-class OAuth2ClientDetailsRequestDTO {
+class ClientRegistrationRequestDTO {
 
     @Value
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -31,8 +31,8 @@ class OAuth2ClientDetailsRequestDTO {
         String additionalInformation;
         Set<String> autoApprove;
 
-        OAuth2ClientDetailsEntity toOAuthClientDetailsEntity(String clientId, String clientSecret) {
-            return OAuth2ClientDetailsEntity.builder()
+        ClientRegistrationEntity toOAuthClientDetailsEntity(String clientId, String clientSecret) {
+            return ClientRegistrationEntity.builder()
                 .clientId(clientId)
                 .clientSecret(clientSecret)
                 .scopes(this.scopes)

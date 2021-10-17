@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.authorization.client.application;
+package io.github.syakuis.oauth2.clientregistration.application;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -27,7 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithMockUser("test")
-class OAuth2ClientDetailsRestControllerTest {
+class ClientRegistrationRestControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -37,7 +37,7 @@ class OAuth2ClientDetailsRestControllerTest {
 
     @Test
     void register() throws Exception {
-        String data = objectMapper.writeValueAsString(OAuth2ClientDetailsRequestDTO.Register.builder()
+        String data = objectMapper.writeValueAsString(ClientRegistrationRequestDTO.Register.builder()
             .accessTokenValidity(60000)
             .refreshTokenValidity(6000)
             .scopes(Collections.singletonList("read"))

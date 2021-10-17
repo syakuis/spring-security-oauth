@@ -3,6 +3,7 @@ package io.github.syakuis.oauth2.authorization.token.application;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_CLASS;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -38,6 +40,7 @@ import org.springframework.web.servlet.ModelAndView;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = BEFORE_CLASS)
 class AuthorizationCodeRestControllerTest {
     @Autowired
     private MockMvc mvc;
@@ -89,7 +92,7 @@ class AuthorizationCodeRestControllerTest {
             .param("scope.read", "true") // 사용자가 직접 허용한다.
                 .with(user(oAuth2UserDetails))
         )
-            .andExpect(status().is(303))
+            .andExpect(status().is3xxRedirection())
             .andExpect(redirectedUrlPattern(redirectUri + "?code=*"))
             .andDo(print())
             .andReturn()

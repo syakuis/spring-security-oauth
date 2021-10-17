@@ -1,10 +1,10 @@
-package io.github.syakuis.oauth2.authorization.client.domain;
+package io.github.syakuis.oauth2.clientregistration.domain;
 
 /**
  * @author Seok Kyun. Choi.
  * @since 2021-10-10
  */
-public interface OAuth2ClientDetails {
+public interface ClientRegistration {
     Long getId();
 
     String getClientId();

@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -80,7 +79,7 @@ public class ImplicitRestControllerTest {
                 .param("scope.read", "true") // 사용자가 직접 허용한다.
                 .with(user(oAuth2UserDetails))
             )
-            .andExpect(status().is(303))
+            .andExpect(status().is3xxRedirection())
             .andReturn();
 
         String redirectUrl = result.getResponse().getRedirectedUrl();

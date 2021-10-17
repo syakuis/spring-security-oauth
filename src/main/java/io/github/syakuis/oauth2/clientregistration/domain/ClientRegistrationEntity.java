@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.authorization.client.domain;
+package io.github.syakuis.oauth2.clientregistration.domain;
 
 import io.github.syakuis.oauth2.configuration.jpa.converter.GrantedAuthorityToStringConverter;
 import io.github.syakuis.oauth2.configuration.jpa.converter.JsonToStringConverter;
@@ -35,12 +35,12 @@ import org.springframework.security.core.GrantedAuthority;
 @ToString
 @Entity
 @Table(
-    name = "oauth2_client_details",
+    name = "client_registration",
     uniqueConstraints = {
-        @UniqueConstraint(name = "UK_oauth2_client_details_client_id", columnNames = "clientId")
+        @UniqueConstraint(name = "UK_client_registration_client_id", columnNames = "clientId")
     }
 )
-public class OAuth2ClientDetailsEntity implements OAuth2ClientDetails {
+public class ClientRegistrationEntity implements ClientRegistration {
 
     @Id
     @GeneratedValue
@@ -94,7 +94,7 @@ public class OAuth2ClientDetailsEntity implements OAuth2ClientDetails {
     private LocalDateTime updatedOn;
 
     @Builder
-    public OAuth2ClientDetailsEntity(String clientId, String clientSecret, List<String> resourceIds, List<String> scopes, List<String> authorizedGrantTypes, Set<String> webServerRedirectUri, List<GrantedAuthority> authorities, Integer accessTokenValidity, Integer refreshTokenValidity, String additionalInformation, Set<String> autoApprove) {
+    public ClientRegistrationEntity(String clientId, String clientSecret, List<String> resourceIds, List<String> scopes, List<String> authorizedGrantTypes, Set<String> webServerRedirectUri, List<GrantedAuthority> authorities, Integer accessTokenValidity, Integer refreshTokenValidity, String additionalInformation, Set<String> autoApprove) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.resourceIds = resourceIds;
@@ -125,7 +125,7 @@ public class OAuth2ClientDetailsEntity implements OAuth2ClientDetails {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
-        OAuth2ClientDetailsEntity that = (OAuth2ClientDetailsEntity) o;
+        ClientRegistrationEntity that = (ClientRegistrationEntity) o;
         return Objects.equals(clientId, that.clientId);
     }
 
