@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.authorization.client.domain;
+package io.github.syakuis.oauth2.clientregistration.domain;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,12 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class DefaultClientDetailsService implements ClientDetailsService {
 
     // todo cache
-    private final OAuth2ClientDetailsRepository oAuth2ClientDetailsRepository;
+    private final ClientRegistrationRepository oAuth2ClientDetailsRepository;
 
     @Override
     public ClientDetails loadClientByClientId(
         String clientId) throws ClientRegistrationException {
-        OAuth2ClientDetailsEntity oAuthClientDetails = oAuth2ClientDetailsRepository.findByClientId(clientId).orElseThrow();
+        ClientRegistrationEntity oAuthClientDetails = oAuth2ClientDetailsRepository.findByClientId(clientId).orElseThrow();
 
         BaseClientDetails baseClientDetails = new BaseClientDetails();
         baseClientDetails.setClientId(oAuthClientDetails.getClientId());

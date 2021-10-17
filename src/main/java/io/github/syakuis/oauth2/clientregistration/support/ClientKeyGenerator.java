@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.authorization.client.support;
+package io.github.syakuis.oauth2.clientregistration.support;
 
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;

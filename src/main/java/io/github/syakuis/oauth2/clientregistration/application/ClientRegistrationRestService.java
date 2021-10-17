@@ -1,7 +1,7 @@
-package io.github.syakuis.oauth2.authorization.client.application;
+package io.github.syakuis.oauth2.clientregistration.application;
 
-import io.github.syakuis.oauth2.authorization.client.domain.OAuth2ClientDetailsService;
-import io.github.syakuis.oauth2.authorization.client.support.ClientKeyGenerator;
+import io.github.syakuis.oauth2.clientregistration.domain.ClientRegistrationService;
+import io.github.syakuis.oauth2.clientregistration.support.ClientKeyGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,15 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Service
 @Transactional
-class OAuth2ClientDetailsRestService {
+class ClientRegistrationRestService {
     private final PasswordEncoder passwordEncoder;
-    private final OAuth2ClientDetailsService oAuth2ClientDetailsServer;
+    private final ClientRegistrationService oAuth2ClientDetailsServer;
 
-    public OAuth2ClientDetailsResponseDTO.Body register(OAuth2ClientDetailsRequestDTO.Register register) {
+    public ClientRegistrationResponseDTO.Body register(ClientRegistrationRequestDTO.Register register) {
         String clientId = ClientKeyGenerator.clientId();
         // 최초 등록시 clientSecret 키를 제공하며 보관은 단방향 암호화하여 저장되므로 다시 찾을 수 없다.
         String clientSecret = ClientKeyGenerator.clientSecret();
-        return OAuth2ClientDetailsResponseDTO.Body
+        return ClientRegistrationResponseDTO.Body
             .create(clientSecret, oAuth2ClientDetailsServer.save(register.toOAuthClientDetailsEntity(clientId, passwordEncoder.encode(clientSecret))));
     }
 
