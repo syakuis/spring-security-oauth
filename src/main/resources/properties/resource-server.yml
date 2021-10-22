@@ -1,0 +1,10 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8080/oauth2/v1/token/keys
+        opaquetoken:
+          client-id: 5f4896080ecee6c7817c68afaf634b04ec74e9ccccd9b64a69845284ef36ff4fdb97480deaae1535
+          client-secret: dUd6N3ojXSI0dGVseUwy
+          introspection-uri: http://localhost:8080/oauth/check_token

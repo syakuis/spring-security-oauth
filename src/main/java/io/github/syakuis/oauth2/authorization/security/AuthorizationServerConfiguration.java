@@ -4,13 +4,12 @@ import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.KeyUse;
 import com.nimbusds.jose.jwk.RSAKey;
-import io.github.syakuis.oauth2.authorization.token.model.CustomTokenEnhancer;
-import io.github.syakuis.oauth2.clientregistration.domain.DefaultClientDetailsService;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Arrays;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -27,9 +26,11 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -39,16 +40,33 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
  * @since 2021-05-21
  */
 @Slf4j
-@RequiredArgsConstructor
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
-    private final DefaultClientDetailsService defaultClientDetailsService;
+    private final ClientDetailsService clientDetailsService;
     private final RSAPrivateKey jwtSigningKey;
     private final RSAPublicKey jwtValidationKey;
     private final TokenStore tokenStore;
+    private final TokenEnhancer tokenEnhancer;
+
+    @Autowired
+    public AuthorizationServerConfiguration(
+        AuthenticationManager authenticationManager,
+        @Qualifier("accountUserDetailsService") UserDetailsService userDetailsService,
+        @Qualifier("defaultClientDetailsService") ClientDetailsService clientDetailsService,
+        RSAPrivateKey jwtSigningKey, RSAPublicKey jwtValidationKey,
+        TokenStore tokenStore,
+        @Qualifier("customTokenEnhancer") TokenEnhancer tokenEnhancer) {
+        this.authenticationManager = authenticationManager;
+        this.userDetailsService = userDetailsService;
+        this.clientDetailsService = clientDetailsService;
+        this.jwtSigningKey = jwtSigningKey;
+        this.jwtValidationKey = jwtValidationKey;
+        this.tokenStore = tokenStore;
+        this.tokenEnhancer = tokenEnhancer;
+    }
 
     @Bean
     @Primary
@@ -56,13 +74,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setTokenStore(tokenStore);
         defaultTokenServices.setSupportRefreshToken(true);
-        defaultTokenServices.setTokenEnhancer(tokenEnhancer());
+        defaultTokenServices.setTokenEnhancer(tokenEnhancer);
         return defaultTokenServices;
-    }
-
-    @Bean
-    public CustomTokenEnhancer tokenEnhancer() {
-        return new CustomTokenEnhancer();
     }
 
     @Bean
@@ -99,13 +112,13 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.withClientDetails(defaultClientDetailsService);
+        clients.withClientDetails(clientDetailsService);
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), jwtAccessTokenConverter()));
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer, jwtAccessTokenConverter()));
 
         endpoints
 //            .pathMapping("/oauth/confirm_access", "/oauth2/confirm_access")

@@ -3,12 +3,12 @@ package io.github.syakuis.oauth2.authorization.token.application;
 import io.github.syakuis.oauth2.account.domain.AccountService;
 import io.github.syakuis.oauth2.authorization.token.model.OAuth2UserDetails;
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 /**
@@ -16,7 +16,7 @@ import org.springframework.util.Assert;
  * @since 2021-10-10
  */
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class AccountUserDetailsService implements UserDetailsService {
     private final AccountService accountService;
 
