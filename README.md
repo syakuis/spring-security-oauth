@@ -34,3 +34,10 @@ spring security oauth server를 사용하여 인증 서버를 구축한 프로�
 - [ ] 소캣 통신 - 인증 예제 작성
 - [ ] Spring Gateway에서 액세스 토큰으로 JWT 얻기 구현
 - [ ] 개인적으로 사용하기 위한 액세스 토큰 생성 구현
+
+---
+# 이슈들
+
+## ClientDetailsService 구현체를 @Transactional 설정하면 업데이트가 발생한다.
+
+readOnly 속성으로 해결하긴 했지만, 어떻게 업데이트가 발생하는 것일까? 내부적인 코드를 확인해야 알 수 있을 것 같다. 

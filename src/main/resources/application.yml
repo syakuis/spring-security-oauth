@@ -59,12 +59,5 @@ spring:
         max-active: 10
         max-idle: 10
         min-idle: 2
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: http://localhost:8080/oauth2/v1/token/jwt-keys
-        opaquetoken:
-          client-id:
-          client-secret:
-          introspection-uri: http://localhost:8080/oauth/check_token
+  config:
+    import: classpath:properties/resource-server.yml
