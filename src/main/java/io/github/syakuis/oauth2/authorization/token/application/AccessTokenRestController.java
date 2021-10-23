@@ -12,7 +12,6 @@ import org.springframework.security.oauth2.provider.token.AuthorizationServerTok
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,26 +23,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/oauth2/v1/token")
-class OAuthTokenRestController {
+class AccessTokenRestController {
 
     private final JWKSet jwkSet;
 
     @Resource(name = "tokenServices")
     private AuthorizationServerTokenServices tokenServices;
 
-    @DeleteMapping("/revoke")
+    @DeleteMapping
     public void revoke(HttpServletRequest request) {
         BearerTokenExtractor bearerTokenExtractor = new BearerTokenExtractor();
         Authentication authentication = bearerTokenExtractor.extract(request);
         if (authentication != null && authentication.getPrincipal() != null) {
             ((ConsumerTokenServices) tokenServices).revokeToken(authentication.getPrincipal().toString());
         }
-    }
-
-    @Deprecated
-    @DeleteMapping("/delete/{token}")
-    public void revoke(@PathVariable("token") String token) {
-        ((ConsumerTokenServices) tokenServices).revokeToken(token);
     }
 
     /**

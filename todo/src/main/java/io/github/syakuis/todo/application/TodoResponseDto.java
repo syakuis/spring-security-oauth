@@ -1,6 +1,6 @@
-package io.github.syakuis.oauth2.todo.application;
+package io.github.syakuis.todo.application;
 
-import io.github.syakuis.oauth2.todo.domain.Todo;
+import io.github.syakuis.todo.domain.Todo;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
