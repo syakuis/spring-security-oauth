@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.todo.application;
+package io.github.syakuis.todo.application;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.todo.domain;
+package io.github.syakuis.todo.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

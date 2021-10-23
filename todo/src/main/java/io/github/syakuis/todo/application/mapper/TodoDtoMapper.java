@@ -1,9 +1,9 @@
-package io.github.syakuis.oauth2.todo.application.mapper;
+package io.github.syakuis.todo.application.mapper;
 
-import io.github.syakuis.oauth2.todo.application.TodoRequestDto;
-import io.github.syakuis.oauth2.todo.application.TodoResponseDto;
-import io.github.syakuis.oauth2.todo.domain.Todo;
-import io.github.syakuis.oauth2.todo.domain.TodoEntity;
+import io.github.syakuis.todo.application.TodoRequestDto;
+import io.github.syakuis.todo.application.TodoResponseDto;
+import io.github.syakuis.todo.domain.Todo;
+import io.github.syakuis.todo.domain.TodoEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
