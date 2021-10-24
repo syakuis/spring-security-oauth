@@ -21,19 +21,18 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
 /**
  * @author Seok Kyun. Choi.
- * @since 2021-10-10
+ * @since 2021-10-24
  */
 @Slf4j
-@Configuration
-class KeyStoreConfiguration {
-
-    @Value("${app.security.oauth2.jwt.keystore-location:certificate/authorization.jks}")
+@Configuration(proxyBeanMethods = false)
+class JksKeyStoreConfiguration {
+    @Value("${app.security.oauth2.jwt.keystore-location}")
     private String keyStorePath;
 
-    @Value("${app.security.oauth2.jwt.keystore-password:syaku@pass1234}")
+    @Value("${app.security.oauth2.jwt.keystore-password}")
     private String keyStorePassword;
 
-    @Value("${app.security.oauth2.jwt.key-alias:syaku}")
+    @Value("${app.security.oauth2.jwt.key-alias}")
     private String keyAlias;
 
     @Bean
@@ -51,7 +50,7 @@ class KeyStoreConfiguration {
     }
 
     @Bean
-    public RSAPrivateKey jwtSigningKey(KeyStore keyStore) {
+    public RSAPrivateKey signingPrivateKey(KeyStore keyStore) {
         try {
             Key key = keyStore.getKey(keyAlias, keyStorePassword.toCharArray());
             if (key instanceof RSAPrivateKey) {
@@ -65,7 +64,7 @@ class KeyStoreConfiguration {
     }
 
     @Bean
-    public RSAPublicKey jwtValidationKey(KeyStore keyStore) {
+    public RSAPublicKey validationPublicKey(KeyStore keyStore) {
         try {
             Certificate certificate = keyStore.getCertificate(keyAlias);
             PublicKey publicKey = certificate.getPublicKey();

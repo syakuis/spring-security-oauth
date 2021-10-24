@@ -26,8 +26,9 @@ spring security oauth server를 사용하여 인증 서버를 구축한 프로�
     - 교환 rest controller 필요
 - [ ] 리소스 서버 설정 구성
   - [x] 액세스 토큰 원격 Opaque Token 검증 구현
-  - [ ] 액세스 토큰 로컬 JWTs 검증 구현
-  - [ ] 액세스 토큰 - JWT Payload 변경 개발
+  - [x] 액세스 토큰 로컬 JwkSet 검증 구현
+  - [x] 액세스 토큰 로컬 public key 검증 구현
+  - [x] 액세스 토큰 - JWT Payload 변경 개발 (AuthoritiesOpaqueTokenIntrospector)
 - [x] 계정 서비스 개발
 - [x] oauth client id 개발
   - [ ] redis 활용 - 데이터 캐시 관리
