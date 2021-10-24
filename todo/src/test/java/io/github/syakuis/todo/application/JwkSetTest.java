@@ -18,9 +18,9 @@ import org.springframework.test.web.servlet.MockMvc;
  * @since 2021-10-23
  */
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(properties = {  "app.security.oauth2.jwt.resourceserver.opaque-access-token-disabled=true" })
 @AutoConfigureMockMvc
-class TodoRestControllerTest {
+class JwkSetTest {
 
     @Autowired
     private MockMvc mvc;
