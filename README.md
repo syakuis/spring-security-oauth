@@ -21,9 +21,10 @@ spring security oauth server를 사용하여 인증 서버를 구축한 프로�
     - [x] password : 암호 인증
     - [x] client credentials : 클라언트 크리덴셜 인증
   - [x] 액세스 토큰 파괴 개발
-  - [ ] 액세스 토큰에 JWT가 아닌 인증 아이디 반환하고 JWT로 교환할 수 있는 기능 구현
-    - oauth/token response 변경 필요
-    - 교환 rest controller 필요
+  - 액세스 토큰에 JWT가 아닌 token_id 를 발급하고 token_id로 JWT로 교환할 수 있도록 한다.
+    - [x] 인증 후 response body 수정하기
+    - [ ] token_id 로 JWT 교환 구현
+    - [ ] 테스트 작성
 - [ ] 리소스 서버 설정 구성
   - [x] 액세스 토큰 원격 Opaque Token 검증 구현
   - [x] 액세스 토큰 로컬 JwkSet 검증 구현
