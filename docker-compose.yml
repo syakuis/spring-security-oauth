@@ -4,7 +4,7 @@ services:
     container_name: authorization-server
     image: adoptopenjdk:11.0.10_9-jdk-openj9-0.24.0
     volumes:
-      - './authorization-server/build/libs/authorization-server-1.0.0.BUILD-SNAPSHOT.jar:/var/authorization/authorization-server.jar'
+      - './authorization-server/build/libs/authorization-server-1.0.0-SNAPSHOT.jar:/var/authorization/authorization-server.jar'
     ports:
       - "8084:8084"
     command: "java -Xmx128m -Xms128m -Dfile.encoding=UTF-8 -Duser.timezone=GMT+9 -Dspring.profiles.active=prod,log -jar /var/authorization/authorization-server.jar"

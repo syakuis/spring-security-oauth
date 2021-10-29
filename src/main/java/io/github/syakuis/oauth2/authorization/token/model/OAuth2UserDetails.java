@@ -1,16 +1,17 @@
 package io.github.syakuis.oauth2.authorization.token.model;
 
 import io.github.syakuis.oauth2.account.domain.Account;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * @author Seok Kyun. Choi.

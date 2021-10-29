@@ -1,10 +1,5 @@
 package io.github.syakuis.todo.configuration;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.DefaultOAuth2AuthenticatedPrincipal;
@@ -14,6 +9,12 @@ import org.springframework.security.oauth2.server.resource.introspection.OAuth2I
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public final class AuthoritiesOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
