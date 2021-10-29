@@ -1,10 +1,11 @@
 package io.github.syakuis.oauth2.configuration;
 
-import java.util.Locale;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.MessageSourceAccessor;
+
+import java.util.Locale;
 
 @Configuration
 public class MessageSourceConfiguration {
