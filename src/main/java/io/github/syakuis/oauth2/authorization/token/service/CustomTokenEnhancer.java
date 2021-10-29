@@ -1,15 +1,14 @@
 package io.github.syakuis.oauth2.authorization.token.service;
 
 import io.github.syakuis.oauth2.authorization.token.model.OAuth2UserDetails;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Seok Kyun. Choi.
@@ -20,9 +19,6 @@ import java.util.Map;
 public class CustomTokenEnhancer implements TokenEnhancer {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-        log.debug("===>OAuth2AccessToken: {}", accessToken);
-        log.debug("===>OAuth2RefreshToken: {}", accessToken.getRefreshToken());
-        log.debug("===>OAuth2Authentication: {}", authentication);
         if (authentication.getPrincipal() instanceof OAuth2UserDetails) {
             OAuth2UserDetails oAuth2UserDetails = (OAuth2UserDetails) authentication.getPrincipal();
 
@@ -31,10 +27,9 @@ public class CustomTokenEnhancer implements TokenEnhancer {
             additionalInfo.put("uid", oAuth2UserDetails.getUid());
             additionalInfo.put("additionalInformation", oAuth2UserDetails.getAdditionalInformation());
 
-            DefaultOAuth2AccessToken auth2AccessToken = new DefaultOAuth2AccessToken(accessToken.getValue());
-            auth2AccessToken.setRefreshToken(accessToken.getRefreshToken());
+            ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
 
-            return auth2AccessToken;
+            return accessToken;
         }
         return accessToken;
     }
