@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.authorization.security;
+package io.github.syakuis.oauth2.authorization.security.endpoint;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
