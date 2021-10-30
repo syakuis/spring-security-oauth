@@ -1,6 +1,8 @@
 package io.github.syakuis.oauth2.authorization.security;
 
 import java.util.Arrays;
+
+import io.github.syakuis.oauth2.authorization.security.response.ImplicitEndpointHandlerInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -75,6 +77,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer, jwtAccessTokenConverter));
 
         endpoints
+            .addInterceptor(new ImplicitEndpointHandlerInterceptor(tokenStore))
             .tokenStore(tokenStore)
             .reuseRefreshTokens(true)
             .tokenEnhancer(tokenEnhancerChain)

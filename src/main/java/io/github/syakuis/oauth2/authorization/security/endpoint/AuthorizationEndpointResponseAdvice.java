@@ -9,10 +9,12 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.endpoint.AuthorizationEndpoint;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 /**
@@ -20,17 +22,17 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * @since 2021-10-29
  */
 @RestControllerAdvice
-public class TokenEndpointResponseAdvice implements ResponseBodyAdvice<OAuth2AccessToken> {
+public class AuthorizationEndpointResponseAdvice implements ResponseBodyAdvice<OAuth2AccessToken> {
     private final TokenStore tokenStore;
 
     @Autowired
-    public TokenEndpointResponseAdvice(TokenStore tokenStore) {
+    public AuthorizationEndpointResponseAdvice(TokenStore tokenStore) {
         this.tokenStore = tokenStore;
     }
 
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        return returnType.getContainingClass() == TokenEndpoint.class;
+        return returnType.getContainingClass() == AuthorizationEndpoint.class;
     }
 
     @Override

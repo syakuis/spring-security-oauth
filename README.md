@@ -22,6 +22,8 @@ spring security oauth server를 사용하여 인증 서버를 구축한 프로�
     - [x] client credentials : 클라언트 크리덴셜 인증
   - [x] 액세스 토큰 파괴 개발
   - 액세스 토큰에 JWT가 아닌 token_id 를 발급하고 token_id로 JWT로 교환할 수 있도록 한다.
+    - [ ] check_token, refresh_token, authorization
+    - [ ] all
     - [x] 인증 후 response body 수정하기
     - [ ] token_id 로 JWT 교환 구현
     - [ ] 테스트 작성
@@ -36,9 +38,23 @@ spring security oauth server를 사용하여 인증 서버를 구축한 프로�
 - [ ] 소캣 통신 - 인증 예제 작성
 - [ ] 개인적으로 사용하기 위한 액세스 토큰 생성 구현
 - [ ] 보안 ... csrf
----
-# 이슈들
+
+# 브레인 스토밍
 
 ## ClientDetailsService 구현체를 @Transactional 설정하면 업데이트가 발생한다.
 
-readOnly 속성으로 해결하긴 했지만, 어떻게 업데이트가 발생하는 것일까? 내부적인 코드를 확인해야 알 수 있을 것 같다. 
+readOnly 속성으로 해결하긴 했지만, 내부적으로 어떠한 변경이 발생하여 업데이트가 되는 지 확인할 것. reflection 에 의해 발생하는 것이 아닌가?
+나머지 find 서비스도 read only transaction 으로 설정할 것
+
+## jwt access token 을 임의의 값으로 대처하기
+값이 변경되더라도 spring security 비지니스 로직은 정상적으로 작동되게 하기위해서는 기존 클래스를 제어하는 것이 아닌 로직 영역이 아닌 곳에서 제어해야 한다.
+
+고려할 수 있는 것들 아래와 같고 가장 적합한 것으로 사용할 것. 
+
+- spring security oauth2 server filter
+- filter
+- interceptor
+- aop
+
+RestControllerAdvice 로 제어하기에는 한계가 있었다. 각 인증별 결과 타입이 다르고 예외 발생때 결과 타입 casting 오류가 발생되어 추가적이 코드가 발생된다.
+

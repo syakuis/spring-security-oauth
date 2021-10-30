@@ -114,6 +114,7 @@ class PasswordRestControllerTest {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
             )
+            .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.uid").isNotEmpty())
             .andExpect(jsonPath("$.name").isNotEmpty())
