@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.authorization.security;
+package io.github.syakuis.oauth2.authorization.security.endpoint;
 
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
