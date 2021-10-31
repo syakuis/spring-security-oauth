@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.authorization.security;
+package io.github.syakuis.oauth2.authorization.security.endpoint;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;

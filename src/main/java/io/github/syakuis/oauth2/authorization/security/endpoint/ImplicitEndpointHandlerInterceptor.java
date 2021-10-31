@@ -1,9 +1,8 @@
-package io.github.syakuis.oauth2.authorization.security.response;
+package io.github.syakuis.oauth2.authorization.security.endpoint;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.lang.Assert;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.apache.bcel.classfile.annotation.NameValuePair;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -17,14 +16,10 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author Seok Kyun. Choi.
@@ -33,9 +28,11 @@ import java.util.Objects;
 @Slf4j
 public class ImplicitEndpointHandlerInterceptor implements HandlerInterceptor {
     private final TokenStore tokenStore;
+    private final ObjectMapper objectMapper;
 
-    public ImplicitEndpointHandlerInterceptor(TokenStore tokenStore) {
+    public ImplicitEndpointHandlerInterceptor(TokenStore tokenStore, ObjectMapper objectMapper) {
         this.tokenStore = tokenStore;
+        this.objectMapper = objectMapper;
     }
 
     private boolean isPostHandle(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
@@ -46,24 +43,34 @@ public class ImplicitEndpointHandlerInterceptor implements HandlerInterceptor {
             ;
     }
 
-    private Map<String, String> splitQuery(URL url) throws UnsupportedEncodingException {
-        Map<String, String> query_pairs = new LinkedHashMap<String, String>();
-        String query = url.getQuery();
-        String[] pairs = query.split("&");
-        for (String pair : pairs) {
-            int idx = pair.indexOf("=");
-            query_pairs.put(URLDecoder.decode(pair.substring(0, idx), "UTF-8"), URLDecoder.decode(pair.substring(idx + 1), "UTF-8"));
+    private Map<String, String> toParameters(String url) {
+        String[] parameters = url.split("&");
+
+        Map<String, String> result = new LinkedHashMap<>();
+
+        for (String parameter : parameters) {
+            String name = parameter.replaceAll("(.*[#?])?([a-z0-9_]+)=([^=].*)", "$2");
+            String value = parameter.replaceAll("(.*[#?])?([a-z0-9_]+)=([^=].*)", "$3");
+            result.put(name, value);
         }
-        return query_pairs;
+
+        return result;
+    }
+
+    private String toQueryString(Map<String, String> parameters) {
+        return parameters.entrySet().stream().map(set -> set.getKey() + "=" + set.getValue())
+            .collect(Collectors.joining("&"));
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         if (isPostHandle(request, response, modelAndView)) {
             RedirectView redirectView = (RedirectView) modelAndView.getView();
-            Map<String, String> url = splitQuery(new URL(redirectView.getUrl()));
+            assert redirectView != null;
+            assert redirectView.getUrl() != null;
+            Map<String, String> parameter = toParameters(redirectView.getUrl());
             // body = jwt access_token
-            OAuth2Authentication authentication = tokenStore.readAuthentication(url.get("access_token"));
+            OAuth2Authentication authentication = tokenStore.readAuthentication(parameter.get("access_token"));
             OAuth2AccessToken token = tokenStore.getAccessToken(authentication);
 
             DefaultAuthenticationKeyGenerator defaultAuthenticationKeyGenerator = new DefaultAuthenticationKeyGenerator();
@@ -73,6 +80,10 @@ public class ImplicitEndpointHandlerInterceptor implements HandlerInterceptor {
             defaultOAuth2AccessToken.setAdditionalInformation(token.getAdditionalInformation());
             defaultOAuth2AccessToken.setExpiration(token.getExpiration());
             defaultOAuth2AccessToken.setTokenType(token.getTokenType());
+
+            Map<String, String> map = objectMapper.convertValue(defaultOAuth2AccessToken, Map.class);
+
+
 
             log.debug("{}", response);
             log.debug("{}", handler);
