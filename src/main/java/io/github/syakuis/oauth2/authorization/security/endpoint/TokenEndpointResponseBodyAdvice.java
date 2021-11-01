@@ -1,6 +1,5 @@
 package io.github.syakuis.oauth2.authorization.security.endpoint;
 
-import io.github.syakuis.oauth2.authorization.token.domain.JdbcOAuthAccessTokenMappingService;
 import io.jsonwebtoken.lang.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
@@ -25,12 +24,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 @RestControllerAdvice
 public class TokenEndpointResponseBodyAdvice implements ResponseBodyAdvice<OAuth2AccessToken> {
     private final TokenStore tokenStore;
-    private final JdbcOAuthAccessTokenMappingService jdbcOAuthAccessTokenMappingService;
 
     @Autowired
-    public TokenEndpointResponseBodyAdvice(TokenStore tokenStore, JdbcOAuthAccessTokenMappingService jdbcOAuthAccessTokenMappingService) {
+    public TokenEndpointResponseBodyAdvice(TokenStore tokenStore) {
         this.tokenStore = tokenStore;
-        this.jdbcOAuthAccessTokenMappingService = jdbcOAuthAccessTokenMappingService;
     }
 
     @Override

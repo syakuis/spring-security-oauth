@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -17,6 +18,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import java.util.Arrays;
 
@@ -35,6 +37,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     private final TokenStore tokenStore;
     private final TokenEnhancer tokenEnhancer;
     private final JwtAccessTokenConverter jwtAccessTokenConverter;
+    private final RedisTemplate redisTemplate;
 
     @Autowired
     public AuthorizationServerConfiguration(
@@ -43,18 +46,23 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         @Qualifier("defaultClientDetailsService") ClientDetailsService clientDetailsService,
         TokenStore tokenStore,
         @Qualifier("customTokenEnhancer") TokenEnhancer tokenEnhancer,
-        @Qualifier("jwtAccessTokenConverter") JwtAccessTokenConverter jwtAccessTokenConverter) {
+        @Qualifier("jwtAccessTokenConverter") JwtAccessTokenConverter jwtAccessTokenConverter,
+        RedisTemplate redisTemplate) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.clientDetailsService = clientDetailsService;
         this.tokenStore = tokenStore;
         this.tokenEnhancer = tokenEnhancer;
         this.jwtAccessTokenConverter = jwtAccessTokenConverter;
+        this.redisTemplate = redisTemplate;
     }
 
     @Bean
     @Primary
     public AuthorizationServerTokenServices tokenServices() {
+        if (!(tokenStore instanceof RedisTokenStore)) {
+            throw new IllegalArgumentException("redis token store 만 지원합니다.");
+        }
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setTokenStore(tokenStore);
         defaultTokenServices.setSupportRefreshToken(true);
@@ -78,7 +86,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
             .tokenEnhancer(tokenEnhancerChain)
             .authenticationManager(authenticationManager)
             .userDetailsService(userDetailsService)
-            .addInterceptor(new CheckTokenHandleInterceptor(tokenStore))
+            .addInterceptor(new CheckTokenHandleInterceptor(redisTemplate, tokenStore))
         ;
     }
 

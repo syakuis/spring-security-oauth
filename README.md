@@ -46,7 +46,7 @@ readOnly 속성으로 해결하긴 했지만, 내부적으로 어떠한 변경�
 
 ## 액세스 토큰을 jwt 값이 아닌 연결되는 id 값으로 대처
 
-인증 기능에서 응답시 jwt 값이 아닌 연결될 수 있는 id 값으로 대처해야한다. 비지니스 로직을 건들지 않고 응답 body의 access_token 값을 치환하는 것으로 해결 한다.
+인증 발급 기능에서 응답시 jwt 값이 아닌 연결될 수 있는 id 값으로 대처해야한다. 비지니스 로직을 건들지 않고 응답 body의 access_token 값을 치환하는 것으로 해결 한다.
 
 응답을 제어하기 위해 filter, interceptor, aop 를 고려해보았지만 authorization code는 여러 번의 클라이언트와 응답하기 때문에 그 과정에서 잘못된 캐치로 인해 오류가 발생하였다.
 분명한 원인은 확인되지 않았지만 authorization code 인증 방식에서 code 를 redirect 받고 다시 액세스 토큰을 교환하기 위해 요청시 오류가 발생된다.
@@ -54,7 +54,8 @@ readOnly 속성으로 해결하긴 했지만, 내부적으로 어떠한 변경�
 
 implicit 는 최종 응답 처리하는 클래스가 달라서 따로 구현해야한다. 현재 해당 인증 방식은 사용하지 않으므로 구현하지 않는 걸로한다.
 
-인증 검증 기능은 구
+인증 검증 기능에서 accessToken 을 구하기 위해 authorization 정보가 필요하다. 인증 발급 기능에서 받은 access_token 을 이용하여 조회가 가능하다.
+하지만 InMemory 방식은 private 자료를 사용하므로 조회할 수 없다. 하여 인증 발급 기능과 인증 검증은 Redis 만 구현하는 것으로 방향을 변경한다.
 
 jdbc
 authentication_id = authenticationKeyGenerator.extractKey(OAuth2Authorization)
