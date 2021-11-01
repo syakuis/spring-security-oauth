@@ -11,7 +11,7 @@ spring security oauth server를 사용하여 인증 서버를 구축한 프로�
 
 - [x] 인프라 환경 도커로 설정 구성
 - [x] 인증 서버 시큐리티 설정 구성
-  - [ ] 액세스 토큰 - JWT Payload 변경 구현
+  - [x] 액세스 토큰 - JWT Payload 변경 구현
   - 액세스 토큰 저장소 설정 구현
     - [x] jdbc
     - [x] redis
@@ -21,11 +21,8 @@ spring security oauth server를 사용하여 인증 서버를 구축한 프로�
     - [x] password : 암호 인증
     - [x] client credentials : 클라언트 크리덴셜 인증
   - [x] 액세스 토큰 파괴 개발
-  - 액세스 토큰을 jwt 값이 아닌 연결되는 id 값으로 대처
-    - [ ] 인증 검증 기능 구현 : check_token, refresh_token, authorization
-    - [ ] 인증 기능 구현 : password, authorization code, client credentials
-    - [ ] 테스트 작성
-- [ ] 리소스 서버 설정 구성
+  - 액세스 토큰을 jwt 값이 아닌 연결되는 id 값으로 대처 - 브래인스토밍 결과에 의해 구현하지 않음.
+- 리소스 서버 설정 구성
   - [x] 액세스 토큰 원격 Opaque Token 검증 구현
   - [x] 액세스 토큰 로컬 JwkSet 검증 구현
   - [x] 액세스 토큰 로컬 public key 검증 구현
@@ -45,6 +42,16 @@ readOnly 속성으로 해결하긴 했지만, 내부적으로 어떠한 변경�
 나머지 find 서비스도 read only transaction 으로 설정할 것
 
 ## 액세스 토큰을 jwt 값이 아닌 연결되는 id 값으로 대처
+
+### 2차 수정안
+
+인증 검증 CheckTokenEndpoint 구현체를  그대로 새로 만들어서 해결 함.
+refresh_token 을 얻기 위해 TokenEndpoint 변경이 필요함.
+너무 많은 부분을 수정해야 하는 작업으로 의도한 것과 다르게 가는 것 같아 중단한다.
+
+oauth server 를 위한 spring gateway 에서 구현하는 것이 더 효율적일 것 같다. 스프링 시큐리티 본연의 기능을 유지하고 외부에서 처리하는 방향으로 한다. 
+
+### 1차 수정안
 
 인증 발급 기능에서 응답시 jwt 값이 아닌 연결될 수 있는 id 값으로 대처해야한다. 비지니스 로직을 건들지 않고 응답 body의 access_token 값을 치환하는 것으로 해결 한다.
 

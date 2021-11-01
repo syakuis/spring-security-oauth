@@ -85,6 +85,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
         endpoints
             .pathMapping("/oauth/check_token", "/oauth2/v1/token/check")
+//            .pathMapping("/oauth/token", "/oauth2/v1/token")
             .tokenStore(tokenStore)
             .reuseRefreshTokens(true)
             .tokenEnhancer(tokenEnhancerChain)
