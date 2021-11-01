@@ -63,7 +63,7 @@ class CheckTokenRestControllerTest {
     void check() throws Exception {
         Map<String, Object> token = accessTokenService.obtain();
 
-        this.mvc.perform(post("/oauth/check_token")
+        this.mvc.perform(post("/oauth2/v1/token/check")
                 .param("token", accessTokenService.accessToken(token))
                 .with(httpBasic(clientId, clientSecret))
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
