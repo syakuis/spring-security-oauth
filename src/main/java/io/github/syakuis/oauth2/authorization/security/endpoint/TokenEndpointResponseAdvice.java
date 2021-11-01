@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * @author Seok Kyun. Choi.
  * @since 2021-10-29
  */
-@RestControllerAdvice
+//@RestControllerAdvice
 public class TokenEndpointResponseAdvice implements ResponseBodyAdvice<OAuth2AccessToken> {
     private final TokenStore tokenStore;
 

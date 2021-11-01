@@ -77,7 +77,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer, jwtAccessTokenConverter));
 
         endpoints
-            .addInterceptor(new ImplicitEndpointHandlerInterceptor(tokenStore))
+//            .addInterceptor(new ImplicitEndpointHandlerInterceptor(tokenStore))
             .tokenStore(tokenStore)
             .reuseRefreshTokens(true)
             .tokenEnhancer(tokenEnhancerChain)
