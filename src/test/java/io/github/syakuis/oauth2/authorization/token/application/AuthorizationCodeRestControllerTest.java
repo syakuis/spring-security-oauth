@@ -1,8 +1,20 @@
 package io.github.syakuis.oauth2.authorization.token.application;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_CLASS;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.nimbusds.oauth2.sdk.GrantType;
 import io.github.syakuis.oauth2.authorization.token.model.OAuth2UserDetails;
 import io.github.syakuis.oauth2.configuration.TestProperties;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,16 +29,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.util.Assert;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_CLASS;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * @author Seok Kyun. Choi.

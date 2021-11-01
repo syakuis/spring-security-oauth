@@ -1,19 +1,23 @@
 package io.github.syakuis.oauth2.authorization.security;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.Key;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.*;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 
 /**
  * @author Seok Kyun. Choi.

@@ -1,9 +1,8 @@
 package io.github.syakuis.oauth2.clientregistration.domain;
 
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 /**
  * @author Seok Kyun. Choi.
