@@ -1,8 +1,6 @@
 package io.github.syakuis.oauth2.authorization.security;
 
-import java.util.Arrays;
-
-import io.github.syakuis.oauth2.authorization.security.endpoint.ImplicitEndpointHandlerInterceptor;
+import io.github.syakuis.oauth2.authorization.security.endpoint.CheckTokenHandleInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,12 +15,10 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
-import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
-import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+
+import java.util.Arrays;
 
 /**
  * @author Seok Kyun. Choi.
@@ -77,12 +73,12 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer, jwtAccessTokenConverter));
 
         endpoints
-//            .addInterceptor(new ImplicitEndpointHandlerInterceptor(tokenStore))
             .tokenStore(tokenStore)
             .reuseRefreshTokens(true)
             .tokenEnhancer(tokenEnhancerChain)
             .authenticationManager(authenticationManager)
             .userDetailsService(userDetailsService)
+            .addInterceptor(new CheckTokenHandleInterceptor(tokenStore))
         ;
     }
 

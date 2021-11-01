@@ -1,6 +1,5 @@
 package io.github.syakuis.oauth2.authorization.token.application;
 
-import com.nimbusds.oauth2.sdk.GrantType;
 import io.github.syakuis.oauth2.configuration.TestProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +10,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Map;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -21,48 +23,58 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * @author Seok Kyun. Choi.
- * @since 2021-09-14
- * @see org.springframework.security.oauth2.provider.endpoint.TokenEndpoint
+ * @since 2021-11-01
  */
 @Slf4j
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class PasswordRestControllerTest {
+//@WireMockTest
+class CheckTokenRestControllerTest {
     @Autowired
     private MockMvc mvc;
 
     @Autowired
     private TestProperties props;
 
-    private String username;
-    private String password;
+    @Autowired
+    private WebTestClient webTestClient;
+
+    private AccessTokenService accessTokenService;
+
     private String clientId;
     private String clientSecret;
 
     @BeforeEach
     void init() {
-        username = props.getUsername();
-        password = props.getPassword();
+        String username = props.getUsername();
+        String password = props.getPassword();
         clientId = props.getClientId();
         clientSecret = props.getClientSecret();
+
+        accessTokenService = AccessTokenService.builder()
+            .webTestClient(webTestClient)
+            .clientId(clientId)
+            .clientSecret(clientSecret)
+            .username(username)
+            .password(password)
+            .build();
     }
 
     @Test
-    void accessToken() throws Exception {
-        mvc.perform(post("/oauth/token")
-                .param("grant_type", GrantType.PASSWORD.getValue())
-                .param("username", username)
-                .param("password", password)
+    void check() throws Exception {
+        Map<String, Object> token = accessTokenService.obtain();
+
+        this.mvc.perform(post("/oauth/check_token")
+                .param("token", accessTokenService.accessToken(token))
                 .with(httpBasic(clientId, clientSecret))
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
             )
+            .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.access_token").isNotEmpty())
             .andExpect(jsonPath("$.uid").isNotEmpty())
             .andExpect(jsonPath("$.name").isNotEmpty())
-            .andDo(print())
         ;
     }
 }
