@@ -1,5 +1,7 @@
 package io.github.syakuis.oauth2.authorization.security.endpoint;
 
+import io.github.syakuis.oauth2.authorization.token.domain.JdbcOAuthAccessTokenMappingService;
+import io.jsonwebtoken.lang.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -17,15 +19,18 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 /**
  * @author Seok Kyun. Choi.
+ * @see TokenEndpoint
  * @since 2021-10-29
  */
-//@RestControllerAdvice
-public class TokenEndpointResponseAdvice implements ResponseBodyAdvice<OAuth2AccessToken> {
+@RestControllerAdvice
+public class TokenEndpointResponseBodyAdvice implements ResponseBodyAdvice<OAuth2AccessToken> {
     private final TokenStore tokenStore;
+    private final JdbcOAuthAccessTokenMappingService jdbcOAuthAccessTokenMappingService;
 
     @Autowired
-    public TokenEndpointResponseAdvice(TokenStore tokenStore) {
+    public TokenEndpointResponseBodyAdvice(TokenStore tokenStore, JdbcOAuthAccessTokenMappingService jdbcOAuthAccessTokenMappingService) {
         this.tokenStore = tokenStore;
+        this.jdbcOAuthAccessTokenMappingService = jdbcOAuthAccessTokenMappingService;
     }
 
     @Override
@@ -35,17 +40,15 @@ public class TokenEndpointResponseAdvice implements ResponseBodyAdvice<OAuth2Acc
 
     @Override
     public OAuth2AccessToken beforeBodyWrite(OAuth2AccessToken body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-            // body = jwt access_token
-            OAuth2Authentication authentication = tokenStore.readAuthentication(body.getValue());
-
-            DefaultAuthenticationKeyGenerator defaultAuthenticationKeyGenerator = new DefaultAuthenticationKeyGenerator();
-            // token_id
-            String accessToken = defaultAuthenticationKeyGenerator.extractKey(authentication);
-            DefaultOAuth2AccessToken defaultOAuth2AccessToken = new DefaultOAuth2AccessToken(accessToken);
-            defaultOAuth2AccessToken.setAdditionalInformation(body.getAdditionalInformation());
-            defaultOAuth2AccessToken.setExpiration(body.getExpiration());
-            defaultOAuth2AccessToken.setTokenType(body.getTokenType());
-
-            return defaultOAuth2AccessToken;
+        Assert.notNull(body);
+        OAuth2Authentication authentication = tokenStore.readAuthentication(body.getValue());
+        DefaultAuthenticationKeyGenerator defaultAuthenticationKeyGenerator = new DefaultAuthenticationKeyGenerator();
+        String accessToken = defaultAuthenticationKeyGenerator.extractKey(authentication);
+        DefaultOAuth2AccessToken defaultOAuth2AccessToken = new DefaultOAuth2AccessToken(accessToken);
+        defaultOAuth2AccessToken.setAdditionalInformation(body.getAdditionalInformation());
+        defaultOAuth2AccessToken.setExpiration(body.getExpiration());
+        defaultOAuth2AccessToken.setTokenType(body.getTokenType());
+        defaultOAuth2AccessToken.setScope(body.getScope());
+        return defaultOAuth2AccessToken;
     }
 }
