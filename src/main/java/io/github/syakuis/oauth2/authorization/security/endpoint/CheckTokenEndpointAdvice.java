@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
  * @since 2021-10-29
  */
 @Slf4j
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class CheckTokenEndpointAdvice {
     private final TokenStore tokenStore;
 

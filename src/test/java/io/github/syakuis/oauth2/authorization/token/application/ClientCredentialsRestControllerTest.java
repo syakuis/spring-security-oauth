@@ -48,7 +48,6 @@ class ClientCredentialsRestControllerTest {
                 .with(httpBasic(clientId, clientSecret))
             )
             .andExpect(status().isOk())
-            .andExpect(status().isOk())
             .andExpect(jsonPath("$.access_token").isNotEmpty())
             .andExpect(jsonPath("$.uid").doesNotExist())
             .andExpect(jsonPath("$.name").doesNotExist())
