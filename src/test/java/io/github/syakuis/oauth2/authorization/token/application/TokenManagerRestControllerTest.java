@@ -1,12 +1,12 @@
 package io.github.syakuis.oauth2.authorization.token.application;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import io.github.syakuis.oauth2.configuration.TestProperties;
+import io.github.syakuis.oauth2.configuration.WireMockTest;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,20 +15,25 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
  * @author Seok Kyun. Choi.
- * @since 2021-11-01
+ * @since 2021-09-14
+ * @see org.springframework.security.oauth2.provider.endpoint.TokenEndpoint
  */
 @Slf4j
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class CheckTokenRestControllerTest {
+@WireMockTest
+class TokenManagerRestControllerTest {
     @Autowired
     private MockMvc mvc;
 
@@ -40,15 +45,12 @@ class CheckTokenRestControllerTest {
 
     private AccessTokenService accessTokenService;
 
-    private String clientId;
-    private String clientSecret;
-
     @BeforeEach
     void init() {
         String username = props.getUsername();
         String password = props.getPassword();
-        clientId = props.getClientId();
-        clientSecret = props.getClientSecret();
+        String clientId = props.getClientId();
+        String clientSecret = props.getClientSecret();
 
         accessTokenService = AccessTokenService.builder()
             .webTestClient(webTestClient)
@@ -60,19 +62,24 @@ class CheckTokenRestControllerTest {
     }
 
     @Test
-    void check() throws Exception {
+    @WithMockUser
+    void revoke() throws Exception {
         Map<String, Object> token = accessTokenService.obtain();
 
-        this.mvc.perform(post("/oauth/check_token")
-                .param("token", accessTokenService.accessToken(token))
-                .with(httpBasic(clientId, clientSecret))
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-            )
-            .andDo(print())
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(accessTokenService.accessToken(token));
+
+        mvc.perform(delete("/oauth2/v1/token").headers(headers))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.uid").isNotEmpty())
-            .andExpect(jsonPath("$.name").isNotEmpty())
+        ;
+
+    }
+
+    @Test
+    void keys() throws Exception {
+        mvc.perform(get("/oauth2/v1/token/keys").accept(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(status().isOk())
+            .andDo(print())
         ;
     }
 }

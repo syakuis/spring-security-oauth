@@ -1,5 +1,7 @@
 package io.github.syakuis.oauth2.configuration;
 
+import java.util.Arrays;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,9 +31,6 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Seok Kyun. Choi.
@@ -103,7 +102,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 authorize -> authorize
                     .requestMatchers(
                         new AntPathRequestMatcher("/oauth2/v1/token/keys", HttpMethod.GET.name()),
-                        new AntPathRequestMatcher("/oauth2/v1/token", HttpMethod.POST.name()),
                         new AntPathRequestMatcher("/oauth/authorize", HttpMethod.POST.name())
                     )
                     .permitAll()
