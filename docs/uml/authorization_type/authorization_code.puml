@@ -1,0 +1,35 @@
+@startuml
+skinparam shadowing false
+title Authorization Code Grant Type
+actor "Resource Owner" as user
+participant "Client Application" as fb
+participant "Authorization Server" as auth
+
+user -> fb: Login Start
+fb -> auth: Login request (페이지 전환, 새창, 팝업, 웹뷰)
+note right
+POST /oauth/authorize?response_type=code&client_id=xxxx&scope=read&rediect_uri=http://client-host
+end note
+alt 인증 서버 영역
+auth -> auth
+note right
+forward:/oauth/confirm_access
+end note
+user <-- auth: 이용 약관 및 사용 허용 여부 페이지 제공
+user -> auth: 사용 허용
+note right
+POST /oauth/authorize?user_oauth_approval=true&scope.read=true
+end note
+end alt
+fb <-- auth: 임시코드 발급
+note right
+rediect:http://client-host?code=xxxx
+end note
+fb -> auth: AccessToken request
+note right
+POST /oauth/token?grant_type=authorization_code&code=xxxx&redirect_uri=http://client-host
+Authorization: Basic ClientId ClientSecret
+end note
+fb <-- auth: AccessToken response
+user <-- fb: Login End
+@enduml
