@@ -1,11 +1,13 @@
-logging:
-  level:
-    org.springframework.security: trace
+server:
+  port: -1
+  servlet:
+    encoding:
+      force-response: true
 spring:
   jpa:
     hibernate:
       ddl-auto: create
-    properties:
-      hibernate:
-        hbm2ddl:
-          import_files: schema/import-h2.sql
+#    properties:
+#      hibernate:
+#        hbm2ddl:
+#          import_files: schema/import-h2.sql
