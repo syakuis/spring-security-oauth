@@ -1,0 +1,1 @@
+insert into account (id, blocked, deleted, disabled, name, password, registered_on, uid, updated_on, username) values (null, false, false, false, '테스터', '{bcrypt}$2a$10$yJXxcUlmkIL3mLluQ9U2LetWtT9ORLsImZDP3/lQmDHIdBrRK63Ie', CURRENT_TIMESTAMP(), replace(RANDOM_UUID(), '-', ''), null, 'test');
