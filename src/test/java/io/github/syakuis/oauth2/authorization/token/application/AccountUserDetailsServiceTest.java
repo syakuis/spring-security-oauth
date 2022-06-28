@@ -22,7 +22,7 @@ class AccountUserDetailsServiceTest {
     private TestProperties props;
 
     @Autowired
-    private AccountUserDetailsService accountUserDetailsService;
+    private DefaultUserDetailsService accountUserDetailsService;
 
     @Test
     void loadUserByUsername() {

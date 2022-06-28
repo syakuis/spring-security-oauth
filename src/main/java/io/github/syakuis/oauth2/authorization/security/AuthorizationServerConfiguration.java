@@ -41,7 +41,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Autowired
     public AuthorizationServerConfiguration(
         AuthenticationManager authenticationManager,
-        @Qualifier("accountUserDetailsService") UserDetailsService userDetailsService,
+        @Qualifier("defaultUserDetailsService") UserDetailsService userDetailsService,
         @Qualifier("defaultClientDetailsService") ClientDetailsService clientDetailsService,
         TokenStore tokenStore,
         @Qualifier("customTokenEnhancer") TokenEnhancer tokenEnhancer,

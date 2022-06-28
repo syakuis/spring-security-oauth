@@ -1,8 +1,8 @@
 package io.github.syakuis.oauth2.account.domain;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.UUID;
+import java.util.function.UnaryOperator;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,41 +15,47 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
+import org.springframework.util.StringUtils;
 
 /**
  * @author Seok Kyun. Choi.
- * @since 2021-10-09
+ * @since 2021-05-21
  */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(of = "id")
 @Getter
 @ToString
 @Entity
 @Table(
     name = "account",
     indexes = {
-        @Index(name = "IDX_account_uid_and_deleted", columnList = "uid, deleted"),
-        @Index(name = "IDX_account_username_and_deleted", columnList = "username, deleted"),
-        @Index(name = "IDX_account_deleted", columnList = "deleted")
+        @Index(name = "IDX_account_uid_and_deleted_1", columnList = "uid, deleted"),
+        @Index(name = "IDX_account_username_and_deleted_1", columnList = "username, deleted"),
+        @Index(name = "IDX_account_disabled_and_deleted_1", columnList = "disabled, deleted"),
+        @Index(name = "IDX_account_blocked_and_deleted_1", columnList = "blocked, deleted"),
+        @Index(name = "IDX_account_deleted_1", columnList = "deleted")
     },
     uniqueConstraints = {
-        @UniqueConstraint(name = "UK_account_uid", columnNames = "uid"),
-        @UniqueConstraint(name = "UK_account_username", columnNames = "username")
+        @UniqueConstraint(name = "UK_account_uid_1", columnNames = "uid"),
+        @UniqueConstraint(name = "UK_account_username_1", columnNames = "username")
     }
 )
-@SQLDelete(sql =
-    "UPDATE account " +
-        "SET deleted = true " +
-        "WHERE id = ?")
+@SQLDelete(sql = """
+    UPDATE account
+        SET deleted = true
+        WHERE id = ?
+    """)
 @Where(clause = "deleted = false")
-public class AccountEntity implements Account {
+public class AccountEntity implements Account, AccountPassword {
+
     @Id
     @GeneratedValue
     private Long id;
@@ -62,22 +68,19 @@ public class AccountEntity implements Account {
     @Column(nullable = false, length = 45)
     private String name;
 
-    @Column(nullable = false, updatable = false, length = 16, columnDefinition = "binary(16)")
-    private UUID uid;
-
     @NotBlank
     @Column(nullable = false, length = 150)
     private String password;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(nullable = false, columnDefinition = "bit", length = 1)
     @Type(type = "org.hibernate.type.NumericBooleanType")
-    private Boolean disabled;
+    private boolean disabled;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(nullable = false, columnDefinition = "bit", length = 1)
     @Type(type = "org.hibernate.type.NumericBooleanType")
-    private Boolean blocked;
+    private boolean blocked;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(nullable = false, columnDefinition = "bit", length = 1)
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean deleted;
 
@@ -85,17 +88,11 @@ public class AccountEntity implements Account {
     @Column(nullable = false, updatable = false, length = 6)
     private LocalDateTime registeredOn;
 
-    @Column(insertable = false, length = 6)
+    @Column(length = 6)
     private LocalDateTime updatedOn;
 
-    @Builder
-    public AccountEntity(String username, String name, String password, Boolean disabled, Boolean blocked) {
-        this.username = username;
-        this.name = name;
-        this.password = password;
-        this.disabled = disabled;
-        this.blocked = blocked;
-    }
+    @Column(nullable = false, updatable = false, length = 16, columnDefinition = "binary(16)")
+    private UUID uid;
 
     @PrePersist
     public void prePersist() {
@@ -107,20 +104,33 @@ public class AccountEntity implements Account {
         this.updatedOn = LocalDateTime.now();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
-            return false;
-        }
-        AccountEntity that = (AccountEntity) o;
-        return Objects.equals(id, that.id);
+    @Builder
+    public AccountEntity(@NotBlank String username,
+        @NotBlank String name, @NotBlank String password, boolean disabled, boolean blocked) {
+        this.username = username;
+        this.name = name;
+        this.password = password;
+        this.disabled = disabled;
+        this.blocked = blocked;
     }
 
-    @Override
-    public int hashCode() {
-        return 0;
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
+    public void updatePassword(String password, UnaryOperator<String> passwordEncoder) {
+        if (StringUtils.hasText(password)) {
+            this.password = passwordEncoder.apply(password);
+        }
+    }
+
+    public void updateProfile(AccountEntity accountEntity) {
+        this.name = accountEntity.getName();
+    }
+
+    public void update(AccountEntity accountEntity) {
+        this.name = accountEntity.getName();
+        this.disabled = accountEntity.isDisabled();
+        this.blocked = accountEntity.isBlocked();
     }
 }
