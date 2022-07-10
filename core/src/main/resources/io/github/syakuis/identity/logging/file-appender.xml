@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+    <springProperty name="LOG_FILE" source="logging.file.name" />
+    <springProperty name="LOG_PATH" source="logging.file.path" />
+    <springProperty name="LOGBACK_ROLLINGPOLICY_CLEAN_HISTORY_ON_START" source="logging.logback.rollingpolicy.clean-history-on-start" defaultValue="false" />
+    <springProperty name="LOGBACK_ROLLINGPOLICY_MAX_FILE_SIZE" source="logging.logback.rollingpolicy.max-file-size" defaultValue="10MB" />
+    <springProperty name="LOGBACK_ROLLINGPOLICY_TOTAL_SIZE_CAP" source="logging.logback.rollingpolicy.total-size-cap" defaultValue="20GB" />
+    <springProperty name="LOGBACK_ROLLINGPOLICY_MAX_HISTORY" source="logging.logback.rollingpolicy.max-history" defaultValue="0" />
+
+    <appender name="FILE_APPENDER"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <file>${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}/${LOG_FILE}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/archives/${LOG_FILE}.%d{yyyy-MM-dd_HH}.%i.gz</fileNamePattern>
+            <cleanHistoryOnStart>${LOGBACK_ROLLINGPOLICY_CLEAN_HISTORY_ON_START}</cleanHistoryOnStart>
+            <maxFileSize>${LOGBACK_ROLLINGPOLICY_MAX_FILE_SIZE}</maxFileSize>
+            <totalSizeCap>${LOGBACK_ROLLINGPOLICY_TOTAL_SIZE_CAP}</totalSizeCap>
+            <maxHistory>${LOGBACK_ROLLINGPOLICY_MAX_HISTORY}</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="FILE_APPENDER" />
+    </root>
+</included>

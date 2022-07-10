@@ -1,2 +1,6 @@
 rootProject.name = 'spring-security-oauth'
+include 'account'
+include 'core'
+include 'identity-authorization'
+include 'identity-client'
 
