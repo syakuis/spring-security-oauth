@@ -1,5 +1,4 @@
 application-default.yml
-docker/
 
 *~
 .DS_Store

@@ -1,0 +1,15 @@
+### 가입
+POST http://localhost:8080/v1/accounts/signup
+Content-Type: application/json
+
+{
+  "username": "test",
+  "name": "테스트",
+  "password": "1234"
+}
+
+### 사용자 이름(아이디) 사용여부
+GET http://localhost:8080/v1/accounts/duplicate-username?username=test
+
+### 사용자 조회 (본인)
+GET http://localhost:8080/v1/accounts/profile
