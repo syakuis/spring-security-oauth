@@ -1,4 +1,4 @@
-package io.github.syakuis.identity.client.support;
+package io.github.syakuis.identity.clientregistration.support;
 
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
@@ -16,13 +16,13 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.Secret
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ClientKeyGenerator {
-    public static String clientId() {
+    public static synchronized String clientId() {
         Pbkdf2PasswordEncoder pbkdf2PasswordEncoder = new Pbkdf2PasswordEncoder();
         pbkdf2PasswordEncoder.setAlgorithm(SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA1);
         return pbkdf2PasswordEncoder.encode(UUID.randomUUID().toString());
     }
 
-    public static String clientSecret() {
+    public static synchronized String clientSecret() {
         char[] possibleCharacters = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?")
             .toCharArray();
         return Base64.getEncoder().encodeToString(RandomStringUtils

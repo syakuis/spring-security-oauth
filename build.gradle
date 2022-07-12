@@ -12,7 +12,8 @@ buildscript {
         lombokMapstructVersion = '0.2.0'
         querydslVersion = '5.0.0'
         springSecurityOAuth2Version = "2.3.8.RELEASE"
-        h2Version = '2.1.212'
+//        h2Version = '2.1.212'
+        h2Version = '1.4.200'
     }
 
     repositories {
