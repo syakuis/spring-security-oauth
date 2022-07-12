@@ -1,0 +1,54 @@
+logging:
+  file:
+    name: client-registration.log
+    path:
+  logback:
+    rollingpolicy:
+      clean-history-on-start: false
+      max-file-size: 10MB
+      total-size-cap: 20GB
+      max-history: 30
+  level:
+    root: info
+    io.github.syakuis.identity: trace
+    org.springframework.web: debug
+    org.hibernate.SQL: trace
+    org.hibernate.type.descriptor.sql: trace
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.hibernate.type.descriptor.sql.BasicExtractor: off
+server:
+  port: 8081
+  forward-headers-strategy: native
+spring:
+  application:
+    name: client-registration
+  main:
+    banner-mode: console
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/client_registration?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: identity
+    password: 1234
+    initialization-mode: never
+    hikari:
+      max-lifetime: 600000
+      data-source-properties:
+        rewriteBatchedStatements: true
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    hibernate:
+      use-new-id-generator-mappings: false
+      ddl-auto: validate
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: true
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+  mvc:
+    log-request-details: false

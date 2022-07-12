@@ -1,14 +1,13 @@
-package io.github.syakuis.identity.client.domain;
+package io.github.syakuis.identity.clientregistration.domain;
 
-import io.github.syakuis.identity.configuration.converter.GrantedAuthorityToStringConverter;
-import io.github.syakuis.identity.configuration.converter.JsonToStringConverter;
-import io.github.syakuis.identity.configuration.converter.ListToStringConverter;
-import io.github.syakuis.identity.configuration.converter.SetToStringConverter;
+import io.github.syakuis.identity.core.jpa.converter.GrantedAuthorityToStringConverter;
+import io.github.syakuis.identity.core.jpa.converter.JsonToStringConverter;
+import io.github.syakuis.identity.core.jpa.converter.ListToStringConverter;
+import io.github.syakuis.identity.core.jpa.converter.SetToStringConverter;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.UnaryOperator;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -37,7 +36,7 @@ import org.springframework.security.core.GrantedAuthority;
 @Table(
     name = "client_registration",
     uniqueConstraints = {
-        @UniqueConstraint(name = "UK_client_registration_client_id", columnNames = "clientId")
+        @UniqueConstraint(columnNames = "clientId")
     }
 )
 public class ClientRegistrationEntity implements ClientRegistration {
@@ -60,7 +59,7 @@ public class ClientRegistrationEntity implements ClientRegistration {
     @Convert(converter = ListToStringConverter.class)
     private List<String> scopes;
 
-    @Column
+    @Column(nullable = false)
     @Convert(converter = ListToStringConverter.class)
     private List<String> authorizedGrantTypes;
 
@@ -90,11 +89,14 @@ public class ClientRegistrationEntity implements ClientRegistration {
     @Column(nullable = false, updatable = false, length = 6)
     private LocalDateTime registeredOn;
 
-    @Column(insertable = false, length = 6)
+    @Column(nullable = false)
+    private String registeredBy;
+
+    @Column(length = 6)
     private LocalDateTime updatedOn;
 
     @Builder
-    public ClientRegistrationEntity(String clientId, String clientSecret, List<String> resourceIds, List<String> scopes, List<String> authorizedGrantTypes, Set<String> webServerRedirectUri, List<GrantedAuthority> authorities, Integer accessTokenValidity, Integer refreshTokenValidity, String additionalInformation, Set<String> autoApprove) {
+    public ClientRegistrationEntity(String clientId, String clientSecret, List<String> resourceIds, List<String> scopes, List<String> authorizedGrantTypes, Set<String> webServerRedirectUri, List<GrantedAuthority> authorities, Integer accessTokenValidity, Integer refreshTokenValidity, String additionalInformation, Set<String> autoApprove, String registeredBy) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.resourceIds = resourceIds;
@@ -106,15 +108,12 @@ public class ClientRegistrationEntity implements ClientRegistration {
         this.refreshTokenValidity = refreshTokenValidity;
         this.additionalInformation = additionalInformation;
         this.autoApprove = autoApprove;
+        this.registeredBy = registeredBy;
     }
 
     @PreUpdate
     public void preUpdate() {
         this.updatedOn = LocalDateTime.now();
-    }
-
-    public void updateClientSecret(UnaryOperator<String> passwordEncoder, String clientSecret) {
-        this.clientSecret = passwordEncoder.apply(clientSecret);
     }
 
     @Override
@@ -126,11 +125,11 @@ public class ClientRegistrationEntity implements ClientRegistration {
             return false;
         }
         ClientRegistrationEntity that = (ClientRegistrationEntity) o;
-        return Objects.equals(clientId, that.clientId);
+        return id != null && Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        return getClass().hashCode();
     }
 }

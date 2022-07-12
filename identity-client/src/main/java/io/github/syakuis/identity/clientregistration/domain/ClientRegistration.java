@@ -1,4 +1,4 @@
-package io.github.syakuis.identity.client.domain;
+package io.github.syakuis.identity.clientregistration.domain;
 
 /**
  * @author Seok Kyun. Choi.
@@ -30,6 +30,8 @@ public interface ClientRegistration {
     java.util.Set<String> getAutoApprove();
 
     java.time.LocalDateTime getRegisteredOn();
+
+    String getRegisteredBy();
 
     java.time.LocalDateTime getUpdatedOn();
 }
