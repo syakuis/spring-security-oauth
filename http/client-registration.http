@@ -1,0 +1,18 @@
+### 애플리케이션 등록
+POST http://localhost:8081/client-registrations
+Content-Type: application/json
+
+{
+  "resourceIds" : null,
+  "scopes" : [ "read" ],
+  "authorizedGrantTypes" : [ "password" ],
+  "webServerRedirectUri" : null,
+  "authorities" : null,
+  "accessTokenValidity" : 1000,
+  "refreshTokenValidity" : 2000,
+  "additionalInformation" : null,
+  "autoApprove" : null
+}
+
+### 애플리케이션 제거
+DELETE http://localhost:8081/client-registrations/bb4fd4dfcfa3d4112106046f0baab8de68d9bdf078b9ef075a6a1a4692997239aa80f6ae9446bf1b

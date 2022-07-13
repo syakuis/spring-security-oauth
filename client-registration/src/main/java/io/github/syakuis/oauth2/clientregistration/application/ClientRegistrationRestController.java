@@ -33,7 +33,7 @@ class ClientRegistrationRestController {
     // todo 토큰 유효기간을 0으로 설정할 수 없도록 강제할 것. 초단위
     @PostMapping
     ResponseEntity<ClientRegistration> register(@Valid @RequestBody ClientRegistrationRequestBody.Register register) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(clientRegistrationService.register(register));
+        return ResponseEntity.status(HttpStatus.CREATED).body(clientRegistrationService.register(register, "tester"));
     }
 
     @PutMapping(path = "/{clientId}")

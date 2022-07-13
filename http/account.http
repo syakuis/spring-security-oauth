@@ -1,5 +1,5 @@
 ### 가입
-POST http://localhost:8080/v1/accounts/signup
+POST http://localhost:8080/accounts/signup
 Content-Type: application/json
 
 {

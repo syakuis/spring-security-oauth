@@ -15,8 +15,7 @@ import org.mapstruct.factory.Mappers;
 public interface ClientRegistrationMapper {
     ClientRegistrationMapper INSTANCE = Mappers.getMapper(ClientRegistrationMapper.class);
 
-    @Mapping(target = "registeredBy", ignore = true)
-    ClientRegistrationEntity register(String clientId, String clientSecret, Register register);
+    ClientRegistrationEntity register(String clientId, String clientSecret, String registeredBy, Register register);
 
     @Mapping(target = "clientSecret", ignore = true)
     @Mapping(target = "clientId", ignore = true)

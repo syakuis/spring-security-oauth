@@ -1,54 +1,37 @@
-package io.github.syakuis.oauth2.clientregistration.application;
+### Sample Code
 
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+```java
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.syakuis.oauth2.clientregistration.application.restdocs.ClientRegistrationField;
-import io.github.syakuis.oauth2.clientregistration.domain.ClientRegistrationDto;
-import io.github.syakuis.oauth2.clientregistration.support.ClientKeyGenerator;
-import io.github.syakuis.oauth2.configuration.BasicBeanConfiguration;
-import io.github.syakuis.oauth2.configuration.SecurityConfiguration;
-import io.github.syakuis.oauth2.restdocs.AutoConfigureMvcRestDocs;
-import io.github.syakuis.oauth2.restdocs.RestDocsFieldHandler;
-import java.time.LocalDateTime;
-import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.test.web.servlet.MockMvc;
+@Getter
+public enum ClientRegistrationField implements FieldSpec {
+    id("번호", false),
+    clientId("클라이언트 ID", false),
+    clientSecret("클라이언트 비밀키", false),
+    resourceIds("자원 ID", false),
+    scopes("공개 범위", false),
+    authorizedGrantTypes("인증방식", true),
+    webServerRedirectUri("인증 후 Redirect 주소", true),
+    authorities("허가된 권한", true),
+    accessTokenValidity("액세스 토크 유효 시간", false),
+    refreshTokenValidity("재생성 액세스 토큰 유효 시간", false),
+    additionalInformation("그외 추가 정보", false),
+    autoApprove("autoApprove", false),
+    registeredOn("등록일", false),
+    registeredBy("등록자", false),
+    updatedOn("수정일", false)
+    ;
 
-/**
- * @author Seok Kyun. Choi.
- * @see ClientRegistrationRestController
- * @since 2022-07-12
- */
+    private final String description;
+    private final boolean optional;
+
+    ClientRegistrationField(String description, boolean optional) {
+        this.description = description;
+        this.optional = optional;
+    }
+}
+```
+
+```java
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @WebMvcTest(controllers = ClientRegistrationRestController.class)
 @AutoConfigureMvcRestDocs
@@ -243,3 +226,4 @@ class ClientRegistrationRestControllerTest {
         ;
     }
 }
+```

@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
+import org.springframework.security.core.Authentication;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -31,25 +31,26 @@ class ProfileAccountRestController {
     private final ProfileAccountService profileAccountService;
     private final PasswordAccountService passwordAccountService;
 
-    private UUID getUid(BearerTokenAuthentication authentication) {
+    // todo jwt 방식으로 BearerTokenAuthentication 클래스로 정보를 받을 수 있다. 인증 정보를 받기 위해 자체 개발하여 라이브러리를 제공하자.
+    private UUID getUid(Authentication authentication) {
         Assert.notNull(authentication, "the class not be null");
-        return UUID.fromString((String) authentication.getTokenAttributes().get("uid"));
+        return UUID.fromString((String) authentication.getName());
     }
 
     @GetMapping(path = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Profile profile(BearerTokenAuthentication authentication) {
+    public Profile profile(Authentication authentication) {
         UUID uid = getUid(authentication);
         return profileAccountService.account(uid);
     }
 
     @PatchMapping(path = "/profile", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Profile update(BearerTokenAuthentication authentication, @Valid @RequestBody AccountCommand.Profile profile) {
+    public Profile update(Authentication authentication, @Valid @RequestBody AccountCommand.Profile profile) {
         UUID uid = getUid(authentication);
         return profileAccountService.update(uid, profile);
     }
 
     @PatchMapping(value = "/password", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void changePassword(BearerTokenAuthentication authentication, @Valid @RequestBody AccountCommand.ChangePassword password) {
+    public void changePassword(Authentication authentication, @Valid @RequestBody AccountCommand.ChangePassword password) {
         UUID uid = getUid(authentication);
 
         if (!password.matches() || !passwordAccountService.matches(uid, password.getCurrentPassword())) {

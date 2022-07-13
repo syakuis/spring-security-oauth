@@ -1,5 +1,10 @@
 apply plugin: "java"
 apply plugin: "application"
+apply plugin: "org.asciidoctor.jvm.convert"
+
+configurations {
+    asciidoctorExt
+}
 
 dependencies {
     implementation project(":core")
@@ -8,11 +13,24 @@ dependencies {
     implementation 'mysql:mysql-connector-java:8.0.29'
 
     implementation "org.springframework.security:spring-security-core"
-    testImplementation "org.springframework.security:spring-security-test"
 
-    implementation "org.springframework.boot:spring-boot-starter-oauth2-resource-server"
-    implementation 'com.nimbusds:oauth2-oidc-sdk:9.37.2'
-    implementation "io.jsonwebtoken:jjwt:0.9.1"
+    asciidoctorExt "org.springframework.restdocs:spring-restdocs-asciidoctor:${restDocsVersion}"
+    testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:${restDocsVersion}"
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    configurations 'asciidoctorExt'
+    dependsOn test
+}
+
+test {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+    systemProperty 'spring.profiles.active', 'test'
 }
 
 application {
@@ -22,6 +40,11 @@ application {
 bootJar {
     enabled = true
     launchScript()
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}/html5") {
+        into 'static/docs'
+//        into "BOOT-INF/classes/static/docs"
+    }
 }
 
 jar {

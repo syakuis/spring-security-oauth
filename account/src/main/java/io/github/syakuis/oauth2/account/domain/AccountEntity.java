@@ -72,23 +72,23 @@ public class AccountEntity implements Account, AccountPassword {
     @Column(nullable = false, length = 150)
     private String password;
 
-    @Column(nullable = false, columnDefinition = "bit", length = 1)
+    @Column(nullable = false, columnDefinition = "bit(1)", length = 1)
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean disabled;
 
-    @Column(nullable = false, columnDefinition = "bit", length = 1)
+    @Column(nullable = false, columnDefinition = "bit(1)", length = 1)
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean blocked;
 
-    @Column(nullable = false, columnDefinition = "bit", length = 1)
+    @Column(nullable = false, columnDefinition = "bit(1)", length = 1)
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean deleted;
 
     @CreationTimestamp
-    @Column(nullable = false, updatable = false, length = 6)
+    @Column(nullable = false, updatable = false, length = 6, columnDefinition = "datetime(6)")
     private LocalDateTime registeredOn;
 
-    @Column(length = 6)
+    @Column(length = 6, columnDefinition = "datetime(6)")
     private LocalDateTime updatedOn;
 
     @Column(nullable = false, updatable = false, length = 16, columnDefinition = "binary(16)")
