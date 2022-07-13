@@ -33,6 +33,6 @@ final class AccountResponseEntityExceptionHandler extends ResponseEntityExceptio
 
         log.trace(e.getLocalizedMessage(), e);
 
-        return handleExceptionInternal(e, payload.wrapper(), new HttpHeaders(), accountResultStatus.httpStatus(), request);
+        return handleExceptionInternal(e, payload, new HttpHeaders(), accountResultStatus.httpStatus(), request);
     }
 }

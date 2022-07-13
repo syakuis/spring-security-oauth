@@ -2,7 +2,9 @@ package io.github.syakuis.identity.configuration.support;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -33,7 +35,8 @@ public class SimpleObjectMapper {
         mapper.setTimeZone(TimeZone.getTimeZone("UTC"));
         mapper.registerModule(module);
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-
+        mapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
+        mapper.enable(DeserializationFeature.UNWRAP_ROOT_VALUE);
         return mapper;
     }
 }
