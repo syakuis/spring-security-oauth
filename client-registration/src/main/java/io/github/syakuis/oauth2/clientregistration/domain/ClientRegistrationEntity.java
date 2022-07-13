@@ -71,10 +71,10 @@ public class ClientRegistrationEntity implements ClientRegistration {
     @Convert(converter = GrantedAuthorityToStringConverter.class)
     private List<GrantedAuthority> authorities;
 
-    @Column(nullable = false, length = 11)
+    @Column(nullable = false)
     private Integer accessTokenValidity;
 
-    @Column(nullable = false, length = 11)
+    @Column(nullable = false)
     private Integer refreshTokenValidity;
 
     @Column
@@ -86,13 +86,13 @@ public class ClientRegistrationEntity implements ClientRegistration {
     private Set<String> autoApprove;
 
     @CreationTimestamp
-    @Column(nullable = false, updatable = false, length = 6)
+    @Column(nullable = false, updatable = false, length = 6, columnDefinition="datetime(6)")
     private LocalDateTime registeredOn;
 
     @Column(nullable = false)
     private String registeredBy;
 
-    @Column(length = 6)
+    @Column(length = 6, columnDefinition="datetime(6)")
     private LocalDateTime updatedOn;
 
     @Builder

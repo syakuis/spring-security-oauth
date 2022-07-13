@@ -28,14 +28,14 @@ class ClientRegistrationService {
             clientRegistrationRepository.findByClientId(clientId).orElseThrow(ClientIdNotFoundException::new));
     }
 
-    public ClientRegistration register(ClientRegistrationRequestBody.Register register) {
+    public ClientRegistration register(ClientRegistrationRequestBody.Register register, String registeredBy) {
         // todo 유일해야 한다.
         String clientId = ClientKeyGenerator.clientId();
         String clientSecret = ClientKeyGenerator.clientSecret();
 
         return ClientRegistrationMapper.INSTANCE.toDto(
             clientRegistrationRepository.save(
-                ClientRegistrationMapper.INSTANCE.register(clientId, passwordEncoder.encode(clientSecret), register)),
+                ClientRegistrationMapper.INSTANCE.register(clientId, passwordEncoder.encode(clientSecret), registeredBy, register)),
             clientSecret);
     }
 

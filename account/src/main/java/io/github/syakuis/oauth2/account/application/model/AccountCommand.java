@@ -2,6 +2,7 @@ package io.github.syakuis.oauth2.account.application.model;
 
 import java.util.Objects;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,8 +23,11 @@ public interface AccountCommand {
     @EqualsAndHashCode
     @ToString
     class Signup {
+        @NotEmpty
         private String username;
+        @NotEmpty
         private String name;
+        @NotEmpty
         private String password;
     }
 

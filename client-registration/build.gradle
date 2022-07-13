@@ -34,7 +34,7 @@ test {
 }
 
 application {
-    mainClass = "io.github.syakuis.oauth2.ClientApplication"
+    mainClass = "io.github.syakuis.oauth2.ClientRegistrationApplication"
 }
 
 bootJar {
