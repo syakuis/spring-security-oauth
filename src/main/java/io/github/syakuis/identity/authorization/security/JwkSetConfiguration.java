@@ -1,4 +1,4 @@
-package io.github.syakuis.identity.authorization.security;
+package io.github.syakuis.oauth2.authorization.security;
 
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.jwk.JWKSet;

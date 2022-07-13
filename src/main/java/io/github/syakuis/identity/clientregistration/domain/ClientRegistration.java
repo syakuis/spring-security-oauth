@@ -1,4 +1,4 @@
-package io.github.syakuis.identity.clientregistration.domain;
+package io.github.syakuis.oauth2.clientregistration.domain;
 
 /**
  * @author Seok Kyun. Choi.

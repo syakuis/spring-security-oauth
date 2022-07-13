@@ -1,4 +1,4 @@
-package io.github.syakuis.identity.authorization.configuration;
+package io.github.syakuis.oauth2.authorization.configuration;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;

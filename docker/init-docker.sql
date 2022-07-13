@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS identity_account CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS oauth2_account CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-grant all privileges on identity_account.* to 'identity'@'%';
+grant all privileges on oauth2_account.* to 'oauth2'@'%';
 
 flush privileges;

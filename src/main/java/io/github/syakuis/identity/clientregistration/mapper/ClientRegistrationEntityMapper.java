@@ -1,6 +1,6 @@
-package io.github.syakuis.identity.clientregistration.mapper;
+package io.github.syakuis.oauth2.clientregistration.mapper;
 
-import io.github.syakuis.identity.clientregistration.domain.ClientRegistrationEntity;
+import io.github.syakuis.oauth2.clientregistration.domain.ClientRegistrationEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

@@ -1,4 +1,4 @@
-package io.github.syakuis.identity.authorization.security;
+package io.github.syakuis.oauth2.authorization.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

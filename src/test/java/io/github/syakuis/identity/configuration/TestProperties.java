@@ -1,4 +1,4 @@
-package io.github.syakuis.identity.configuration;
+package io.github.syakuis.oauth2.configuration;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

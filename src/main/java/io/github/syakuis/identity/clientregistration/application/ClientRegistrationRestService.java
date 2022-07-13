@@ -1,7 +1,7 @@
-package io.github.syakuis.identity.clientregistration.application;
+package io.github.syakuis.oauth2.clientregistration.application;
 
-import io.github.syakuis.identity.clientregistration.domain.ClientRegistrationService;
-import io.github.syakuis.identity.clientregistration.support.ClientKeyGenerator;
+import io.github.syakuis.oauth2.clientregistration.domain.ClientRegistrationService;
+import io.github.syakuis.oauth2.clientregistration.support.ClientKeyGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

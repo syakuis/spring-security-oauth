@@ -1,4 +1,4 @@
-package io.github.syakuis.identity.clientregistration.domain;
+package io.github.syakuis.oauth2.clientregistration.domain;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

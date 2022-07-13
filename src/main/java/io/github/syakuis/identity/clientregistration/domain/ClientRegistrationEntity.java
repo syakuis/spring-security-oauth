@@ -1,9 +1,9 @@
-package io.github.syakuis.identity.clientregistration.domain;
+package io.github.syakuis.oauth2.clientregistration.domain;
 
-import io.github.syakuis.identity.configuration.converter.GrantedAuthorityToStringConverter;
-import io.github.syakuis.identity.configuration.converter.JsonToStringConverter;
-import io.github.syakuis.identity.configuration.converter.ListToStringConverter;
-import io.github.syakuis.identity.configuration.converter.SetToStringConverter;
+import io.github.syakuis.oauth2.configuration.converter.GrantedAuthorityToStringConverter;
+import io.github.syakuis.oauth2.configuration.converter.JsonToStringConverter;
+import io.github.syakuis.oauth2.configuration.converter.ListToStringConverter;
+import io.github.syakuis.oauth2.configuration.converter.SetToStringConverter;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;

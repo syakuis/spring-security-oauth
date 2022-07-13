@@ -1,6 +1,6 @@
-package io.github.syakuis.identity.clientregistration.application;
+package io.github.syakuis.oauth2.clientregistration.application;
 
-import io.github.syakuis.identity.clientregistration.domain.ClientRegistration;
+import io.github.syakuis.oauth2.clientregistration.domain.ClientRegistration;
 import java.util.List;
 import java.util.Set;
 import lombok.AccessLevel;

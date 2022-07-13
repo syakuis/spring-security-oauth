@@ -1,4 +1,4 @@
-package io.github.syakuis.identity.authorization.token.application;
+package io.github.syakuis.oauth2.authorization.token.application;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import javax.annotation.Resource;

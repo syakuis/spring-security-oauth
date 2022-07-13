@@ -1,11 +1,11 @@
-package io.github.syakuis.identity.authorization.token.application;
+package io.github.syakuis.oauth2.authorization.token.application;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import io.github.syakuis.identity.configuration.TestProperties;
+import io.github.syakuis.oauth2.configuration.TestProperties;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;

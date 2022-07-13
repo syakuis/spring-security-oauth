@@ -1,4 +1,4 @@
-package io.github.syakuis.identity.configuration;
+package io.github.syakuis.oauth2.configuration;
 
 import java.util.Arrays;
 import java.util.List;
