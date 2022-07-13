@@ -33,6 +33,6 @@ public class GlobalResponseEntityExceptionHandler extends ResponseEntityExceptio
                     .build()).toList())
             .build();
 
-        return handleExceptionInternal(e, payload, new HttpHeaders(), DefaultResultStatus.INVALID_ARGUMENT.httpStatus(), request);
+        return handleExceptionInternal(e, payload.wrapper(), new HttpHeaders(), DefaultResultStatus.INVALID_ARGUMENT.httpStatus(), request);
     }
 }

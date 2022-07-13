@@ -20,7 +20,6 @@ public interface ClientRegistrationRequestBody {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @Builder
     class Register {
-        @NotEmpty
         List<String> resourceIds;
         @NotEmpty
         List<String> scopes;
@@ -28,8 +27,10 @@ public interface ClientRegistrationRequestBody {
         List<String> authorizedGrantTypes;
         Set<String> webServerRedirectUri;
         List<GrantedAuthority> authorities;
+        // todo 최소값 설정할 것
         @NotNull
         Integer accessTokenValidity;
+        // todo 최소값 설정할 것
         @NotNull
         Integer refreshTokenValidity;
         String additionalInformation;

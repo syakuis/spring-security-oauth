@@ -85,6 +85,8 @@ class ClientRegistrationRestControllerTest {
         ClientRegistrationRequestBody.Register register = ClientRegistrationRequestBody.Register.builder()
             .authorizedGrantTypes(List.of("password"))
             .scopes(List.of("read"))
+            .refreshTokenValidity(2000)
+            .accessTokenValidity(1000)
             .build();
 
         mvc.perform(post("/client-registrations")
@@ -92,6 +94,7 @@ class ClientRegistrationRestControllerTest {
                 .content(objectMapper.writeValueAsBytes(register))
             )
             .andExpect(status().isCreated())
+            .andDo(print())
         ;
     }
 

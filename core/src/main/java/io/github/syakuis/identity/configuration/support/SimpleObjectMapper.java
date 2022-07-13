@@ -35,8 +35,6 @@ public class SimpleObjectMapper {
         mapper.setTimeZone(TimeZone.getTimeZone("UTC"));
         mapper.registerModule(module);
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-        mapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
-        mapper.enable(DeserializationFeature.UNWRAP_ROOT_VALUE);
         return mapper;
     }
 }
