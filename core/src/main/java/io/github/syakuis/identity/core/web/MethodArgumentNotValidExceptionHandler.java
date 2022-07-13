@@ -32,6 +32,6 @@ public class MethodArgumentNotValidExceptionHandler {
                 .build()).toList())
             .build();
 
-        return ResponseEntity.badRequest().body(payload);
+        return ResponseEntity.badRequest().body(payload.wrapper());
     }
 }

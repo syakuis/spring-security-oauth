@@ -2,10 +2,9 @@ package io.github.syakuis.identity.account.application;
 
 import io.github.syakuis.identity.account.application.enums.AccountResultStatus;
 import io.github.syakuis.identity.account.application.exception.AccountResultStatusException;
+import io.github.syakuis.identity.account.application.model.AccountCommand;
 import io.github.syakuis.identity.account.application.service.SignupAccountService;
 import io.github.syakuis.identity.account.domain.Account;
-import io.github.syakuis.identity.account.application.model.AccountCommand;
-import io.github.syakuis.identity.core.web.ResultStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

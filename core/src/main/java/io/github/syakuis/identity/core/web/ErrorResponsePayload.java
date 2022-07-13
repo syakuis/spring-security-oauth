@@ -1,6 +1,5 @@
 package io.github.syakuis.identity.core.web;
 
-import com.fasterxml.jackson.annotation.JsonRootName;
 import java.util.Map;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -15,7 +14,6 @@ import org.springframework.http.HttpStatus;
 @Getter
 @EqualsAndHashCode
 @ToString
-@JsonRootName("error")
 public class ErrorResponsePayload implements ResponsePayload {
     private final String message;
     private final String status;
@@ -32,5 +30,10 @@ public class ErrorResponsePayload implements ResponsePayload {
         this.message = message;
         this.status = status;
         this.code = code;
+    }
+
+    @Override
+    public Map<String, ResponsePayload> wrapper() {
+        return JsonRootName.of("error", this);
     }
 }
