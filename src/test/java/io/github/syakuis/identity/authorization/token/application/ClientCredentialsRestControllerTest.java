@@ -1,4 +1,4 @@
-package io.github.syakuis.identity.authorization.token.application;
+package io.github.syakuis.oauth2.authorization.token.application;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.nimbusds.oauth2.sdk.GrantType;
-import io.github.syakuis.identity.configuration.TestProperties;
+import io.github.syakuis.oauth2.configuration.TestProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

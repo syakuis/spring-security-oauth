@@ -1,4 +1,4 @@
-package io.github.syakuis.identity.clientregistration.domain;
+package io.github.syakuis.oauth2.clientregistration.domain;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

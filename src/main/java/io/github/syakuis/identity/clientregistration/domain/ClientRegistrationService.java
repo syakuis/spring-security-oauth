@@ -1,6 +1,6 @@
-package io.github.syakuis.identity.clientregistration.domain;
+package io.github.syakuis.oauth2.clientregistration.domain;
 
-import io.github.syakuis.identity.clientregistration.mapper.ClientRegistrationEntityMapper;
+import io.github.syakuis.oauth2.clientregistration.mapper.ClientRegistrationEntityMapper;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

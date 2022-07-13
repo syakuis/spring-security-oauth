@@ -1,4 +1,4 @@
-package io.github.syakuis.identity.configuration;
+package io.github.syakuis.oauth2.configuration;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

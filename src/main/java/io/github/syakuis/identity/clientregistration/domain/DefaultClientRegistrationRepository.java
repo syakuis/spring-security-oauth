@@ -1,4 +1,4 @@
-package io.github.syakuis.identity.clientregistration.domain;
+package io.github.syakuis.oauth2.clientregistration.domain;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 public class DefaultClientRegistrationRepository implements ClientRegistrationRepository {
-    private final io.github.syakuis.identity.clientregistration.domain.ClientRegistrationRepository repository;
+    private final io.github.syakuis.oauth2.clientregistration.domain.ClientRegistrationRepository repository;
 
     @Override
     public ClientRegistration findByRegistrationId(

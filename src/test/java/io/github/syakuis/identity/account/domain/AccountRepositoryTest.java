@@ -1,4 +1,4 @@
-package io.github.syakuis.identity.account.domain;
+package io.github.syakuis.oauth2.account.domain;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;

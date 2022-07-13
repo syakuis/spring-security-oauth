@@ -1,4 +1,4 @@
-package io.github.syakuis.identity.clientregistration.application;
+package io.github.syakuis.oauth2.clientregistration.application;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
