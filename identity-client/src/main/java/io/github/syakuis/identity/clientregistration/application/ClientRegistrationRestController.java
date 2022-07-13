@@ -1,6 +1,7 @@
 package io.github.syakuis.identity.clientregistration.application;
 
 import io.github.syakuis.identity.clientregistration.domain.ClientRegistration;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ class ClientRegistrationRestController {
 
     // todo 토큰 유효기간을 0으로 설정할 수 없도록 강제할 것. 초단위
     @PostMapping
-    ResponseEntity<ClientRegistration> register(@RequestBody ClientRegistrationRequestBody.Register register) {
+    ResponseEntity<ClientRegistration> register(@Valid @RequestBody ClientRegistrationRequestBody.Register register) {
         return ResponseEntity.status(HttpStatus.CREATED).body(clientRegistrationService.register(register));
     }
 }

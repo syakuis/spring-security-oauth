@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -73,7 +74,9 @@ class ClientRegistrationRestControllerTest {
     @Test
     void object() throws Exception {
         mvc.perform(get("/client-registrations/{clientId}", clientId))
-            .andExpect(status().isOk());
+            .andExpect(status().isOk())
+            .andDo(print())
+        ;
     }
 
     @Test

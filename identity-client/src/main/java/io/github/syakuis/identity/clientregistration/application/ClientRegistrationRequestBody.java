@@ -3,6 +3,7 @@ package io.github.syakuis.identity.clientregistration.application;
 import java.util.List;
 import java.util.Set;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +28,9 @@ public interface ClientRegistrationRequestBody {
         List<String> authorizedGrantTypes;
         Set<String> webServerRedirectUri;
         List<GrantedAuthority> authorities;
+        @NotNull
         Integer accessTokenValidity;
+        @NotNull
         Integer refreshTokenValidity;
         String additionalInformation;
         Set<String> autoApprove;

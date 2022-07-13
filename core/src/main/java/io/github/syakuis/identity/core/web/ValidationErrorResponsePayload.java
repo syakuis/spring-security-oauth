@@ -1,7 +1,7 @@
 package io.github.syakuis.identity.core.web;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
 import java.util.List;
-import java.util.Map;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @EqualsAndHashCode
 @ToString
+@JsonRootName("error")
 public class ValidationErrorResponsePayload implements ResponsePayload {
     private final String message;
     private final String status;
@@ -49,10 +50,5 @@ public class ValidationErrorResponsePayload implements ResponsePayload {
         private String target;
         private String message;
         private String code;
-    }
-
-    @Override
-    public Map<String, ResponsePayload> wrapper() {
-        return JsonRootName.of("error", this);
     }
 }
