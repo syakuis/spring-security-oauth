@@ -1,6 +1,7 @@
 package io.github.syakuis.identity.clientregistration.application;
 
 import io.github.syakuis.identity.clientregistration.domain.ClientRegistration;
+import io.github.syakuis.identity.clientregistration.domain.ClientRegistrationEntity;
 import io.github.syakuis.identity.clientregistration.domain.ClientRegistrationRepository;
 import io.github.syakuis.identity.clientregistration.exception.ClientIdNotFoundException;
 import io.github.syakuis.identity.clientregistration.mapper.ClientRegistrationMapper;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 class ClientRegistrationService {
+
     private final PasswordEncoder passwordEncoder;
     private final ClientRegistrationRepository clientRegistrationRepository;
 
@@ -27,11 +29,36 @@ class ClientRegistrationService {
     }
 
     public ClientRegistration register(ClientRegistrationRequestBody.Register register) {
+        // todo 유일해야 한다.
         String clientId = ClientKeyGenerator.clientId();
-        String clientSecret = passwordEncoder.encode(ClientKeyGenerator.clientSecret());
+        String clientSecret = ClientKeyGenerator.clientSecret();
 
         return ClientRegistrationMapper.INSTANCE.toDto(
             clientRegistrationRepository.save(
-                ClientRegistrationMapper.INSTANCE.register(clientId, clientSecret, register)));
+                ClientRegistrationMapper.INSTANCE.register(clientId, passwordEncoder.encode(clientSecret), register)),
+            clientSecret);
+    }
+
+    public ClientRegistration update(String clientId, ClientRegistrationRequestBody.Register register) {
+        ClientRegistrationEntity entity = clientRegistrationRepository.findByClientId(clientId)
+            .orElseThrow(ClientIdNotFoundException::new);
+        entity.update(ClientRegistrationMapper.INSTANCE.update(register));
+
+        return ClientRegistrationMapper.INSTANCE.toDto(entity);
+    }
+
+    public void remove(String clientId) {
+        clientRegistrationRepository.delete(
+            clientRegistrationRepository.findByClientId(clientId).orElseThrow(ClientIdNotFoundException::new));
+    }
+
+    public ClientRegistration refreshingClientSecret(String clientId) {
+        ClientRegistrationEntity entity = clientRegistrationRepository.findByClientId(clientId)
+            .orElseThrow(ClientIdNotFoundException::new);
+
+        String clientSecret = ClientKeyGenerator.clientSecret();
+        entity.refreshingClientSecret(passwordEncoder.encode(clientSecret));
+
+        return ClientRegistrationMapper.INSTANCE.toDto(entity, clientSecret);
     }
 }

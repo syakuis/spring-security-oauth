@@ -10,4 +10,5 @@ import org.springframework.data.repository.Repository;
 public interface ClientRegistrationRepository extends Repository<ClientRegistrationEntity, Long> {
     Optional<ClientRegistrationEntity> findByClientId(String clientId);
     ClientRegistrationEntity save(ClientRegistrationEntity clientRegistrationEntity);
+    void delete(ClientRegistrationEntity clientRegistrationEntity);
 }

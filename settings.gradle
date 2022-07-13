@@ -3,4 +3,5 @@ include 'account'
 include 'core'
 include 'identity-authorization'
 include 'identity-client'
+include 'core-test'
 
