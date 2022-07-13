@@ -1,0 +1,56 @@
+apply plugin: "java"
+apply plugin: "application"
+apply plugin: "org.asciidoctor.jvm.convert"
+
+configurations {
+    asciidoctorExt
+}
+
+dependencies {
+    implementation project(":core")
+    testImplementation project(":core-test")
+
+    implementation 'mysql:mysql-connector-java:8.0.29'
+
+    asciidoctorExt "org.springframework.restdocs:spring-restdocs-asciidoctor:${restDocsVersion}"
+    testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:${restDocsVersion}"
+
+    implementation "org.springframework.security.oauth:spring-security-oauth2:${springSecurityOAuth2Version}"
+    implementation "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springSecurityOAuth2Version}"
+    implementation "com.nimbusds:oauth2-oidc-sdk:7.1.1"
+
+    implementation "org.springframework.boot:spring-boot-starter-data-redis"
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    configurations 'asciidoctorExt'
+    dependsOn test
+}
+
+test {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+    systemProperty 'spring.profiles.active', 'test'
+}
+
+application {
+    mainClass = "io.github.syakuis.oauth2.AccountApplication"
+}
+
+bootJar {
+    enabled = true
+    launchScript()
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}/html5") {
+        into 'static/docs'
+//        into "BOOT-INF/classes/static/docs"
+    }
+}
+
+jar {
+    enabled = false
+}
