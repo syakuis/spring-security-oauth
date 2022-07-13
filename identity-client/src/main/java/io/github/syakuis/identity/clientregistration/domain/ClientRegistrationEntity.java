@@ -116,6 +116,22 @@ public class ClientRegistrationEntity implements ClientRegistration {
         this.updatedOn = LocalDateTime.now();
     }
 
+    public void update(ClientRegistrationEntity clientRegistrationEntity) {
+        this.resourceIds = clientRegistrationEntity.getResourceIds();
+        this.scopes = clientRegistrationEntity.getScopes();
+        this.authorizedGrantTypes = clientRegistrationEntity.getAuthorizedGrantTypes();
+        this.webServerRedirectUri = clientRegistrationEntity.getWebServerRedirectUri();
+        this.authorities = clientRegistrationEntity.getAuthorities();
+        this.accessTokenValidity = clientRegistrationEntity.getAccessTokenValidity();
+        this.refreshTokenValidity = clientRegistrationEntity.getRefreshTokenValidity();
+        this.additionalInformation = clientRegistrationEntity.getAdditionalInformation();
+        this.autoApprove = clientRegistrationEntity.getAutoApprove();
+    }
+
+    public void refreshingClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
