@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 2021-05-21
  */
 @RequiredArgsConstructor
-@Service("userDetailsService")
+@Service
 @Transactional
 public class AccountUserDetailsService implements UserDetailsService {
     private final AccountRepository accountRepository;

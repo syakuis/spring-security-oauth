@@ -16,3 +16,9 @@ spring:
 #      hibernate:
 #        hbm2ddl:
 #          import_files: schema/import-h2.sql
+  security:
+    oauth2:
+      resourceserver:
+        opaquetoken:
+          client-id: 253c39067f6596b98efe30de1e25a1aeeda474e000c8fdd54d7cfe9550e81a70c4d105d4ca062c40
+          client-secret: PXF0IUcrKlYjb35ETy8v

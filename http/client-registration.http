@@ -14,5 +14,7 @@ Content-Type: application/json
   "autoApprove" : null
 }
 
+> {% client.global.set("client_id", response.body.clientId); client.global.set("client_secret", response.body.clientSecret); %}
+
 ### 애플리케이션 제거
-DELETE http://localhost:8081/client-registrations/bb4fd4dfcfa3d4112106046f0baab8de68d9bdf078b9ef075a6a1a4692997239aa80f6ae9446bf1b
+DELETE http://localhost:8081/client-registrations/{{client_id}}

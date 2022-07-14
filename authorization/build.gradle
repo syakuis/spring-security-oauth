@@ -21,6 +21,7 @@ dependencies {
     implementation "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springSecurityOAuth2Version}"
     implementation "org.springframework.security:spring-security-oauth2-jose"
     implementation "org.springframework.security.oauth:spring-security-oauth2:${springSecurityOAuth2Version}"
+    testImplementation "org.springframework.security:spring-security-test"
 
     // jwt utils
     implementation "org.springframework.security:spring-security-jwt:1.0.11.RELEASE"
