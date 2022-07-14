@@ -1,6 +1,7 @@
 package io.github.syakuis.oauth2.account.model;
 
 import io.github.syakuis.oauth2.account.domain.AccountEntity;
+import java.io.Serial;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -20,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Getter
 @ToString
 public class AccountUserDetails implements UserDetails {
+    @Serial
     private static final long serialVersionUID = -4957604136920453114L;
     @NotNull
     private final String password;

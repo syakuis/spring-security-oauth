@@ -21,17 +21,13 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
 /**
  * @author Seok Kyun. Choi.
- * @since 2021-08-13
- *
- * properties 의 기본 값은 운영에서 사용됩니다. 외부에 공개하지 않도록 주의하세요.
- * 참고: https://medium.com/swlh/stateless-jwt-authentication-with-spring-boot-a-better-approach-1f5dbae6c30f
+ * @since 2021-10-24
  */
 @Slf4j
-@Configuration
-class KeyStoreConfiguration {
-
+@Configuration(proxyBeanMethods = false)
+class JksKeyStoreConfiguration {
     @Value("${oauth2.jwt.keystore-location:keystores/authorization.jks}")
-    private String keyStorePath = "";
+    private String keyStorePath;
 
     @Value("${oauth2.jwt.keystore-password:storepass}")
     private String keyStorePassword;
@@ -54,7 +50,7 @@ class KeyStoreConfiguration {
     }
 
     @Bean
-    public RSAPrivateKey jwtSigningKey(KeyStore keyStore) {
+    public RSAPrivateKey signingPrivateKey(KeyStore keyStore) {
         try {
             Key key = keyStore.getKey(keyAlias, keyStorePassword.toCharArray());
             if (key instanceof RSAPrivateKey rsaPrivateKey) {
@@ -68,7 +64,7 @@ class KeyStoreConfiguration {
     }
 
     @Bean
-    public RSAPublicKey jwtValidationKey(KeyStore keyStore) {
+    public RSAPublicKey validationPublicKey(KeyStore keyStore) {
         try {
             Certificate certificate = keyStore.getCertificate(keyAlias);
             PublicKey publicKey = certificate.getPublicKey();

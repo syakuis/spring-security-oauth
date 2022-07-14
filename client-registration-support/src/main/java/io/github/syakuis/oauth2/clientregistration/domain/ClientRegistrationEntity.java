@@ -40,7 +40,7 @@ import org.springframework.security.core.GrantedAuthority;
     }
 )
 public class ClientRegistrationEntity implements ClientRegistration {
-
+    // todo 애플리케이션 명 추가
     @Id
     @GeneratedValue
     private Long id;

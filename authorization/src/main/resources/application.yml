@@ -12,12 +12,13 @@ logging:
     root: info
     io.github.syakuis.oauth2: trace
     org.springframework.web: debug
+    org.springframework.security: trace
     org.hibernate.SQL: trace
     org.hibernate.type.descriptor.sql: trace
     org.hibernate.type.descriptor.sql.BasicBinder: trace
     org.hibernate.type.descriptor.sql.BasicExtractor: off
 server:
-  port: 8080
+  port: 8082
   forward-headers-strategy: native
 spring:
   application:
