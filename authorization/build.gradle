@@ -9,17 +9,26 @@ configurations {
 dependencies {
     implementation project(":core")
     testImplementation project(":core-test")
+    implementation project(":account-support")
+    implementation project(":client-registration-support")
 
     implementation 'mysql:mysql-connector-java:8.0.29'
 
     asciidoctorExt "org.springframework.restdocs:spring-restdocs-asciidoctor:${restDocsVersion}"
     testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:${restDocsVersion}"
 
-    implementation "org.springframework.security.oauth:spring-security-oauth2:${springSecurityOAuth2Version}"
+    // spring security oauth 2.0 and jwt
     implementation "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springSecurityOAuth2Version}"
+    implementation "org.springframework.security:spring-security-oauth2-jose"
+    implementation "org.springframework.security.oauth:spring-security-oauth2:${springSecurityOAuth2Version}"
+
+    // jwt utils
+    implementation "org.springframework.security:spring-security-jwt:1.0.11.RELEASE"
+    implementation "io.jsonwebtoken:jjwt:0.9.1"
     implementation "com.nimbusds:oauth2-oidc-sdk:7.1.1"
 
     implementation "org.springframework.boot:spring-boot-starter-data-redis"
+    implementation "org.apache.commons:commons-pool2:2.6.0"
 }
 
 asciidoctor {

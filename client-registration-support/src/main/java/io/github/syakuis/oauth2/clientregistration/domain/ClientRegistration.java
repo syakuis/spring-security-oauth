@@ -1,5 +1,7 @@
 package io.github.syakuis.oauth2.clientregistration.domain;
 
+import org.springframework.security.core.GrantedAuthority;
+
 /**
  * @author Seok Kyun. Choi.
  * @since 2021-10-10
@@ -19,7 +21,7 @@ public interface ClientRegistration {
 
     java.util.Set<String> getWebServerRedirectUri();
 
-    java.util.List<org.springframework.security.core.GrantedAuthority> getAuthorities();
+    java.util.List<GrantedAuthority> getAuthorities();
 
     Integer getAccessTokenValidity();
 

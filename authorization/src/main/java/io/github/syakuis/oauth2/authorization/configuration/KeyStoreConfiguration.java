@@ -30,17 +30,14 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 @Configuration
 class KeyStoreConfiguration {
 
-    @Value("${app.security.oauth2.jwt.keystore-location:keystores/ipom-authorization.jks}")
-    private String keyStorePath;
+    @Value("${oauth2.jwt.keystore-location:keystores/authorization.jks}")
+    private String keyStorePath = "";
 
-    @Value("${app.security.oauth2.jwt.keystore-password:MDMtMDg9cT5wSjx9ZGVN}")
+    @Value("${oauth2.jwt.keystore-password:storepass}")
     private String keyStorePassword;
 
-    @Value("${app.security.oauth2.jwt.key-alias:ipom-authorization}")
+    @Value("${oauth2.jwt.key-alias:syaku}")
     private String keyAlias;
-
-    @Value("${app.security.oauth2.jwt.private-key-passphrase:MDMtMDg9cT5wSjx9ZGVN}")
-    private String privateKeyPassphrase;
 
     @Bean
     public KeyStore keyStore() {
@@ -59,9 +56,9 @@ class KeyStoreConfiguration {
     @Bean
     public RSAPrivateKey jwtSigningKey(KeyStore keyStore) {
         try {
-            Key key = keyStore.getKey(keyAlias, privateKeyPassphrase.toCharArray());
-            if (key instanceof RSAPrivateKey) {
-                return (RSAPrivateKey) key;
+            Key key = keyStore.getKey(keyAlias, keyStorePassword.toCharArray());
+            if (key instanceof RSAPrivateKey rsaPrivateKey) {
+                return rsaPrivateKey;
             }
         } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
             log.error("Unable to load private key from keystore: {}", keyStorePath, e);
@@ -76,8 +73,8 @@ class KeyStoreConfiguration {
             Certificate certificate = keyStore.getCertificate(keyAlias);
             PublicKey publicKey = certificate.getPublicKey();
 
-            if (publicKey instanceof RSAPublicKey) {
-                return (RSAPublicKey) publicKey;
+            if (publicKey instanceof RSAPublicKey rsaPublicKey) {
+                return rsaPublicKey;
             }
         } catch (KeyStoreException e) {
             log.error("Unable to load private key from keystore: {}", keyStorePath, e);

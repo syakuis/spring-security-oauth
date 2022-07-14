@@ -1,6 +1,7 @@
 package io.github.syakuis.oauth2.account.domain;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.function.UnaryOperator;
 import javax.persistence.Column;
@@ -15,10 +16,10 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Type;
@@ -30,7 +31,6 @@ import org.springframework.util.StringUtils;
  * @since 2021-05-21
  */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode(of = "id")
 @Getter
 @ToString
 @Entity
@@ -132,5 +132,22 @@ public class AccountEntity implements Account, AccountPassword {
         this.name = accountEntity.getName();
         this.disabled = accountEntity.isDisabled();
         this.blocked = accountEntity.isBlocked();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+            return false;
+        }
+        AccountEntity that = (AccountEntity) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

@@ -1,6 +1,6 @@
 logging:
   file:
-    name: client-registration.log
+    name: account.log
     path:
   logback:
     rollingpolicy:
@@ -17,11 +17,11 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: trace
     org.hibernate.type.descriptor.sql.BasicExtractor: off
 server:
-  port: 8081
+  port: 8080
   forward-headers-strategy: native
 spring:
   application:
-    name: oauth2-client-registration
+    name: oauth2-authorization
   main:
     banner-mode: console
   datasource:
@@ -52,3 +52,12 @@ spring:
         one-indexed-parameters: true
   mvc:
     log-request-details: false
+  redis:
+    host: localhost
+    port: 6379
+    password: 1234
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 10
+        min-idle: 2

@@ -1,0 +1,10 @@
+apply plugin: "java"
+
+dependencies {
+    implementation project(":core")
+    implementation "org.springframework.security:spring-security-core"
+}
+
+jar {
+    enabled = true
+}
