@@ -7,8 +7,6 @@ import com.nimbusds.jose.jwk.RSAKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Arrays;
-import javax.sql.DataSource;
-import kr.co.parkingcloud.platform.ipom.security.oauth2.api.client.DefaultClientDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +26,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
@@ -46,8 +45,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
-    private final DefaultClientDetailsService defaultClientDetailsService;
-    private final DataSource dataSource;
+    private final ClientDetailsService clientRegistrationClientDetailsService;
     private final RedisConnectionFactory redisConnectionFactory;
     private final RSAPrivateKey jwtSigningKey;
     private final RSAPublicKey jwtValidationKey;
@@ -99,14 +97,13 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     }
 
     @Bean
-    public CustomTokenEnhancer tokenEnhancer() {
-        return new CustomTokenEnhancer();
+    public AccountUserDetailsTokenEnhancer tokenEnhancer() {
+        return new AccountUserDetailsTokenEnhancer();
     }
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(dataSource)
-            .clients(defaultClientDetailsService);
+        clients.withClientDetails(clientRegistrationClientDetailsService);
     }
 
     @Override

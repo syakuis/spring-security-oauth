@@ -4,4 +4,6 @@ include 'core-test'
 include 'account'
 include 'client-registration'
 include 'authorization'
+include 'account-support'
+include 'client-registration-support'
 

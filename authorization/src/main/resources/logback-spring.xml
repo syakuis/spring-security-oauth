@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <springProfile name="!prod | log">
+        <include resource="io/github/syakuis/oauth2/logging/console-appender.xml"/>
+    </springProfile>
+    <springProfile name="prod, stage">
+        <include resource="io/github/syakuis/oauth2/logging/file-appender.xml"/>
+    </springProfile>
+</configuration>

@@ -10,7 +10,7 @@ logging:
       max-history: 30
   level:
     root: info
-    io.github.syakuis.identity: trace
+    io.github.syakuis.oauth2: trace
     org.springframework.web: debug
     org.hibernate.SQL: trace
     org.hibernate.type.descriptor.sql: trace
