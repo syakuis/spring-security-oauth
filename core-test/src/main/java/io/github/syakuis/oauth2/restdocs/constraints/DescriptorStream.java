@@ -2,7 +2,6 @@ package io.github.syakuis.oauth2.restdocs.constraints;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**

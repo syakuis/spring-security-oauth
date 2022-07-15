@@ -1,0 +1,103 @@
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:site-url: /build/asciidoc/html5/
+
+= Authorization APIs
+
+****
+WARNING: 대외비 본 자료에 대한 저작권은 syaku에게 있습니다.
+이를 무단으로 복제, 배포, 사용 또는 게재 등을 할 경우 민사상 손해배상책임은 물론 저작권법에 의해 처벌받으실 수 있습니다.
+문의 사항은 a@a 메일로 전달 부탁드립니다.
+****
+
+[[introduction]]
+== 소개
+
+인증 서비스을 사용하기 위해 애플리케이션은 클라이언트를 등록하여야 합니다.
+
+
+[[introduction]]
+== 서비스 환경
+
+|===
+| 환경 | 호스트
+
+| 개발
+|
+
+| 운영
+|
+|===
+
+== 액세스 토큰 발급 받기
+
+=== Password 인증 방식
+
+**Request**
+include::{snippets}/authorization/password-authorized-grant-type/access-token/http-request.adoc[]
+
+**Request Header**
+include::{snippets}/authorization/password-authorized-grant-type/access-token/request-headers.adoc[]
+
+**Request Parameter**
+include::{snippets}/authorization/password-authorized-grant-type/access-token/request-parameters.adoc[]
+
+**Response**
+include::{snippets}/authorization/password-authorized-grant-type/access-token/http-response.adoc[]
+
+**Response Body**
+include::{snippets}/authorization/password-authorized-grant-type/access-token/response-fields.adoc[]
+
+=== Authorization Code 인증 방식
+
+==== 인증 코드 요청
+
+인증 코드 요청이 완료되면 `redirectUrl?code=인증코드` 되어 애플리케이션에서 `code` 를 얻을 수 있다.
+
+**Request**
+include::{snippets}/authorization/authorization-code-authorized-grant-type/access-token/authorization-code/http-request.adoc[]
+
+**Request Header**
+include::{snippets}/authorization/authorization-code-authorized-grant-type/access-token/authorization-code/request-headers.adoc[]
+
+**Request Parameter**
+include::{snippets}/authorization/authorization-code-authorized-grant-type/access-token/authorization-code/request-parameters.adoc[]
+
+**Response**
+include::{snippets}/authorization/authorization-code-authorized-grant-type/access-token/authorization-code/http-response.adoc[]
+
+==== 인증 요청
+
+**Request**
+include::{snippets}/authorization/authorization-code-authorized-grant-type/access-token/http-request.adoc[]
+
+**Request Header**
+include::{snippets}/authorization/authorization-code-authorized-grant-type/access-token/request-headers.adoc[]
+
+**Request Parameter**
+include::{snippets}/authorization/authorization-code-authorized-grant-type/access-token/request-parameters.adoc[]
+
+**Response**
+include::{snippets}/authorization/authorization-code-authorized-grant-type/access-token/http-response.adoc[]
+
+**Response Body**
+include::{snippets}/authorization/authorization-code-authorized-grant-type/access-token/response-fields.adoc[]
+
+
+=== Client Credentials 인증 방식
+
+**Request**
+include::{snippets}/authorization/client-credentials-authorized-grant-type/access-token/http-request.adoc[]
+
+**Request Header**
+include::{snippets}/authorization/client-credentials-authorized-grant-type/access-token/request-headers.adoc[]
+
+**Response**
+include::{snippets}/authorization/client-credentials-authorized-grant-type/access-token/http-response.adoc[]
+
+**Response Body**
+include::{snippets}/authorization/client-credentials-authorized-grant-type/access-token/response-fields.adoc[]

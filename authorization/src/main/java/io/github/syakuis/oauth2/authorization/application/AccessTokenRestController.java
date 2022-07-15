@@ -1,23 +1,28 @@
 package io.github.syakuis.oauth2.authorization.application;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.provider.authentication.BearerTokenExtractor;
-import org.springframework.security.oauth2.provider.endpoint.FrameworkEndpoint;
-import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
-import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import java.util.Map;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Seok Kyun. Choi.
  * @since 2022-07-14
  */
 
-@FrameworkEndpoint
+//@FrameworkEndpoint
+@RestController
 public class AccessTokenRestController {
+    @GetMapping("/a")
+    public ModelAndView root(Map<String, Object> model) {
+        return new ModelAndView("forward:/a/test", model);
+    }
+
+    @RequestMapping("/a/test")
+    public String sub(Map<String, Object> model) {
+        return "ok";
+    }
 //    @Resource(name = "tokenServices")
 //    private AuthorizationServerTokenServices tokenServices;
 //

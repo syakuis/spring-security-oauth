@@ -10,7 +10,7 @@ import lombok.Getter;
 
 @Getter
 public enum JwtAccessTokenField implements Descriptor {
-    grant_type("grant_type", false),
+    grant_type("인증 방식", false),
     username("사용자 이름", false),
     password("비밀번호", false),
     access_token("인증 토큰", false),

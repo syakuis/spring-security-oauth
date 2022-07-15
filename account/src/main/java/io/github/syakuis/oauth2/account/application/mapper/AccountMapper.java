@@ -1,11 +1,11 @@
 package io.github.syakuis.oauth2.account.application.mapper;
 
-import io.github.syakuis.oauth2.account.application.model.AccountDto;
-import io.github.syakuis.oauth2.account.application.model.ProfileDto;
-import io.github.syakuis.oauth2.account.domain.AccountEntity;
 import io.github.syakuis.oauth2.account.application.model.AccountCommand.Profile;
 import io.github.syakuis.oauth2.account.application.model.AccountCommand.Signup;
 import io.github.syakuis.oauth2.account.application.model.AccountCommand.Update;
+import io.github.syakuis.oauth2.account.application.model.AccountDto;
+import io.github.syakuis.oauth2.account.application.model.ProfileDto;
+import io.github.syakuis.oauth2.account.domain.AccountEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

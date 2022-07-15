@@ -1,8 +1,8 @@
 package io.github.syakuis.oauth2.clientregistration.mapper;
 
+import io.github.syakuis.oauth2.clientregistration.application.ClientRegistrationRequestBody.Register;
 import io.github.syakuis.oauth2.clientregistration.domain.ClientRegistrationDto;
 import io.github.syakuis.oauth2.clientregistration.domain.ClientRegistrationEntity;
-import io.github.syakuis.oauth2.clientregistration.application.ClientRegistrationRequestBody.Register;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

@@ -15,6 +15,7 @@ import org.springframework.restdocs.payload.PayloadDocumentation;
  * todo payload 명시적으로 필드를 정의해야하도록 개선.
  */
 @RequiredArgsConstructor
+@Deprecated
 public final class RestDocsFieldHandler {
     private final List<FieldDescriptor> fields;
 
