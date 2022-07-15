@@ -58,9 +58,7 @@ bootJar {
     enabled = true
     launchScript()
     dependsOn asciidoctor
-    print asciidoctor.outputDir
     from ("${asciidoctor.outputDir}") {
-//        into 'static/api-docs'
         into "BOOT-INF/classes/static/api-docs"
     }
 }

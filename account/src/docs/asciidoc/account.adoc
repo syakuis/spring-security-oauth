@@ -4,7 +4,6 @@
 :toc: left
 :toclevels: 4
 :sectlinks:
-:site-url: /build/asciidoc/html5/
 
 = Account APIs
 
@@ -33,37 +32,33 @@ WARNING: 대외비 본 자료에 대한 저작권은 syaku에게 있습니다.
 |
 |===
 
-ifndef::snippet[]
-:snippet: ../../build/generated-snippets
-endif::[]
-
 == 계정
 
 === 등록
 
 **Request**
-include::{snippet}/account/signup/http-request.adoc[]
+include::{snippets}/account/signup/http-request.adoc[]
 
 **Request Header**
-include::{snippet}/account/signup/request-headers.adoc[]
+include::{snippets}/account/signup/request-headers.adoc[]
 
 **Response**
-include::{snippet}/account/signup/http-response.adoc[]
+include::{snippets}/account/signup/http-response.adoc[]
 
 **Response Body**
-include::{snippet}/account/signup/response-fields.adoc[]
+include::{snippets}/account/signup/response-fields.adoc[]
 
 === 사용자 계정 중복 확인
 
 **Request**
-include::{snippet}/account/duplicate-username/http-request.adoc[]
+include::{snippets}/account/duplicate-username/http-request.adoc[]
 
 **Request Header**
-include::{snippet}/account/duplicate-username/request-headers.adoc[]
+include::{snippets}/account/duplicate-username/request-headers.adoc[]
 
 **Request Parameter**
-include::{snippet}/account/duplicate-username/request-parameters.adoc[]
+include::{snippets}/account/duplicate-username/request-parameters.adoc[]
 
 **Response**
-include::{snippet}/account/duplicate-username/http-response.adoc[]
+include::{snippets}/account/duplicate-username/http-response.adoc[]
 
