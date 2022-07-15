@@ -4,7 +4,6 @@
 :toc: left
 :toclevels: 4
 :sectlinks:
-:site-url: /build/asciidoc/html5/
 
 = Authorization APIs
 

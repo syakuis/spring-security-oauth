@@ -38,6 +38,7 @@ class ClientRegistrationRepositoryTest {
                 .authorizedGrantTypes(List.of("password"))
                 .accessTokenValidity(0)
                 .refreshTokenValidity(0)
+                .registeredBy("test")
                 .build());
 
         ClientRegistrationEntity clientRegistration = clientRegistrationRepository.findByClientId(clientId).orElseThrow();

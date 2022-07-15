@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Import;
     QuerydslConfiguration.class,
     MessageSourceConfiguration.class,
     SecurityConfiguration.class,
-    WebConfiguration.class,
 })
 public class IdentityCoreAutoConfiguration {
 }
