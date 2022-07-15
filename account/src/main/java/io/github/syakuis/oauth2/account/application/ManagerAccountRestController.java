@@ -1,9 +1,9 @@
 package io.github.syakuis.oauth2.account.application;
 
+import io.github.syakuis.oauth2.account.application.model.AccountCommand.Update;
 import io.github.syakuis.oauth2.account.application.service.ManagerAccountService;
 import io.github.syakuis.oauth2.account.application.service.PasswordAccountService;
 import io.github.syakuis.oauth2.account.domain.Account;
-import io.github.syakuis.oauth2.account.application.model.AccountCommand.Update;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

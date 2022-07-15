@@ -1,6 +1,5 @@
 package io.github.syakuis.oauth2.authorization.application;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -17,13 +16,13 @@ import io.github.syakuis.oauth2.authorization.application.restdocs.JwtAccessToke
 import io.github.syakuis.oauth2.restdocs.AutoConfigureMvcRestDocs;
 import io.github.syakuis.oauth2.restdocs.constraints.DescriptorCollectors;
 import io.github.syakuis.oauth2.restdocs.constraints.RestDocsDescriptor;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
@@ -32,61 +31,58 @@ import org.springframework.test.web.servlet.MockMvc;
 
 /**
  * @author Seok Kyun. Choi.
- * @since 2022-07-14
+ * @since 2021-10-16
+ * @see org.springframework.security.oauth2.provider.endpoint.TokenEndpoint
  */
+@Slf4j
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureMvcRestDocs
-@Sql({"/schema/client-registration-data.sql", "/schema/account-data.sql"})
-class PasswordAuthorizedGrantTypeTest {
-
+@Sql({"/schema/client-registration-data.sql"})
+class ClientCredentialsAuthorizedGrantTypeTest {
     @Autowired
     private MockMvc mvc;
-
     @Value("${spring.security.oauth2.resourceserver.opaquetoken.client-id}")
     private String clientId;
 
     @Value("${spring.security.oauth2.resourceserver.opaquetoken.client-secret}")
     private String clientSecret;
 
-    private final String restdocsPath = "authorization/password-authorized-grant-type/{method-name}";
+    private final String restdocsPath = "authorization/client-credentials-authorized-grant-type/{method-name}";
 
     private final RestDocsDescriptor descriptor = new RestDocsDescriptor(JwtAccessTokenField.values());
 
     @Test
     void accessToken() throws Exception {
-        String username = "test";
-        String password = "1234";
-
-        assertNotNull(clientId);
-        assertNotNull(clientSecret);
-
         mvc.perform(post("/oauth/token")
-                .param("grant_type", GrantType.PASSWORD.getValue())
-                .param("username", username)
-                .param("password", password)
+                .param("grant_type", GrantType.CLIENT_CREDENTIALS.getValue())
+                .accept(MediaType.APPLICATION_JSON)
                 .with(httpBasic(clientId, clientSecret))
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .accept(MediaType.APPLICATION_JSON_VALUE)
             )
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.uid").isNotEmpty())
-            .andExpect(jsonPath("$.name").isNotEmpty())
+            .andExpect(jsonPath("$.access_token").isNotEmpty())
+            .andExpect(jsonPath("$.uid").doesNotExist())
+            .andExpect(jsonPath("$.name").doesNotExist())
             .andDo(document(restdocsPath,
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description(AuthorizationHeaderField.basicAuthentication.getDescription()),
-                    headerWithName(HttpHeaders.CONTENT_TYPE).description(MediaType.APPLICATION_FORM_URLENCODED),
                     headerWithName(HttpHeaders.ACCEPT).description(MediaType.APPLICATION_JSON)
                 ),
 
                 requestParameters(
-                    descriptor.of(JwtAccessTokenField.requestAccessToken())
+                    descriptor.of(JwtAccessTokenField.grant_type)
                         .collect(DescriptorCollectors::parameterDescriptor)
                 ),
 
                 responseFields(
-                    descriptor.of(JwtAccessTokenField.response()).collect(DescriptorCollectors::fieldDescriptor)
+                    descriptor.of(
+                        JwtAccessTokenField.access_token,
+                        JwtAccessTokenField.token_type,
+                        JwtAccessTokenField.expires_in,
+                        JwtAccessTokenField.scope,
+                        JwtAccessTokenField.jti
+                    ).collect(DescriptorCollectors::fieldDescriptor)
                 )
             ))
         ;

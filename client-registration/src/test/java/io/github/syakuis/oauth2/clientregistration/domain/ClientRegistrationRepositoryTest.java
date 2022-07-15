@@ -3,8 +3,6 @@ package io.github.syakuis.oauth2.clientregistration.domain;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import io.github.syakuis.oauth2.clientregistration.domain.ClientRegistrationEntity;
-import io.github.syakuis.oauth2.clientregistration.domain.ClientRegistrationRepository;
 import io.github.syakuis.oauth2.clientregistration.support.ClientKeyGenerator;
 import java.util.List;
 import org.junit.jupiter.api.Test;
