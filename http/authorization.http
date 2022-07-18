@@ -1,9 +1,18 @@
-### PASSWORD 인증 방식
+### password 인증
 POST http://localhost:8082/oauth/token
 Authorization: Basic 253c39067f6596b98efe30de1e25a1aeeda474e000c8fdd54d7cfe9550e81a70c4d105d4ca062c40 PXF0IUcrKlYjb35ETy8v
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=password&username=test&password=1234
+
+> {% client.global.set("access_token", response.body.access_token); %}
+
+### client_credentials 인증
+POST http://localhost:8082/oauth/token
+Authorization: Basic 253c39067f6596b98efe30de1e25a1aeeda474e000c8fdd54d7cfe9550e81a70c4d105d4ca062c40 PXF0IUcrKlYjb35ETy8v
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
 
 > {% client.global.set("access_token", response.body.access_token); %}
 

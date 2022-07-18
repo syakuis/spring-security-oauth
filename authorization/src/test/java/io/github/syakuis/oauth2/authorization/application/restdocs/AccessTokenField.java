@@ -9,7 +9,7 @@ import lombok.Getter;
  */
 
 @Getter
-public enum JwtAccessTokenField implements Descriptor {
+public enum AccessTokenField implements Descriptor {
     grant_type("인증 방식", false),
     username("사용자 이름", false),
     password("비밀번호", false),
@@ -27,7 +27,7 @@ public enum JwtAccessTokenField implements Descriptor {
     private final String description;
     private final boolean optional;
 
-    JwtAccessTokenField(String description, boolean optional) {
+    AccessTokenField(String description, boolean optional) {
         this.description = description;
         this.optional = optional;
     }

@@ -12,8 +12,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.nimbusds.oauth2.sdk.GrantType;
+import io.github.syakuis.oauth2.authorization.application.restdocs.AccessTokenField;
 import io.github.syakuis.oauth2.authorization.application.restdocs.AuthorizationHeaderField;
-import io.github.syakuis.oauth2.authorization.application.restdocs.JwtAccessTokenField;
 import io.github.syakuis.oauth2.restdocs.AutoConfigureMvcRestDocs;
 import io.github.syakuis.oauth2.restdocs.constraints.DescriptorCollectors;
 import io.github.syakuis.oauth2.restdocs.constraints.RestDocsDescriptor;
@@ -52,17 +52,17 @@ class PasswordAuthorizedGrantTypeTest {
 
     private final String restdocsPath = "authorization/password-authorized-grant-type/{method-name}";
 
-    private final RestDocsDescriptor descriptor = new RestDocsDescriptor(JwtAccessTokenField.values());
+    private final RestDocsDescriptor descriptor = new RestDocsDescriptor(AccessTokenField.values());
 
     @Test
-    void accessToken() throws Exception {
+    void token() throws Exception {
         String username = "test";
         String password = "1234";
 
         assertNotNull(clientId);
         assertNotNull(clientSecret);
 
-        mvc.perform(post("/oauth/token")
+        mvc.perform(post("/oauth2/token")
                 .param("grant_type", GrantType.PASSWORD.getValue())
                 .param("username", username)
                 .param("password", password)
@@ -81,12 +81,12 @@ class PasswordAuthorizedGrantTypeTest {
                 ),
 
                 requestParameters(
-                    descriptor.of(JwtAccessTokenField.requestAccessToken())
+                    descriptor.of(AccessTokenField.requestAccessToken())
                         .collect(DescriptorCollectors::parameterDescriptor)
                 ),
 
                 responseFields(
-                    descriptor.of(JwtAccessTokenField.response()).collect(DescriptorCollectors::fieldDescriptor)
+                    descriptor.of(AccessTokenField.response()).collect(DescriptorCollectors::fieldDescriptor)
                 )
             ))
         ;

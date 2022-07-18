@@ -26,11 +26,12 @@ import io.github.syakuis.oauth2.clientregistration.domain.ClientRegistrationDto;
 import io.github.syakuis.oauth2.clientregistration.support.ClientKeyGenerator;
 import io.github.syakuis.oauth2.configuration.BasicBeanConfiguration;
 import io.github.syakuis.oauth2.configuration.SecurityConfiguration;
+import io.github.syakuis.oauth2.core.AuthorizedGrantType;
 import io.github.syakuis.oauth2.restdocs.AutoConfigureMvcRestDocs;
 import io.github.syakuis.oauth2.restdocs.constraints.DescriptorCollectors;
 import io.github.syakuis.oauth2.restdocs.constraints.RestDocsDescriptor;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -56,7 +57,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @Import({BasicBeanConfiguration.class, SecurityConfiguration.class})
 class ClientRegistrationRestControllerTest {
 
-    private final String restdocsPath = "client-registrations/{method-name}";
+    private final String restdocsPath = "client-registration/{method-name}";
     private final RestDocsDescriptor fieldHandler = new RestDocsDescriptor(ClientRegistrationField.values());
 
     @Autowired
@@ -82,8 +83,8 @@ class ClientRegistrationRestControllerTest {
             .accessTokenValidity(1000)
             .registeredOn(LocalDateTime.now())
             .registeredBy("tester")
-            .scopes(List.of("read"))
-            .authorizedGrantTypes(List.of("password"))
+            .scope(Set.of("read"))
+            .authorizedGrantType(Set.of(AuthorizedGrantType.password))
             .build();
     }
 
@@ -117,10 +118,12 @@ class ClientRegistrationRestControllerTest {
         when(clientRegistrationService.register(any(), any())).thenReturn(clientRegistrationDto);
 
         ClientRegistrationRequestBody.Register register = ClientRegistrationRequestBody.Register.builder()
-            .authorizedGrantTypes(List.of("password"))
-            .scopes(List.of("read"))
+            .applicationName("테스트")
+            .authorizedGrantType(Set.of(AuthorizedGrantType.password))
+            .scope(Set.of("read"))
             .refreshTokenValidity(2000)
             .accessTokenValidity(1000)
+            .webServerRedirectUri(Set.of("http://localhost"))
             .build();
 
         mvc.perform(post("/client-registrations")
@@ -138,15 +141,15 @@ class ClientRegistrationRestControllerTest {
 
                 requestFields(
                     fieldHandler.of(
-                        ClientRegistrationField.authorizedGrantTypes,
-                        ClientRegistrationField.scopes,
+                        ClientRegistrationField.applicationName,
+                        ClientRegistrationField.authorizedGrantType,
+                        ClientRegistrationField.scope,
                         ClientRegistrationField.refreshTokenValidity,
                         ClientRegistrationField.accessTokenValidity,
-                        ClientRegistrationField.resourceIds,
+                        ClientRegistrationField.resourceId,
                         ClientRegistrationField.webServerRedirectUri,
-                        ClientRegistrationField.authorities,
-                        ClientRegistrationField.additionalInformation,
-                        ClientRegistrationField.autoApprove
+                        ClientRegistrationField.authority,
+                        ClientRegistrationField.additionalInformation
                     ).collect(DescriptorCollectors::fieldDescriptor)
                 ),
 
@@ -163,10 +166,12 @@ class ClientRegistrationRestControllerTest {
         when(clientRegistrationService.update(any(), any())).thenReturn(clientRegistrationDto);
 
         ClientRegistrationRequestBody.Register register = ClientRegistrationRequestBody.Register.builder()
-            .authorizedGrantTypes(List.of("password"))
-            .scopes(List.of("read"))
+            .applicationName("테스트")
+            .authorizedGrantType(Set.of(AuthorizedGrantType.password))
+            .scope(Set.of("read"))
             .refreshTokenValidity(2000)
             .accessTokenValidity(1000)
+            .webServerRedirectUri(Set.of("http://localhost"))
             .build();
 
         mvc.perform(put("/client-registrations/{clientId}", clientId)
@@ -187,15 +192,15 @@ class ClientRegistrationRestControllerTest {
 
                 requestFields(
                     fieldHandler.of(
-                        ClientRegistrationField.authorizedGrantTypes,
-                        ClientRegistrationField.scopes,
+                        ClientRegistrationField.applicationName,
+                        ClientRegistrationField.authorizedGrantType,
+                        ClientRegistrationField.scope,
                         ClientRegistrationField.refreshTokenValidity,
                         ClientRegistrationField.accessTokenValidity,
-                        ClientRegistrationField.resourceIds,
+                        ClientRegistrationField.resourceId,
                         ClientRegistrationField.webServerRedirectUri,
-                        ClientRegistrationField.authorities,
-                        ClientRegistrationField.additionalInformation,
-                        ClientRegistrationField.autoApprove
+                        ClientRegistrationField.authority,
+                        ClientRegistrationField.additionalInformation
                     ).collect(DescriptorCollectors::fieldDescriptor)
                 ),
 
@@ -219,12 +224,12 @@ class ClientRegistrationRestControllerTest {
     }
 
     @Test
-    void refreshingClientSecret() throws Exception {
+    void resetClientSecret() throws Exception {
         ReflectionTestUtils.setField(clientRegistrationDto, "clientSecret", ClientKeyGenerator.clientSecret());
         ReflectionTestUtils.setField(clientRegistrationDto, "updatedOn", LocalDateTime.now());
-        when(clientRegistrationService.refreshingClientSecret(any())).thenReturn(clientRegistrationDto);
+        when(clientRegistrationService.resetClientSecret(any())).thenReturn(clientRegistrationDto);
 
-        mvc.perform(patch("/client-registrations/{clientId}/refreshing-client-secrets", clientId)
+        mvc.perform(patch("/client-registrations/{clientId}/reset-client-secrets", clientId)
                 .accept(MediaType.APPLICATION_JSON)
             )
             .andExpect(status().isOk())

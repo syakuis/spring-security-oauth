@@ -20,18 +20,18 @@ import org.springframework.util.MultiValueMap;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class OAuth2AccessTokenService {
+public class OAuth2TokenService {
     private WebTestClient webTestClient;
     private String username;
     private String password;
     private String clientId;
     private String clientSecret;
 
-    public Map<String, Object> obtainAccessToken(){
-        return this.obtainAccessToken(clientId, clientSecret, username, password);
+    public Map<String, Object> obtainToken(){
+        return this.obtainToken(clientId, clientSecret, username, password);
     }
 
-    public Map<String, Object> obtainAccessToken(String clientId, String clientSecret, String username, String password) {
+    public Map<String, Object> obtainToken(String clientId, String clientSecret, String username, String password) {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "password");
@@ -39,7 +39,7 @@ public class OAuth2AccessTokenService {
         params.add("password", password);
 
         String resultString = webTestClient.post()
-            .uri(uriBuilder -> uriBuilder.path("/oauth/token").queryParams(params).build())
+            .uri(uriBuilder -> uriBuilder.path("/oauth2/token").queryParams(params).build())
             .headers(headers -> headers.setBasicAuth(clientId, clientSecret))
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .accept(MediaType.APPLICATION_JSON)
@@ -49,5 +49,13 @@ public class OAuth2AccessTokenService {
 
         JacksonJsonParser jsonParser = new JacksonJsonParser();
         return jsonParser.parseMap(resultString);
+    }
+
+    public String getAccessToken(Map<String, Object> data) {
+        return (String) data.get("access_token");
+    }
+
+    public String getRefreshToken(Map<String, Object> data) {
+        return (String) data.get("refresh_token");
     }
 }

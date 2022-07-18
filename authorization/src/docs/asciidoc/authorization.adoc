@@ -32,24 +32,24 @@ WARNING: 대외비 본 자료에 대한 저작권은 syaku에게 있습니다.
 |
 |===
 
-== 액세스 토큰 발급 받기
+== 인증 토큰 발급 받기
 
 === Password 인증 방식
 
 **Request**
-include::{snippets}/authorization/password-authorized-grant-type/access-token/http-request.adoc[]
+include::{snippets}/authorization/password-authorized-grant-type/token/http-request.adoc[]
 
 **Request Header**
-include::{snippets}/authorization/password-authorized-grant-type/access-token/request-headers.adoc[]
+include::{snippets}/authorization/password-authorized-grant-type/token/request-headers.adoc[]
 
 **Request Parameter**
-include::{snippets}/authorization/password-authorized-grant-type/access-token/request-parameters.adoc[]
+include::{snippets}/authorization/password-authorized-grant-type/token/request-parameters.adoc[]
 
 **Response**
-include::{snippets}/authorization/password-authorized-grant-type/access-token/http-response.adoc[]
+include::{snippets}/authorization/password-authorized-grant-type/token/http-response.adoc[]
 
 **Response Body**
-include::{snippets}/authorization/password-authorized-grant-type/access-token/response-fields.adoc[]
+include::{snippets}/authorization/password-authorized-grant-type/token/response-fields.adoc[]
 
 === Authorization Code 인증 방식
 
@@ -58,45 +58,96 @@ include::{snippets}/authorization/password-authorized-grant-type/access-token/re
 인증 코드 요청이 완료되면 `redirectUrl?code=인증코드` 되어 애플리케이션에서 `code` 를 얻을 수 있다.
 
 **Request**
-include::{snippets}/authorization/authorization-code-authorized-grant-type/access-token/authorization-code/http-request.adoc[]
+include::{snippets}/authorization/authorization-code-authorized-grant-type/token/authorization-code/http-request.adoc[]
 
 **Request Header**
-include::{snippets}/authorization/authorization-code-authorized-grant-type/access-token/authorization-code/request-headers.adoc[]
+include::{snippets}/authorization/authorization-code-authorized-grant-type/token/authorization-code/request-headers.adoc[]
 
 **Request Parameter**
-include::{snippets}/authorization/authorization-code-authorized-grant-type/access-token/authorization-code/request-parameters.adoc[]
+include::{snippets}/authorization/authorization-code-authorized-grant-type/token/authorization-code/request-parameters.adoc[]
 
 **Response**
-include::{snippets}/authorization/authorization-code-authorized-grant-type/access-token/authorization-code/http-response.adoc[]
+include::{snippets}/authorization/authorization-code-authorized-grant-type/token/authorization-code/http-response.adoc[]
 
 ==== 인증 요청
 
 **Request**
-include::{snippets}/authorization/authorization-code-authorized-grant-type/access-token/http-request.adoc[]
+include::{snippets}/authorization/authorization-code-authorized-grant-type/token/http-request.adoc[]
 
 **Request Header**
-include::{snippets}/authorization/authorization-code-authorized-grant-type/access-token/request-headers.adoc[]
+include::{snippets}/authorization/authorization-code-authorized-grant-type/token/request-headers.adoc[]
 
 **Request Parameter**
-include::{snippets}/authorization/authorization-code-authorized-grant-type/access-token/request-parameters.adoc[]
+include::{snippets}/authorization/authorization-code-authorized-grant-type/token/request-parameters.adoc[]
 
 **Response**
-include::{snippets}/authorization/authorization-code-authorized-grant-type/access-token/http-response.adoc[]
+include::{snippets}/authorization/authorization-code-authorized-grant-type/token/http-response.adoc[]
 
 **Response Body**
-include::{snippets}/authorization/authorization-code-authorized-grant-type/access-token/response-fields.adoc[]
+include::{snippets}/authorization/authorization-code-authorized-grant-type/token/response-fields.adoc[]
 
 
 === Client Credentials 인증 방식
 
 **Request**
-include::{snippets}/authorization/client-credentials-authorized-grant-type/access-token/http-request.adoc[]
+include::{snippets}/authorization/client-credentials-authorized-grant-type/token/http-request.adoc[]
 
 **Request Header**
-include::{snippets}/authorization/client-credentials-authorized-grant-type/access-token/request-headers.adoc[]
+include::{snippets}/authorization/client-credentials-authorized-grant-type/token/request-headers.adoc[]
 
 **Response**
-include::{snippets}/authorization/client-credentials-authorized-grant-type/access-token/http-response.adoc[]
+include::{snippets}/authorization/client-credentials-authorized-grant-type/token/http-response.adoc[]
 
 **Response Body**
-include::{snippets}/authorization/client-credentials-authorized-grant-type/access-token/response-fields.adoc[]
+include::{snippets}/authorization/client-credentials-authorized-grant-type/token/response-fields.adoc[]
+
+== 인증 토큰 관리
+
+=== 검증
+
+**Request**
+include::{snippets}/authorization/token/check/http-request.adoc[]
+
+**Request Header**
+include::{snippets}/authorization/token/check/request-headers.adoc[]
+
+**Request Parameter**
+include::{snippets}/authorization/token/check/request-parameters.adoc[]
+
+**Response**
+include::{snippets}/authorization/token/check/http-response.adoc[]
+
+**Response Body**
+include::{snippets}/authorization/token/check/response-fields.adoc[]
+
+=== 인증 토큰 재발급
+
+**Request**
+include::{snippets}/authorization/token/refresh-token/http-request.adoc[]
+
+**Request Header**
+include::{snippets}/authorization/token/refresh-token/request-headers.adoc[]
+
+**Request Parameter**
+include::{snippets}/authorization/token/refresh-token/request-parameters.adoc[]
+
+**Response**
+include::{snippets}/authorization/token/refresh-token/http-response.adoc[]
+
+**Response Body**
+include::{snippets}/authorization/token/refresh-token/response-fields.adoc[]
+
+
+=== 삭제
+
+**Request**
+include::{snippets}/authorization/token/revoke/http-request.adoc[]
+
+**Request Header**
+include::{snippets}/authorization/token/revoke/request-headers.adoc[]
+
+**Request Parameter**
+include::{snippets}/authorization/token/revoke/request-parameters.adoc[]
+
+**Response**
+include::{snippets}/authorization/token/revoke/http-response.adoc[]

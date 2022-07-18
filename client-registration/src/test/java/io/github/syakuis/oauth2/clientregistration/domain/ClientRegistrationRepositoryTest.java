@@ -4,7 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import io.github.syakuis.oauth2.clientregistration.support.ClientKeyGenerator;
-import java.util.List;
+import io.github.syakuis.oauth2.core.AuthorizedGrantType;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +31,13 @@ class ClientRegistrationRepositoryTest {
             ClientRegistrationEntity.builder()
                 .clientId(clientId)
                 .clientSecret(ClientKeyGenerator.clientSecret())
-                .scopes(List.of("read"))
-                .authorizedGrantTypes(List.of("password"))
+                .applicationName("테스트")
+                .scope(Set.of("read"))
+                .authorizedGrantType(Set.of(AuthorizedGrantType.password))
                 .accessTokenValidity(0)
                 .refreshTokenValidity(0)
                 .registeredBy("test")
+                .webServerRedirectUri(Set.of("http://localhost"))
                 .build());
 
         ClientRegistrationEntity clientRegistration = clientRegistrationRepository.findByClientId(clientId).orElseThrow();

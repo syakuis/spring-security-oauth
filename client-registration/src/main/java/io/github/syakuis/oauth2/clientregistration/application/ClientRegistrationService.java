@@ -52,7 +52,7 @@ class ClientRegistrationService {
             clientRegistrationRepository.findByClientId(clientId).orElseThrow(ClientIdNotFoundException::new));
     }
 
-    public ClientRegistration refreshingClientSecret(String clientId) {
+    public ClientRegistration resetClientSecret(String clientId) {
         ClientRegistrationEntity entity = clientRegistrationRepository.findByClientId(clientId)
             .orElseThrow(ClientIdNotFoundException::new);
 

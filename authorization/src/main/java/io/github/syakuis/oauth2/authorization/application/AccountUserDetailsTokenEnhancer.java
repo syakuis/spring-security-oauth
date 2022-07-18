@@ -21,6 +21,7 @@ public class AccountUserDetailsTokenEnhancer implements TokenEnhancer {
             Map<String, Object> additionalInfo = new HashMap<>();
             additionalInfo.put("name", accountUserDetails.getName());
             additionalInfo.put("uid", accountUserDetails.getUid());
+            // todo 사용자 추가 정보
             additionalInfo.put("additionalInformation", accountUserDetails.getAdditionalInformation());
 
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);

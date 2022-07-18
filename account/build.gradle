@@ -9,7 +9,7 @@ configurations {
 dependencies {
     implementation project(":core")
     testImplementation project(":core-test")
-    implementation project(":account-support")
+    implementation project(":account-core")
 
     implementation 'mysql:mysql-connector-java:8.0.29'
 
