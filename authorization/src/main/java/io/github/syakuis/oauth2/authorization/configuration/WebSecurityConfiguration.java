@@ -73,7 +73,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .authorizeRequests(
                 authorize -> authorize
                     .requestMatchers(
-                        new AntPathRequestMatcher("/oauth2/authorize", HttpMethod.POST.name())
+                        new AntPathRequestMatcher("/oauth2/authorize", HttpMethod.POST.name()),
+                        new AntPathRequestMatcher("/oauth2/.well-known/jwks.json", HttpMethod.GET.name())
                     )
                     .permitAll()
                     .anyRequest().authenticated())
