@@ -27,7 +27,8 @@ import io.github.syakuis.oauth2.clientregistration.support.ClientKeyGenerator;
 import io.github.syakuis.oauth2.configuration.BasicBeanConfiguration;
 import io.github.syakuis.oauth2.configuration.SecurityConfiguration;
 import io.github.syakuis.oauth2.restdocs.AutoConfigureMvcRestDocs;
-import io.github.syakuis.oauth2.restdocs.RestDocsFieldHandler;
+import io.github.syakuis.oauth2.restdocs.constraints.DescriptorCollectors;
+import io.github.syakuis.oauth2.restdocs.constraints.RestDocsDescriptor;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,7 +57,7 @@ import org.springframework.test.web.servlet.MockMvc;
 class ClientRegistrationRestControllerTest {
 
     private final String restdocsPath = "client-registrations/{method-name}";
-    private final RestDocsFieldHandler fieldHandler = new RestDocsFieldHandler(ClientRegistrationField.values());
+    private final RestDocsDescriptor fieldHandler = new RestDocsDescriptor(ClientRegistrationField.values());
 
     @Autowired
     private MockMvc mvc;
@@ -104,7 +105,7 @@ class ClientRegistrationRestControllerTest {
                     ClientRegistrationField.clientId.getDescription())),
 
                 responseFields(
-                    fieldHandler.payload().collect()
+                    fieldHandler.of().collect(DescriptorCollectors::fieldDescriptor)
                 )
             ))
         ;
@@ -136,21 +137,21 @@ class ClientRegistrationRestControllerTest {
                 ),
 
                 requestFields(
-                    fieldHandler.payload(
-                        ClientRegistrationField.authorizedGrantTypes.name(),
-                        ClientRegistrationField.scopes.name(),
-                        ClientRegistrationField.refreshTokenValidity.name(),
-                        ClientRegistrationField.accessTokenValidity.name(),
-                        ClientRegistrationField.resourceIds.name(),
-                        ClientRegistrationField.webServerRedirectUri.name(),
-                        ClientRegistrationField.authorities.name(),
-                        ClientRegistrationField.additionalInformation.name(),
-                        ClientRegistrationField.autoApprove.name()
-                    ).collect()
+                    fieldHandler.of(
+                        ClientRegistrationField.authorizedGrantTypes,
+                        ClientRegistrationField.scopes,
+                        ClientRegistrationField.refreshTokenValidity,
+                        ClientRegistrationField.accessTokenValidity,
+                        ClientRegistrationField.resourceIds,
+                        ClientRegistrationField.webServerRedirectUri,
+                        ClientRegistrationField.authorities,
+                        ClientRegistrationField.additionalInformation,
+                        ClientRegistrationField.autoApprove
+                    ).collect(DescriptorCollectors::fieldDescriptor)
                 ),
 
                 responseFields(
-                    fieldHandler.payload().collect()
+                    fieldHandler.of().collect(DescriptorCollectors::fieldDescriptor)
                 )
             ))
         ;
@@ -185,21 +186,21 @@ class ClientRegistrationRestControllerTest {
                     ClientRegistrationField.clientId.getDescription())),
 
                 requestFields(
-                    fieldHandler.payload(
-                        ClientRegistrationField.authorizedGrantTypes.name(),
-                        ClientRegistrationField.scopes.name(),
-                        ClientRegistrationField.refreshTokenValidity.name(),
-                        ClientRegistrationField.accessTokenValidity.name(),
-                        ClientRegistrationField.resourceIds.name(),
-                        ClientRegistrationField.webServerRedirectUri.name(),
-                        ClientRegistrationField.authorities.name(),
-                        ClientRegistrationField.additionalInformation.name(),
-                        ClientRegistrationField.autoApprove.name()
-                    ).collect()
+                    fieldHandler.of(
+                        ClientRegistrationField.authorizedGrantTypes,
+                        ClientRegistrationField.scopes,
+                        ClientRegistrationField.refreshTokenValidity,
+                        ClientRegistrationField.accessTokenValidity,
+                        ClientRegistrationField.resourceIds,
+                        ClientRegistrationField.webServerRedirectUri,
+                        ClientRegistrationField.authorities,
+                        ClientRegistrationField.additionalInformation,
+                        ClientRegistrationField.autoApprove
+                    ).collect(DescriptorCollectors::fieldDescriptor)
                 ),
 
                 responseFields(
-                    fieldHandler.payload().collect()
+                    fieldHandler.of().collect(DescriptorCollectors::fieldDescriptor)
                 )
             ))
         ;
@@ -237,7 +238,7 @@ class ClientRegistrationRestControllerTest {
                     ClientRegistrationField.clientId.getDescription())),
 
                 responseFields(
-                    fieldHandler.payload().collect()
+                    fieldHandler.of().collect(DescriptorCollectors::fieldDescriptor)
                 )
             ))
         ;

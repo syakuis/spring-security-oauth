@@ -8,7 +8,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -22,7 +21,8 @@ import io.github.syakuis.oauth2.account.application.service.SignupAccountService
 import io.github.syakuis.oauth2.configuration.BasicBeanConfiguration;
 import io.github.syakuis.oauth2.configuration.SecurityConfiguration;
 import io.github.syakuis.oauth2.restdocs.AutoConfigureMvcRestDocs;
-import io.github.syakuis.oauth2.restdocs.RestDocsFieldHandler;
+import io.github.syakuis.oauth2.restdocs.constraints.DescriptorCollectors;
+import io.github.syakuis.oauth2.restdocs.constraints.RestDocsDescriptor;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +49,7 @@ import org.springframework.test.web.servlet.MockMvc;
 class SignupRestControllerTest {
 
     private final String restdocsPath = "account/{method-name}";
-    private final RestDocsFieldHandler fieldHandler = new RestDocsFieldHandler(AccountField.values());
+    private final RestDocsDescriptor descriptor = new RestDocsDescriptor(AccountField.values());
 
     @Autowired
     private MockMvc mvc;
@@ -99,15 +99,15 @@ class SignupRestControllerTest {
                 ),
 
                 requestFields(
-                    fieldHandler.payload(
-                        AccountField.username.name(),
-                        AccountField.password.name(),
-                        AccountField.name.name()
-                    ).collect()
+                    descriptor.of(
+                        AccountField.username,
+                        AccountField.password,
+                        AccountField.name
+                    ).collect(DescriptorCollectors::fieldDescriptor)
                 ),
 
                 responseFields(
-                    fieldHandler.payload().exclude(AccountField.password.name())
+                    descriptor.of().exclude(AccountField.password).collect(DescriptorCollectors::fieldDescriptor)
                 )
             ))
         ;
@@ -128,8 +128,7 @@ class SignupRestControllerTest {
                     headerWithName(HttpHeaders.ACCEPT).description(MediaType.TEXT_PLAIN)
                 ),
                 requestParameters(
-                    parameterWithName(AccountField.username.name())
-                        .description(AccountField.username.getDescription())
+                    descriptor.of(AccountField.username).collect(DescriptorCollectors::parameterDescriptor)
                 )
             ))
         ;
