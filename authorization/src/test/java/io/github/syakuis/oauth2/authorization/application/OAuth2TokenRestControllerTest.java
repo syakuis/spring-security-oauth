@@ -8,6 +8,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -16,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import io.github.syakuis.oauth2.authorization.application.restdocs.AccessTokenCheckField;
 import io.github.syakuis.oauth2.authorization.application.restdocs.AccessTokenField;
 import io.github.syakuis.oauth2.authorization.application.restdocs.AuthorizationHeaderField;
+import io.github.syakuis.oauth2.authorization.application.restdocs.JwtKeysField;
 import io.github.syakuis.oauth2.restdocs.AutoConfigureMvcRestDocs;
 import io.github.syakuis.oauth2.restdocs.constraints.DescriptorCollectors;
 import io.github.syakuis.oauth2.restdocs.constraints.RestDocsDescriptor;
@@ -31,6 +33,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.test.annotation.DirtiesContext;
@@ -51,7 +54,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMvcRestDocs
 @Sql({"/schema/client-registration-data.sql", "/schema/account-data.sql"})
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
-class AccessTokenRestControllerTest {
+class OAuth2TokenRestControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -176,6 +179,27 @@ class AccessTokenRestControllerTest {
                 responseFields(
                     descriptor.of(AccessTokenField.response()).collect(DescriptorCollectors::fieldDescriptor)
                 )
+            ))
+        ;
+    }
+
+    @Test
+    void keys() throws Exception {
+        RestDocsDescriptor jwtKeysField = new RestDocsDescriptor(JwtKeysField.values());
+        FieldDescriptor[] jwtKeysFields = jwtKeysField.of(JwtKeysField.responseKeys())
+            .collect(DescriptorCollectors::fieldDescriptor).toArray(FieldDescriptor[]::new);
+
+        mvc.perform(get("/oauth2/.well-known/jwks.json").accept(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(status().isOk())
+            .andDo(print())
+            .andDo(document("authorization/token/{method-name}",
+                requestHeaders(
+                    headerWithName(HttpHeaders.ACCEPT).description(MediaType.APPLICATION_JSON)
+                ),
+
+                responseFields(
+                    jwtKeysField.of(JwtKeysField.keys).collect(DescriptorCollectors::fieldDescriptor)
+                ).andWithPrefix("keys[].", jwtKeysFields)
             ))
         ;
     }

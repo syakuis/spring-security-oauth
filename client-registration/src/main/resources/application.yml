@@ -52,3 +52,14 @@ spring:
         one-indexed-parameters: true
   mvc:
     log-request-details: false
+  security:
+    oauth2:
+      authorization-server:
+        host: http://localhost:8082
+      resourceserver:
+        jwt:
+          jwk-set-uri: \${spring.security.oauth2.authorization-server.host}/oauth2/.well-known/jwks.json
+        opaquetoken:
+          client-id: 253c39067f6596b98efe30de1e25a1aeeda474e000c8fdd54d7cfe9550e81a70c4d105d4ca062c40
+          client-secret: PXF0IUcrKlYjb35ETy8v
+          introspection-uri: \${spring.security.oauth2.authorization-server.host}/oauth2/token-check

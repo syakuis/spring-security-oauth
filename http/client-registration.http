@@ -1,17 +1,18 @@
 ### 애플리케이션 등록
 POST http://localhost:8081/client-registrations
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
-  "resourceIds" : null,
-  "scopes" : [ "read" ],
-  "authorizedGrantTypes" : [ "password" ],
-  "webServerRedirectUri" : null,
-  "authorities" : null,
+  "applicationName": "테스트 앱",
+  "resourceId" : null,
+  "scope" : [ "read" ],
+  "authorizedGrantType" : [ "password" ],
+  "webServerRedirectUri" : [ "http://localhost" ],
+  "authority" : null,
   "accessTokenValidity" : 1000,
   "refreshTokenValidity" : 2000,
-  "additionalInformation" : null,
-  "autoApprove" : null
+  "additionalInformation" : null
 }
 
 > {% client.global.set("client_id", response.body.clientId); client.global.set("client_secret", response.body.clientSecret); %}
