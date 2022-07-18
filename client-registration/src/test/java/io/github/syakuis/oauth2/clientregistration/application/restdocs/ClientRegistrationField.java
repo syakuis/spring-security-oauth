@@ -1,6 +1,6 @@
 package io.github.syakuis.oauth2.clientregistration.application.restdocs;
 
-import io.github.syakuis.oauth2.restdocs.FieldSpec;
+import io.github.syakuis.oauth2.restdocs.constraints.Descriptor;
 import lombok.Getter;
 
 /**
@@ -8,7 +8,7 @@ import lombok.Getter;
  * @since 2021-08-25
  */
 @Getter
-public enum ClientRegistrationField implements FieldSpec {
+public enum ClientRegistrationField implements Descriptor {
     id("번호", false),
     clientId("클라이언트 ID", false),
     clientSecret("클라이언트 비밀키", false),

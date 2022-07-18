@@ -7,7 +7,6 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.springframework.restdocs.headers.HeaderDescriptor;
 import org.springframework.restdocs.hypermedia.LinkDescriptor;
@@ -31,7 +30,7 @@ public interface DescriptorCollectors<T> {
             }
 
             return descriptor;
-        }).collect(Collectors.toList());
+        }).toList();
     }
 
     static List<LinkDescriptor> linkDescriptor(Stream<Descriptor> stream) {
@@ -43,7 +42,7 @@ public interface DescriptorCollectors<T> {
             }
 
             return descriptor;
-        }).collect(Collectors.toList());
+        }).toList();
     }
 
     static List<FieldDescriptor> fieldDescriptor(Stream<Descriptor> stream) {
@@ -55,7 +54,7 @@ public interface DescriptorCollectors<T> {
             }
 
             return descriptor;
-        }).collect(Collectors.toList());
+        }).toList();
     }
 
     static List<RequestPartDescriptor> requestPartDescriptor(Stream<Descriptor> stream) {
@@ -67,7 +66,7 @@ public interface DescriptorCollectors<T> {
             }
 
             return descriptor;
-        }).collect(Collectors.toList());
+        }).toList();
     }
 
 
@@ -80,6 +79,6 @@ public interface DescriptorCollectors<T> {
             }
 
             return descriptor;
-        }).collect(Collectors.toList());
+        }).toList();
     }
 }

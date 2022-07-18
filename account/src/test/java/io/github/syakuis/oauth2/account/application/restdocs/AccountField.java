@@ -1,6 +1,6 @@
 package io.github.syakuis.oauth2.account.application.restdocs;
 
-import io.github.syakuis.oauth2.restdocs.FieldSpec;
+import io.github.syakuis.oauth2.restdocs.constraints.Descriptor;
 import lombok.Getter;
 
 /**
@@ -8,7 +8,7 @@ import lombok.Getter;
  * @since 2021-08-25
  */
 @Getter
-public enum AccountField implements FieldSpec {
+public enum AccountField implements Descriptor {
     id("번호", false),
     username("사용자 계정", false),
     password("비밀번호", false),
