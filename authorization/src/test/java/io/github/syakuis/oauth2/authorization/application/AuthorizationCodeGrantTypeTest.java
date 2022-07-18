@@ -19,8 +19,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.nimbusds.oauth2.sdk.GrantType;
 import io.github.syakuis.oauth2.account.application.AccountUserDetailsService;
 import io.github.syakuis.oauth2.account.model.AccountUserDetails;
+import io.github.syakuis.oauth2.authorization.application.restdocs.AccessTokenField;
 import io.github.syakuis.oauth2.authorization.application.restdocs.AuthorizationCodeField;
-import io.github.syakuis.oauth2.authorization.application.restdocs.JwtAccessTokenField;
 import io.github.syakuis.oauth2.restdocs.AutoConfigureMvcRestDocs;
 import io.github.syakuis.oauth2.restdocs.constraints.DescriptorCollectors;
 import io.github.syakuis.oauth2.restdocs.constraints.RestDocsDescriptor;
@@ -84,7 +84,7 @@ class AuthorizationCodeGrantTypeTest {
 
     private final RestDocsDescriptor authorizationCodeDescriptor = new RestDocsDescriptor(
         AuthorizationCodeField.values());
-    private final RestDocsDescriptor accessTokenDescriptor = new RestDocsDescriptor(JwtAccessTokenField.values());
+    private final RestDocsDescriptor accessTokenDescriptor = new RestDocsDescriptor(AccessTokenField.values());
 
     @BeforeEach
     void init() {
@@ -97,12 +97,12 @@ class AuthorizationCodeGrantTypeTest {
     }
 
     @Test
-    void accessToken() throws Exception {
+    void token() throws Exception {
         String redirectUri = "http://localhost";
 
         // cofirm_access 페이지 호출
         MvcResult authorizeResult = mvc.perform(
-                post("/oauth/authorize")
+                post("/oauth2/authorize")
                     .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                     .param("response_type", "code")
                     .param("client_id", clientId)
@@ -112,7 +112,7 @@ class AuthorizationCodeGrantTypeTest {
                     .with(user(accountUserDetails))
             )
             .andExpect(status().isOk())
-            .andExpect(forwardedUrl("/oauth/confirm_access"))
+            .andExpect(forwardedUrl("/oauth2/confirm-access"))
             .andExpect(content().bytes(new byte[0]))
             .andDo(print())
             .andDo(document(restdocsPath + "/authorization-code",
@@ -131,7 +131,7 @@ class AuthorizationCodeGrantTypeTest {
         assertNotNull(modelAndView);
 
         // 사용자 직접 승인 필요
-        authorizeResult = mvc.perform(post("/oauth/authorize")
+        authorizeResult = mvc.perform(post("/oauth2/authorize")
                 .flashAttrs(modelAndView.getModel())
                 .param("user_oauth_approval", "true")
                 .param("scope.read", "true")
@@ -144,7 +144,7 @@ class AuthorizationCodeGrantTypeTest {
         String authorizationCode = getAuthorizationCode(authorizeResult.getResponse().getRedirectedUrl());
 
         // 액세스 토큰 발급 요청
-        mvc.perform(post("/oauth/token")
+        mvc.perform(post("/oauth2/token")
                 .param("grant_type", GrantType.AUTHORIZATION_CODE.getValue())
                 .param("code", authorizationCode)
                 .param("redirect_uri", redirectUri)
@@ -171,7 +171,7 @@ class AuthorizationCodeGrantTypeTest {
                 ),
 
                 responseFields(
-                    accessTokenDescriptor.of(JwtAccessTokenField.response()).collect(DescriptorCollectors::fieldDescriptor)
+                    accessTokenDescriptor.of(AccessTokenField.response()).collect(DescriptorCollectors::fieldDescriptor)
                 )
             ))
         ;

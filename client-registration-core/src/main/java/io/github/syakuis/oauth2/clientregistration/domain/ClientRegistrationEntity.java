@@ -1,8 +1,9 @@
 package io.github.syakuis.oauth2.clientregistration.domain;
 
+import io.github.syakuis.oauth2.core.AuthorizedGrantType;
+import io.github.syakuis.oauth2.core.jpa.converter.AuthorizedGrantTypeToStringConverter;
 import io.github.syakuis.oauth2.core.jpa.converter.GrantedAuthorityToStringConverter;
 import io.github.syakuis.oauth2.core.jpa.converter.JsonToStringConverter;
-import io.github.syakuis.oauth2.core.jpa.converter.ListToStringConverter;
 import io.github.syakuis.oauth2.core.jpa.converter.SetToStringConverter;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,7 +41,6 @@ import org.springframework.security.core.GrantedAuthority;
     }
 )
 public class ClientRegistrationEntity implements ClientRegistration {
-    // todo 애플리케이션 명 추가
     @Id
     @GeneratedValue
     private Long id;
@@ -51,25 +51,28 @@ public class ClientRegistrationEntity implements ClientRegistration {
     @Column(nullable = false)
     private String clientSecret;
 
-    @Column
-    @Convert(converter = ListToStringConverter.class)
-    private List<String> resourceIds;
+    @Column(nullable = false)
+    private String applicationName;
 
-    @Column(name = "scope", nullable = false)
-    @Convert(converter = ListToStringConverter.class)
-    private List<String> scopes;
+    @Column
+    @Convert(converter = SetToStringConverter.class)
+    private Set<String> resourceId;
 
     @Column(nullable = false)
-    @Convert(converter = ListToStringConverter.class)
-    private List<String> authorizedGrantTypes;
+    @Convert(converter = SetToStringConverter.class)
+    private Set<String> scope;
 
-    @Column
+    @Column(nullable = false)
+    @Convert(converter = AuthorizedGrantTypeToStringConverter.class)
+    private Set<AuthorizedGrantType> authorizedGrantType;
+
+    @Column(nullable = false)
     @Convert(converter = SetToStringConverter.class)
     private Set<String> webServerRedirectUri;
 
     @Column
     @Convert(converter = GrantedAuthorityToStringConverter.class)
-    private List<GrantedAuthority> authorities;
+    private Set<GrantedAuthority> authority;
 
     @Column(nullable = false)
     private Integer accessTokenValidity;
@@ -80,10 +83,6 @@ public class ClientRegistrationEntity implements ClientRegistration {
     @Column
     @Convert(converter = JsonToStringConverter.class)
     private String additionalInformation;
-
-    @Column(name = "autoapprove")
-    @Convert(converter = SetToStringConverter.class)
-    private Set<String> autoApprove;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false, length = 6, columnDefinition="datetime(6)")
@@ -96,18 +95,18 @@ public class ClientRegistrationEntity implements ClientRegistration {
     private LocalDateTime updatedOn;
 
     @Builder
-    public ClientRegistrationEntity(String clientId, String clientSecret, List<String> resourceIds, List<String> scopes, List<String> authorizedGrantTypes, Set<String> webServerRedirectUri, List<GrantedAuthority> authorities, Integer accessTokenValidity, Integer refreshTokenValidity, String additionalInformation, Set<String> autoApprove, String registeredBy) {
+    public ClientRegistrationEntity(String clientId, String clientSecret, String applicationName, Set<String> resourceId, Set<String> scope, Set<AuthorizedGrantType> authorizedGrantType, Set<String> webServerRedirectUri, Set<GrantedAuthority> authority, Integer accessTokenValidity, Integer refreshTokenValidity, String additionalInformation, String registeredBy) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
-        this.resourceIds = resourceIds;
-        this.scopes = scopes;
-        this.authorizedGrantTypes = authorizedGrantTypes;
+        this.applicationName = applicationName;
+        this.resourceId = resourceId;
+        this.scope = scope;
+        this.authorizedGrantType = authorizedGrantType;
         this.webServerRedirectUri = webServerRedirectUri;
-        this.authorities = authorities;
+        this.authority = authority;
         this.accessTokenValidity = accessTokenValidity;
         this.refreshTokenValidity = refreshTokenValidity;
         this.additionalInformation = additionalInformation;
-        this.autoApprove = autoApprove;
         this.registeredBy = registeredBy;
     }
 
@@ -117,15 +116,14 @@ public class ClientRegistrationEntity implements ClientRegistration {
     }
 
     public void update(ClientRegistrationEntity clientRegistrationEntity) {
-        this.resourceIds = clientRegistrationEntity.getResourceIds();
-        this.scopes = clientRegistrationEntity.getScopes();
-        this.authorizedGrantTypes = clientRegistrationEntity.getAuthorizedGrantTypes();
+        this.resourceId = clientRegistrationEntity.getResourceId();
+        this.scope = clientRegistrationEntity.getScope();
+        this.authorizedGrantType = clientRegistrationEntity.getAuthorizedGrantType();
         this.webServerRedirectUri = clientRegistrationEntity.getWebServerRedirectUri();
-        this.authorities = clientRegistrationEntity.getAuthorities();
+        this.authority = clientRegistrationEntity.getAuthority();
         this.accessTokenValidity = clientRegistrationEntity.getAccessTokenValidity();
         this.refreshTokenValidity = clientRegistrationEntity.getRefreshTokenValidity();
         this.additionalInformation = clientRegistrationEntity.getAdditionalInformation();
-        this.autoApprove = clientRegistrationEntity.getAutoApprove();
     }
 
     public void refreshingClientSecret(String clientSecret) {

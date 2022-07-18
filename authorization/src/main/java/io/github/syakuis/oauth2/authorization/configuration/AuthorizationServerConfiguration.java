@@ -79,6 +79,11 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
             .tokenEnhancer(tokenEnhancerChain)
             .authenticationManager(authenticationManager)
             .userDetailsService(userDetailsService)
+            .pathMapping("/oauth/check_token", "/oauth2/token-check")
+            .pathMapping("/oauth/token", "/oauth2/token")
+            .pathMapping("/oauth/authorize", "/oauth2/authorize")
+            .pathMapping("/oauth/confirm_access", "/oauth2/confirm-access")
+            .pathMapping("/oauth/token_key", "/oauth2/token-key")
         ;
     }
 

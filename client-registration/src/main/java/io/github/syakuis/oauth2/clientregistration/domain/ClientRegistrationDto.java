@@ -1,5 +1,6 @@
 package io.github.syakuis.oauth2.clientregistration.domain;
 
+import io.github.syakuis.oauth2.core.AuthorizedGrantType;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -20,15 +21,15 @@ public class ClientRegistrationDto implements ClientRegistration {
     Long id;
     String clientId;
     String clientSecret;
-    List<String> resourceIds;
-    List<String> scopes;
-    List<String> authorizedGrantTypes;
+    String applicationName;
+    Set<String> resourceId;
+    Set<String> scope;
+    Set<AuthorizedGrantType> authorizedGrantType;
     Set<String> webServerRedirectUri;
-    List<GrantedAuthority> authorities;
+    Set<GrantedAuthority> authority;
     Integer accessTokenValidity;
     Integer refreshTokenValidity;
     String additionalInformation;
-    Set<String> autoApprove;
     LocalDateTime registeredOn;
     String registeredBy;
     LocalDateTime updatedOn;

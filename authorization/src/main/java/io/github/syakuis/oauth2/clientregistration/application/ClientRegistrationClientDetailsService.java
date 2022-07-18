@@ -2,6 +2,7 @@ package io.github.syakuis.oauth2.clientregistration.application;
 
 import io.github.syakuis.oauth2.clientregistration.domain.ClientRegistrationEntity;
 import io.github.syakuis.oauth2.clientregistration.domain.ClientRegistrationRepository;
+import io.github.syakuis.oauth2.core.AuthorizedGrantType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
@@ -34,11 +35,12 @@ public class ClientRegistrationClientDetailsService implements ClientDetailsServ
         baseClientDetails.setAccessTokenValiditySeconds(clientRegistrationEntity.getAccessTokenValidity());
         baseClientDetails.setRefreshTokenValiditySeconds(clientRegistrationEntity.getRefreshTokenValidity());
 
-        if (clientRegistrationEntity.getAuthorities() != null) {
-            baseClientDetails.setAuthorities(clientRegistrationEntity.getAuthorities());
+        if (clientRegistrationEntity.getAuthority() != null) {
+            baseClientDetails.setAuthorities(clientRegistrationEntity.getAuthority());
         }
-        if (clientRegistrationEntity.getAuthorizedGrantTypes() != null) {
-            baseClientDetails.setAuthorizedGrantTypes(clientRegistrationEntity.getAuthorizedGrantTypes());
+        if (clientRegistrationEntity.getAuthorizedGrantType() != null) {
+            baseClientDetails.setAuthorizedGrantTypes(clientRegistrationEntity.getAuthorizedGrantType()
+                .stream().map(AuthorizedGrantType::name).toList());
         }
         if (clientRegistrationEntity.getAdditionalInformation() != null) {
             baseClientDetails.setAdditionalInformation(null);
@@ -46,14 +48,11 @@ public class ClientRegistrationClientDetailsService implements ClientDetailsServ
         if (clientRegistrationEntity.getWebServerRedirectUri() != null) {
             baseClientDetails.setRegisteredRedirectUri(clientRegistrationEntity.getWebServerRedirectUri());
         }
-        if (clientRegistrationEntity.getAutoApprove() != null) {
-            baseClientDetails.setAutoApproveScopes(clientRegistrationEntity.getAutoApprove());
+        if (clientRegistrationEntity.getResourceId() != null) {
+            baseClientDetails.setResourceIds(clientRegistrationEntity.getResourceId());
         }
-        if (clientRegistrationEntity.getResourceIds() != null) {
-            baseClientDetails.setResourceIds(clientRegistrationEntity.getResourceIds());
-        }
-        if (clientRegistrationEntity.getScopes() != null) {
-            baseClientDetails.setScope(clientRegistrationEntity.getScopes());
+        if (clientRegistrationEntity.getScope() != null) {
+            baseClientDetails.setScope(clientRegistrationEntity.getScope());
         }
         return baseClientDetails;
     }

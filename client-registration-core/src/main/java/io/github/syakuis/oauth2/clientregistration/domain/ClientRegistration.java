@@ -1,5 +1,6 @@
 package io.github.syakuis.oauth2.clientregistration.domain;
 
+import io.github.syakuis.oauth2.core.AuthorizedGrantType;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -13,23 +14,23 @@ public interface ClientRegistration {
 
     String getClientSecret();
 
-    java.util.List<String> getResourceIds();
+    String getApplicationName();
 
-    java.util.List<String> getScopes();
+    java.util.Set<String> getResourceId();
 
-    java.util.List<String> getAuthorizedGrantTypes();
+    java.util.Set<String> getScope();
+
+    java.util.Set<AuthorizedGrantType> getAuthorizedGrantType();
 
     java.util.Set<String> getWebServerRedirectUri();
 
-    java.util.List<GrantedAuthority> getAuthorities();
+    java.util.Set<GrantedAuthority> getAuthority();
 
     Integer getAccessTokenValidity();
 
     Integer getRefreshTokenValidity();
 
     String getAdditionalInformation();
-
-    java.util.Set<String> getAutoApprove();
 
     java.time.LocalDateTime getRegisteredOn();
 

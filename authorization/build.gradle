@@ -9,8 +9,8 @@ configurations {
 dependencies {
     implementation project(":core")
     testImplementation project(":core-test")
-    implementation project(":account-support")
-    implementation project(":client-registration-support")
+    implementation project(":account-core")
+    implementation project(":client-registration-core")
 
     implementation 'mysql:mysql-connector-java:8.0.29'
 
@@ -33,6 +33,8 @@ dependencies {
     implementation 'org.apache.commons:commons-pool2:2.11.1'
 
     testImplementation "org.springframework.boot:spring-boot-starter-webflux"
+
+    runtimeOnly 'io.netty:netty-resolver-dns-native-macos:4.1.77.Final:osx-aarch_64'
 }
 
 asciidoctor {

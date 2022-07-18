@@ -11,8 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.nimbusds.oauth2.sdk.GrantType;
+import io.github.syakuis.oauth2.authorization.application.restdocs.AccessTokenField;
 import io.github.syakuis.oauth2.authorization.application.restdocs.AuthorizationHeaderField;
-import io.github.syakuis.oauth2.authorization.application.restdocs.JwtAccessTokenField;
 import io.github.syakuis.oauth2.restdocs.AutoConfigureMvcRestDocs;
 import io.github.syakuis.oauth2.restdocs.constraints.DescriptorCollectors;
 import io.github.syakuis.oauth2.restdocs.constraints.RestDocsDescriptor;
@@ -51,11 +51,11 @@ class ClientCredentialsAuthorizedGrantTypeTest {
 
     private final String restdocsPath = "authorization/client-credentials-authorized-grant-type/{method-name}";
 
-    private final RestDocsDescriptor descriptor = new RestDocsDescriptor(JwtAccessTokenField.values());
+    private final RestDocsDescriptor descriptor = new RestDocsDescriptor(AccessTokenField.values());
 
     @Test
-    void accessToken() throws Exception {
-        mvc.perform(post("/oauth/token")
+    void token() throws Exception {
+        mvc.perform(post("/oauth2/token")
                 .param("grant_type", GrantType.CLIENT_CREDENTIALS.getValue())
                 .accept(MediaType.APPLICATION_JSON)
                 .with(httpBasic(clientId, clientSecret))
@@ -71,17 +71,17 @@ class ClientCredentialsAuthorizedGrantTypeTest {
                 ),
 
                 requestParameters(
-                    descriptor.of(JwtAccessTokenField.grant_type)
+                    descriptor.of(AccessTokenField.grant_type)
                         .collect(DescriptorCollectors::parameterDescriptor)
                 ),
 
                 responseFields(
                     descriptor.of(
-                        JwtAccessTokenField.access_token,
-                        JwtAccessTokenField.token_type,
-                        JwtAccessTokenField.expires_in,
-                        JwtAccessTokenField.scope,
-                        JwtAccessTokenField.jti
+                        AccessTokenField.access_token,
+                        AccessTokenField.token_type,
+                        AccessTokenField.expires_in,
+                        AccessTokenField.scope,
+                        AccessTokenField.jti
                     ).collect(DescriptorCollectors::fieldDescriptor)
                 )
             ))

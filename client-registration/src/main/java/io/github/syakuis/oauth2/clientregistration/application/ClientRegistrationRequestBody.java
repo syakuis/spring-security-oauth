@@ -1,7 +1,9 @@
 package io.github.syakuis.oauth2.clientregistration.application;
 
+import io.github.syakuis.oauth2.core.AuthorizedGrantType;
 import java.util.List;
 import java.util.Set;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -20,20 +22,22 @@ public interface ClientRegistrationRequestBody {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @Builder
     class Register {
-        List<String> resourceIds;
         @NotEmpty
-        List<String> scopes;
+        String applicationName;
+        Set<String> resourceId;
         @NotEmpty
-        List<String> authorizedGrantTypes;
+        Set<String> scope;
+        @NotEmpty
+        Set<AuthorizedGrantType> authorizedGrantType;
+        @NotEmpty
         Set<String> webServerRedirectUri;
-        List<GrantedAuthority> authorities;
-        // todo 최소값 설정할 것
+        Set<GrantedAuthority> authority;
         @NotNull
+        @Min(1000)
         Integer accessTokenValidity;
-        // todo 최소값 설정할 것
         @NotNull
+        @Min(2000)
         Integer refreshTokenValidity;
         String additionalInformation;
-        Set<String> autoApprove;
     }
 }
