@@ -21,10 +21,9 @@ public class MethodArgumentNotValidExceptionHandler {
         BindingResult bindingResult = e.getBindingResult();
 
         // todo 유효성 검증 공통 구현
-        ValidationErrorResponsePayload payload = ValidationErrorResponsePayload.builder()
+        ValidationErrorResponsePayload payload = ValidationErrorResponsePayload.validBuilder()
+            .httpStatus(DefaultResultStatus.INVALID_ARGUMENT.httpStatus())
             .message(DefaultResultStatus.INVALID_ARGUMENT.message())
-            .status(DefaultResultStatus.INVALID_ARGUMENT.name())
-            .code(DefaultResultStatus.INVALID_ARGUMENT.httpStatus().value())
             .details(bindingResult.getFieldErrors().stream().map(it -> ValidationErrorResponsePayload.Details.builder()
                 .target(it.getField())
                 .message(it.getDefaultMessage())

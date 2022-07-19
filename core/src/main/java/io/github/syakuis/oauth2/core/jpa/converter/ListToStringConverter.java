@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+import org.springframework.util.StringUtils;
 
 /**
  * @author Seok Kyun. Choi.
@@ -17,11 +18,11 @@ public class ListToStringConverter implements AttributeConverter<List<String>, S
 
     @Override
     public String convertToDatabaseColumn(List<String> values) {
-        return values != null ? String.join(SPLIT_CHAR, values) : null;
+        return values == null || values.isEmpty() ? null : String.join(SPLIT_CHAR, values);
     }
 
     @Override
     public List<String> convertToEntityAttribute(String value) {
-        return value != null ? Arrays.asList(value.split(SPLIT_CHAR)) : Collections.emptyList();
+        return StringUtils.hasText(value) ? Arrays.asList(value.split(SPLIT_CHAR)) : Collections.emptyList();
     }
 }

@@ -6,7 +6,6 @@ import io.github.syakuis.oauth2.core.jpa.converter.GrantedAuthorityToStringConve
 import io.github.syakuis.oauth2.core.jpa.converter.JsonToStringConverter;
 import io.github.syakuis.oauth2.core.jpa.converter.SetToStringConverter;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;

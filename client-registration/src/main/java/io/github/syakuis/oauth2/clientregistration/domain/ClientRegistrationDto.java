@@ -2,7 +2,6 @@ package io.github.syakuis.oauth2.clientregistration.domain;
 
 import io.github.syakuis.oauth2.core.AuthorizedGrantType;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
