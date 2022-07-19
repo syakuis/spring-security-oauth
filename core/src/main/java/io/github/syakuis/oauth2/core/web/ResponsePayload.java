@@ -15,5 +15,7 @@ public interface ResponsePayload {
     String getStatus();
     int getCode();
 
-    Map<String, ResponsePayload> wrapper();
+    default Map<String, ResponsePayload> wrapper() {
+        return JsonRootName.of("error", this);
+    }
 }

@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 public interface ResultStatus {
     HttpStatus httpStatus();
     String message();
-
     String name();
     String toString();
 }

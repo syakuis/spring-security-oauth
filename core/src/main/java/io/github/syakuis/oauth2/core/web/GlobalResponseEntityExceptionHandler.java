@@ -22,10 +22,9 @@ public class GlobalResponseEntityExceptionHandler extends ResponseEntityExceptio
     // todo 유효성 검증 공통 구현
     @ExceptionHandler(value = ConstraintViolationException.class)
     protected ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException e, WebRequest request) {
-        ValidationErrorResponsePayload payload = ValidationErrorResponsePayload.builder()
+        ValidationErrorResponsePayload payload = ValidationErrorResponsePayload.validBuilder()
+            .httpStatus(DefaultResultStatus.INVALID_ARGUMENT.httpStatus())
             .message(DefaultResultStatus.INVALID_ARGUMENT.message())
-            .status(DefaultResultStatus.INVALID_ARGUMENT.name())
-            .code(DefaultResultStatus.INVALID_ARGUMENT.httpStatus().value())
             .details(e.getConstraintViolations().stream().map(v -> ValidationErrorResponsePayload.Details.builder()
                     .target(v.getPropertyPath().toString())
                     .message(v.getMessage())

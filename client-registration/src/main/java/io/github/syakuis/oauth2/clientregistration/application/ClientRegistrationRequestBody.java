@@ -1,7 +1,6 @@
 package io.github.syakuis.oauth2.clientregistration.application;
 
 import io.github.syakuis.oauth2.core.AuthorizedGrantType;
-import java.util.List;
 import java.util.Set;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;

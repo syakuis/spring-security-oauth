@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Set;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+import org.springframework.util.StringUtils;
 
 /**
  * @author Seok Kyun. Choi.
@@ -15,11 +16,11 @@ public class SetToStringConverter implements AttributeConverter<Set<String>, Str
 
     @Override
     public String convertToDatabaseColumn(Set<String> values) {
-        return values != null ? String.join(SPLIT_CHAR, values) : null;
+        return values == null || values.isEmpty() ? null : String.join(SPLIT_CHAR, values);
     }
 
     @Override
     public Set<String> convertToEntityAttribute(String value) {
-        return value != null ? Set.of(value.split(SPLIT_CHAR)) : Collections.emptySet();
+        return StringUtils.hasText(value) ? Set.of(value.split(SPLIT_CHAR)) : Collections.emptySet();
     }
 }

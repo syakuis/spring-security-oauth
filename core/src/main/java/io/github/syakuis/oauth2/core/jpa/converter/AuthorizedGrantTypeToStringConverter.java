@@ -18,12 +18,12 @@ public class AuthorizedGrantTypeToStringConverter implements AttributeConverter<
 
     @Override
     public String convertToDatabaseColumn(Set<AuthorizedGrantType> values) {
-        return values != null ? values.stream().map(AuthorizedGrantType::name).collect(Collectors.joining(",")) : null;
+        return values == null || values.isEmpty() ? null : values.stream().map(AuthorizedGrantType::name).collect(Collectors.joining(","));
     }
 
     @Override
     public Set<AuthorizedGrantType> convertToEntityAttribute(String value) {
-        return value != null ?
+        return StringUtils.hasText(value) ?
             Arrays.stream(StringUtils.tokenizeToStringArray(value, ","))
                 .map(AuthorizedGrantType::valueOf).collect(
                     Collectors.toSet()) : Collections.emptySet();

@@ -19,13 +19,13 @@ public class GrantedAuthorityToStringConverter implements AttributeConverter<Set
 
     @Override
     public String convertToDatabaseColumn(Set<GrantedAuthority> values) {
-        return values != null ? values.stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","))
-            : null;
+        return values == null || values.isEmpty() ? null
+            : values.stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
     }
 
     @Override
     public Set<GrantedAuthority> convertToEntityAttribute(String value) {
-        return value != null ?
+        return StringUtils.hasText(value) ?
             Arrays.stream(StringUtils.tokenizeToStringArray(value, ","))
                 .map(SimpleGrantedAuthority::new).collect(
                     Collectors.toSet()) : Collections.emptySet();

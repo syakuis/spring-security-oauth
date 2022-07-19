@@ -1,7 +1,6 @@
 package io.github.syakuis.oauth2.core.web;
 
 import java.util.List;
-import java.util.Map;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,26 +15,15 @@ import org.springframework.http.HttpStatus;
  * @since 2021-05-21
  */
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @ToString
-public class ValidationErrorResponsePayload implements ResponsePayload {
-    private final String message;
-    private final String status;
-    private final int code;
+public class ValidationErrorResponsePayload extends ErrorResponsePayload {
     private final List<Details> details;
 
-    public ValidationErrorResponsePayload(HttpStatus httpStatus, String message,  List<Details> details) {
-        this.message = message;
-        this.status = httpStatus.name();
-        this.code = httpStatus.value();
-        this.details = details;
-    }
-
-    @Builder
-    public ValidationErrorResponsePayload(String message, String status, int code, List<Details> details) {
-        this.message = message;
-        this.status = status;
-        this.code = code;
+    @Builder(builderMethodName = "validBuilder")
+    public ValidationErrorResponsePayload(HttpStatus httpStatus, String message,
+        List<Details> details) {
+        super(httpStatus, message);
         this.details = details;
     }
 
@@ -49,10 +37,5 @@ public class ValidationErrorResponsePayload implements ResponsePayload {
         private String target;
         private String message;
         private String code;
-    }
-
-    @Override
-    public Map<String, ResponsePayload> wrapper() {
-        return JsonRootName.of("error", this);
     }
 }

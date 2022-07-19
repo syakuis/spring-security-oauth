@@ -26,7 +26,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 @Slf4j
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
-class JwkSetConfiguration {
+class JwtConfiguration {
     private final RSAPrivateKey signingPrivateKey;
     private final RSAPublicKey validationPublicKey;
 
