@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtBearerTokenAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.util.Assert;
 
 /**
  * @author Seok Kyun. Choi.
@@ -18,8 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
-@EnableWebSecurity
-public class OAuth2SecurityConfiguration {
+public class OAuth2ResourceServerConfiguration {
 
     @Value("${spring.security.oauth2.resourceserver.opaquetoken.introspection-uri}")
     private String introspectionUri;
@@ -34,17 +33,17 @@ public class OAuth2SecurityConfiguration {
     private String jwkSetUri;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests(authorize -> authorize
-                .anyRequest().authenticated()
-            );
-
+    public SecurityFilterChain oauth2ResourceServerFilterChain(HttpSecurity http) throws Exception {
         if (introspectionUri != null) {
+            Assert.hasText(introspectionUri, "인증 토큰 검증을 위한 인증 서버 설정이 없습니다. (introspectionUri)");
+            Assert.hasText(clientId, "인증 토큰 검증을 위한 clientId 설정이 없습니다. (clientId)");
+            Assert.hasText(clientSecret, "인증 토큰 검증을 위한 clientSecret 설정이 없습니다. (clientSecret)");
+
             http.oauth2ResourceServer(oauth2ResourceServer ->
                 oauth2ResourceServer.opaqueToken(token -> token.introspectionUri(introspectionUri)
                     .introspectionClientCredentials(clientId, clientSecret)));
         } else {
+            Assert.hasText(clientSecret, "인증 토큰 검증을 위한 jwkSetUri 설정이 없습니다. (jwkSetUri)");
             http.oauth2ResourceServer(oauth2ResourceServer ->
                 oauth2ResourceServer.jwt(jwt -> jwt.decoder(NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build())
                     .jwtAuthenticationConverter(new JwtBearerTokenAuthenticationConverter())));

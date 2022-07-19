@@ -17,5 +17,8 @@ Authorization: Bearer {{access_token}}
 
 > {% client.global.set("client_id", response.body.clientId); client.global.set("client_secret", response.body.clientSecret); %}
 
+### 애플리케이션 조회
+GET http://localhost:8081/client-registrations/{{client_id}}
+
 ### 애플리케이션 제거
 DELETE http://localhost:8081/client-registrations/{{client_id}}

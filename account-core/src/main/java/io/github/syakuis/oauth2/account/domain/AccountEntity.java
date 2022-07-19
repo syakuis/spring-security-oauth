@@ -60,6 +60,7 @@ public class AccountEntity implements Account, AccountPassword {
     @GeneratedValue
     private Long id;
 
+    // todo email 변경
     @NotBlank
     @Column(nullable = false, length = 150, updatable = false)
     private String username;
@@ -91,6 +92,7 @@ public class AccountEntity implements Account, AccountPassword {
     @Column(length = 6, columnDefinition = "datetime(6)")
     private LocalDateTime updatedOn;
 
+    // todo pk?
     @Column(nullable = false, updatable = false, length = 16, columnDefinition = "binary(16)")
     private UUID uid;
 
