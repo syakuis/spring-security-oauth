@@ -36,4 +36,9 @@ Spring Security팀에서 [spring security oauth](https://github.com/spring-attic
 
 == 설치
 
+== 인증
 
+[source]
+----
+BearerTokenAuthentication [Principal=org.springframework.security.oauth2.server.resource.introspection.OAuth2IntrospectionAuthenticatedPrincipal@695466d8, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=127.0.0.1, SessionId=null], Granted Authorities=[]]
+----
