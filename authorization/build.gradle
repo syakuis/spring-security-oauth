@@ -18,7 +18,7 @@ dependencies {
     testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:${restDocsVersion}"
 
     // spring security oauth 2.0 and jwt
-    implementation "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springSecurityOAuth2Version}"
+    implementation "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.6.8"
     implementation "org.springframework.security.oauth:spring-security-oauth2:${springSecurityOAuth2Version}"
 
     implementation "org.springframework.security:spring-security-oauth2-jose"
