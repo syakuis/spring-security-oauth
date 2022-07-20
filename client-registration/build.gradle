@@ -10,16 +10,16 @@ dependencies {
     implementation project(":core")
     testImplementation project(":core-test")
     implementation project(":client-registration-core")
+    implementation project(":oauth2-resource-server")
 
     implementation 'mysql:mysql-connector-java:8.0.29'
 
     asciidoctorExt "org.springframework.restdocs:spring-restdocs-asciidoctor:${restDocsVersion}"
     testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:${restDocsVersion}"
 
-    // resource-server
-//    implementation "org.springframework.security:spring-security-oauth2-core"
-    implementation "org.springframework.boot:spring-boot-starter-oauth2-resource-server"
     testImplementation "org.springframework.security:spring-security-test"
+    // resource-server
+    implementation "org.springframework.boot:spring-boot-starter-oauth2-resource-server"
     implementation 'com.nimbusds:oauth2-oidc-sdk:9.37.2'
 }
 

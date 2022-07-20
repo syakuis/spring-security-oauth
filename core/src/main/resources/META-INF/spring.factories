@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  io.github.syakuis.oauth2.configuration.IdentityCoreAutoConfiguration
+  io.github.syakuis.oauth2.configuration.OAuthCoreAutoConfiguration

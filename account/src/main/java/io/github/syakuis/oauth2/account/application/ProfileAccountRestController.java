@@ -60,5 +60,5 @@ class ProfileAccountRestController {
         passwordAccountService.change(uid, password.getNewPassword());
     }
 
-    // todo 탈퇴
+    // todo 삭제
 }

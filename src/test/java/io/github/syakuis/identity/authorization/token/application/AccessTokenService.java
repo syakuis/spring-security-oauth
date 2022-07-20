@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.authorization.token.application;
+package io.github.syakuis.oauth2.authorizationserver.token.application;
 
 import java.util.Map;
 import lombok.AccessLevel;

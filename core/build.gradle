@@ -1,4 +1,4 @@
 dependencies {
-    implementation "org.springframework.security:spring-security-core"
+    implementation "org.springframework.security:spring-security-web"
     testImplementation "org.springframework.security:spring-security-test"
 }

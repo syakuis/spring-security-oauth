@@ -1,6 +1,6 @@
 ### password 인증
 POST http://localhost:8082/oauth2/token
-Authorization: Basic 253c39067f6596b98efe30de1e25a1aeeda474e000c8fdd54d7cfe9550e81a70c4d105d4ca062c40 PXF0IUcrKlYjb35ETy8v
+Authorization: Basic {{client_id}} {{client_secret}}
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=password&username=test&password=1234
@@ -9,7 +9,7 @@ grant_type=password&username=test&password=1234
 
 ### client_credentials 인증
 POST http://localhost:8082/oauth2/token
-Authorization: Basic 253c39067f6596b98efe30de1e25a1aeeda474e000c8fdd54d7cfe9550e81a70c4d105d4ca062c40 PXF0IUcrKlYjb35ETy8v
+Authorization: Basic {{client_id}} {{client_secret}}
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=client_credentials
@@ -18,11 +18,11 @@ grant_type=client_credentials
 
 ### 액세스 토큰 검증
 POST http://localhost:8082/oauth2/token-check
-Authorization: Basic 253c39067f6596b98efe30de1e25a1aeeda474e000c8fdd54d7cfe9550e81a70c4d105d4ca062c40 PXF0IUcrKlYjb35ETy8v
+Authorization: Basic {{client_id}} {{client_secret}}
 Content-Type: application/x-www-form-urlencoded
 
 token={{access_token}}
 
 ### 액세스 토큰 삭제
 DELETE http://localhost:8082/oauth2/token
-Authorization: Bearer {{access_token}}
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiIwNjkxNmE5Yy1iNjFhLTQ4ZjItODlkOS00YWJjZmQ4ZWM2ZmIiLCJhZGRpdGlvbmFsSW5mb3JtYXRpb24iOm51bGwsInVzZXJfbmFtZSI6InRlc3QiLCJzY29wZSI6WyJyZWFkIl0sIm5hbWUiOiLthYzsiqTtirgiLCJleHAiOjE2NTgzMDAxNDUsImp0aSI6IkJhQ01kSnBqQi1McDVEQ0p1UDJtcmJ5ejlvOCIsImNsaWVudF9pZCI6IjI1M2MzOTA2N2Y2NTk2Yjk4ZWZlMzBkZTFlMjVhMWFlZWRhNDc0ZTAwMGM4ZmRkNTRkN2NmZTk1NTBlODFhNzBjNGQxMDVkNGNhMDYyYzQwIn0.ii8MyDBZnyoAlV5RfR_As5ExVOBY1GNh_r0-9WgGXbnSWXTs0-fqLcG0JhjClZr_zDMGdWxP7T9NlBuNFp4GCj3il4EJoGWOo1L77xZGdIeLs042-kYiMfLBv63SwK74TJ0RpTn3DW-ydGMUb8AJo77m70thTZ0r9QYvXwiLDk3OalNqTen5VSPlKECywBbfpezFUm35S_IHBky9Sj819S4gQmLAPiaxPhSAS8hC3UxaEUb85g40iRs3Vg_lzHeaiA7s5FcNySXSj717U7TAr1dF2MoL7NU-4vH4eX_ECseuTaG-qGYRQihViLAkCNxCFDmuU0dJBlBbHYFLzdehQw

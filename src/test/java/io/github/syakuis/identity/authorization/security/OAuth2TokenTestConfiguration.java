@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.authorization.security;
+package io.github.syakuis.oauth2.authorizationserver.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

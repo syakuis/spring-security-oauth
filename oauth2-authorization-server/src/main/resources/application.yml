@@ -1,0 +1,71 @@
+logging:
+  file:
+    name: account.log
+    path:
+  logback:
+    rollingpolicy:
+      clean-history-on-start: false
+      max-file-size: 10MB
+      total-size-cap: 20GB
+      max-history: 30
+  level:
+    root: info
+    io.github.syakuis.oauth2: trace
+    org.springframework.web: debug
+    org.springframework.security: trace
+    org.hibernate.SQL: trace
+    org.hibernate.type.descriptor.sql: trace
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.hibernate.type.descriptor.sql.BasicExtractor: off
+server:
+  port: 8082
+  forward-headers-strategy: native
+spring:
+  application:
+    name: oauth2-authorization
+  main:
+    banner-mode: console
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/oauth2?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: oauth2
+    password: 1234
+    initialization-mode: never
+    hikari:
+      max-lifetime: 600000
+      data-source-properties:
+        rewriteBatchedStatements: true
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    hibernate:
+      use-new-id-generator-mappings: false
+      ddl-auto: validate
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: true
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+  mvc:
+    log-request-details: false
+  redis:
+    host: localhost
+    port: 6379
+    password: 1234
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 10
+        min-idle: 2
+  security:
+    oauth2:
+      resourceserver:
+        opaque-token:
+          client-id: 253c39067f6596b98efe30de1e25a1aeeda474e000c8fdd54d7cfe9550e81a70c4d105d4ca062c40
+          client-secret: PXF0IUcrKlYjb35ETy8v
+          introspection-uri: http://localhost:8082/oauth2/token-check

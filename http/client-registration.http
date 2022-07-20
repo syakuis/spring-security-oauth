@@ -19,6 +19,8 @@ Authorization: Bearer {{access_token}}
 
 ### 애플리케이션 조회
 GET http://localhost:8081/client-registrations/{{client_id}}
+Authorization: Bearer {{access_token}}
 
 ### 애플리케이션 제거
 DELETE http://localhost:8081/client-registrations/{{client_id}}
+Authorization: Bearer {{access_token}}
