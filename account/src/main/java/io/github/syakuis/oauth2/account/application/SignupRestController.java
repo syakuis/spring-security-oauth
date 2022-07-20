@@ -34,6 +34,4 @@ final class SignupRestController {
     public String duplicateUsername(@RequestParam("username") String username) {
         return String.valueOf(signupAccountService.usernameExists(username));
     }
-
-    // todo 본인 인증, 메일 인증
 }

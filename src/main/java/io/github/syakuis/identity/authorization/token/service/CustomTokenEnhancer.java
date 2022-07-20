@@ -1,6 +1,6 @@
-package io.github.syakuis.oauth2.authorization.token.service;
+package io.github.syakuis.oauth2.authorizationserver.token.service;
 
-import io.github.syakuis.oauth2.authorization.token.model.OAuth2UserDetails;
+import io.github.syakuis.oauth2.authorizationserver.token.model.OAuth2UserDetails;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;

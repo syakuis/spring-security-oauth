@@ -1,6 +1,6 @@
-package io.github.syakuis.oauth2.authorization.token.application;
+package io.github.syakuis.oauth2.authorizationserver.token.application;
 
-import io.github.syakuis.oauth2.authorization.token.model.OAuth2UserDetails;
+import io.github.syakuis.oauth2.authorizationserver.token.model.OAuth2UserDetails;
 import io.github.syakuis.oauth2.configuration.TestProperties;
 import org.codehaus.plexus.util.StringUtils;
 import org.junit.jupiter.api.BeforeEach;

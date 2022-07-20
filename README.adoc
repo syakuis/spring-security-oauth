@@ -36,9 +36,83 @@ Spring Security팀에서 [spring security oauth](https://github.com/spring-attic
 
 == 설치
 
-== 인증
+== 자원 서버 인증 설정
+
+Spring Configuration
 
 [source]
 ----
+@EnableResourceServer
+@SpringBootApplication
+public class Application {
+}
+
+or
+
+@EnableResourceServer
+@EnableWebSecurity
+public class WebMvcSecurityConfiguration extends WebSecurityConfigurerAdapter implements ResourceServerConfigurer {
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests(
+                authorize -> authorize
+                    .anyRequest().authenticated());
+    }
+}
+----
+
+=== 불투명 토큰(opaque token) 인증 설정
+
+https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/opaque-token.html
+
+application.yml
+
+[source]
+----
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        opaque-token:
+          introspection-uri: https://idp.example.com/introspect
+          client-id: client
+          client-secret: secret
+----
+
+=== jwt 토큰 인증 설정
+
+https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html
+
+application.yml
+
+[source]
+----
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri:
+----
+
+=== 인증 후 인증 속성 조회
+
+https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/opaque-token.html#oauth2resourceserver-opaque-attributes
+
+[source]
+----
+@GetMapping("/foo")
+public String foo(BearerTokenAuthentication authentication) {
+    return authentication.getTokenAttributes().get("sub") + " is the subject";
+}
+--- loggin ---
 BearerTokenAuthentication [Principal=org.springframework.security.oauth2.server.resource.introspection.OAuth2IntrospectionAuthenticatedPrincipal@695466d8, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=127.0.0.1, SessionId=null], Granted Authorities=[]]
+
+or
+
+@GetMapping("/foo")
+public String foo(@AuthenticationPrincipal OAuth2AuthenticatedPrincipal principal) {
+    return principal.getAttribute("sub") + " is the subject";
+}
 ----

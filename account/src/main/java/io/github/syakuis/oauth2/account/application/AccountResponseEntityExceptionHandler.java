@@ -27,8 +27,7 @@ final class AccountResponseEntityExceptionHandler extends ResponseEntityExceptio
 
         ErrorResponsePayload payload = ErrorResponsePayload.builder()
             .message(StringUtils.hasText(accountResultStatus.message()) ? accountResultStatus.message() : e.getLocalizedMessage())
-            .status(accountResultStatus.name())
-            .code(accountResultStatus.httpStatus().value())
+            .httpStatus(accountResultStatus.httpStatus())
             .build();
 
         return handleExceptionInternal(e, payload, new HttpHeaders(), accountResultStatus.httpStatus(), request);

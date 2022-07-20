@@ -52,7 +52,6 @@ class ManagerAccountRestController {
         passwordAccountService.change(uid, password);
     }
 
-    // todo 탈퇴
     @DeleteMapping(path = "/{uid}")
     public ResponseEntity<Void> remove(@PathVariable("uid") UUID uid) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

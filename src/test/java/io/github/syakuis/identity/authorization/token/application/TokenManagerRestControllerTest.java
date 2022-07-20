@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.authorization.token.application;
+package io.github.syakuis.oauth2.authorizationserver.token.application;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

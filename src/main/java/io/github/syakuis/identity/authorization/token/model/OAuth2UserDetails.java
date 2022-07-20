@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.authorization.token.model;
+package io.github.syakuis.oauth2.authorizationserver.token.model;
 
 import io.github.syakuis.oauth2.account.domain.Account;
 import java.util.Collections;
