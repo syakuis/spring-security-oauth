@@ -1,4 +1,0 @@
--- client-secret : dUd6N3ojXSI0dGVseUwy
-insert into client_registration (access_token_validity, additional_information, authorities, authorized_grant_types, autoapprove, client_secret, refresh_token_validity, resource_ids, scope, web_server_redirect_uri, client_id) values (315360000, null, null, 'authorization_code,client_credentials,password,refresh_token', null, '{bcrypt}$2a$10$EPEbMQ6ec2k3rKBxXjaHYuuH41NdnEb/n5TDIU7iUOC1DXU1V.F/y', 315360000, null, 'read', 'http://localhost', '4ecbf0cda5cd57250ecf0d81c00292713ba732f2101ee9416b5bc14e1c10997592276648bb1bb841');
-
-insert into account (blocked, disabled, name, password, registered_on, username, uid) values (0, 0, 'test', '{bcrypt}$2a$10$IIzY6HXVbRgpgIkTcj7ocO8pvE4oHSNHmQMZW/lx7Lo2oySEPGc.i', '2021-05-02T13:09:17.276802', 'test', cast(replace('c7b782b5-f8b5-11eb-972f-02a208506bd6', '-', '') as binary(16)));

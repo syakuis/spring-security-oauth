@@ -1,7 +1,0 @@
-app:
-  security:
-    oauth2:
-      jwt:
-        keystore-location: certificate/authorization.jks
-        keystore-password: syaku@pass1234
-        key-alias: syaku
