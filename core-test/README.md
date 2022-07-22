@@ -1,8 +1,6 @@
-=== RestDocs Sample Code
+### RestDocs Sample Code
 
-[source,java]
-----
-
+```java
 @Getter
 public enum AccountField implements Descriptor {
     id("번호", false),
@@ -23,10 +21,7 @@ public enum AccountField implements Descriptor {
         this.optional = optional;
     }
 }
-----
 
-[source,java]
-----
 @ExtendWith({SpringExtension.class, RestDocumentationExtension.class})
 @WebMvcTest(controllers = SignupRestController.class)
 @AutoConfigureMvcRestDocs
@@ -119,4 +114,4 @@ class SignupRestControllerTest {
         ;
     }
 }
-----
+```

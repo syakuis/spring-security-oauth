@@ -1,6 +1,6 @@
 package io.github.syakuis.oauth2.authorizationserver.application.restdocs;
 
-import io.github.syakuis.oauth2.restdocs.constraints.Descriptor;
+import io.github.syakuis.core.test.restdocs.constraints.Descriptor;
 import lombok.Getter;
 
 /**

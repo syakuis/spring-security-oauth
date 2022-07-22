@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.restdocs;
+package io.github.syakuis.core.test.restdocs;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.restdocs.RestDocsMockMvcConfigurationCustomizer;

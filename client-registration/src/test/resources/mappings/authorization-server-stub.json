@@ -1,0 +1,22 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/oauth2/token-check",
+        "headers": {
+          "Content-Type": {
+            "equalTo": "application/x-www-form-urlencoded;charset=UTF-8"
+          }
+        }
+      },
+      "response": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "status": 200,
+        "body": "{\n          \"uid\": \"06916a9c-b61a-48f2-89d9-4abcfd8ec6fb\",\n          \"additionalInformation\": null,\n          \"user_name\": \"test\",\n          \"scope\": [\n            \"read\"\n          ],\n          \"name\": \"테스트\",\n          \"active\": true,\n          \"exp\": 1658300768,\n          \"jti\": \"5kyMGDU1sXadjqSlJJfjw2reO8Y\",\n          \"client_id\": \"253c39067f6596b98efe30de1e25a1aeeda474e000c8fdd54d7cfe9550e81a70c4d105d4ca062c40\"\n        }"
+      }
+    }
+  ]
+}

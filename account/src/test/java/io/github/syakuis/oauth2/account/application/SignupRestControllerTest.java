@@ -14,15 +14,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.syakuis.core.test.restdocs.AutoConfigureMvcRestDocs;
+import io.github.syakuis.core.test.restdocs.constraints.DescriptorCollectors;
+import io.github.syakuis.core.test.restdocs.constraints.RestDocsDescriptor;
 import io.github.syakuis.oauth2.account.application.model.AccountCommand.Signup;
 import io.github.syakuis.oauth2.account.application.model.AccountDto;
 import io.github.syakuis.oauth2.account.application.restdocs.AccountField;
 import io.github.syakuis.oauth2.account.application.service.SignupAccountService;
 import io.github.syakuis.oauth2.configuration.BasicBeanConfiguration;
 import io.github.syakuis.oauth2.configuration.SecurityConfiguration;
-import io.github.syakuis.oauth2.restdocs.AutoConfigureMvcRestDocs;
-import io.github.syakuis.oauth2.restdocs.constraints.DescriptorCollectors;
-import io.github.syakuis.oauth2.restdocs.constraints.RestDocsDescriptor;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;

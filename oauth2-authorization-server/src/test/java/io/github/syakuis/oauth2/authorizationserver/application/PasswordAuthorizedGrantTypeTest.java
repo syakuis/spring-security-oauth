@@ -12,11 +12,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.nimbusds.oauth2.sdk.GrantType;
+import io.github.syakuis.core.test.restdocs.AutoConfigureMvcRestDocs;
+import io.github.syakuis.core.test.restdocs.constraints.DescriptorCollectors;
+import io.github.syakuis.core.test.restdocs.constraints.RestDocsDescriptor;
 import io.github.syakuis.oauth2.authorizationserver.application.restdocs.AccessTokenField;
 import io.github.syakuis.oauth2.authorizationserver.application.restdocs.AuthorizationHeaderField;
-import io.github.syakuis.oauth2.restdocs.AutoConfigureMvcRestDocs;
-import io.github.syakuis.oauth2.restdocs.constraints.DescriptorCollectors;
-import io.github.syakuis.oauth2.restdocs.constraints.RestDocsDescriptor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

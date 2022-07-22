@@ -21,15 +21,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.syakuis.core.test.restdocs.AutoConfigureMvcRestDocs;
+import io.github.syakuis.core.test.restdocs.constraints.DescriptorCollectors;
+import io.github.syakuis.core.test.restdocs.constraints.RestDocsDescriptor;
 import io.github.syakuis.oauth2.clientregistration.application.restdocs.ClientRegistrationField;
 import io.github.syakuis.oauth2.clientregistration.domain.ClientRegistrationDto;
 import io.github.syakuis.oauth2.clientregistration.support.ClientKeyGenerator;
 import io.github.syakuis.oauth2.configuration.BasicBeanConfiguration;
 import io.github.syakuis.oauth2.configuration.SecurityConfiguration;
 import io.github.syakuis.oauth2.core.AuthorizedGrantType;
-import io.github.syakuis.oauth2.restdocs.AutoConfigureMvcRestDocs;
-import io.github.syakuis.oauth2.restdocs.constraints.DescriptorCollectors;
-import io.github.syakuis.oauth2.restdocs.constraints.RestDocsDescriptor;
+import io.github.syakuis.oauth2.test.wiremock.OAuth2WireMockTest;
 import java.time.LocalDateTime;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,6 +56,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(controllers = ClientRegistrationRestController.class)
 @AutoConfigureMvcRestDocs
 @Import({BasicBeanConfiguration.class, SecurityConfiguration.class})
+@OAuth2WireMockTest
 class ClientRegistrationRestControllerTest {
 
     private final String restdocsPath = "client-registration/{method-name}";
@@ -72,6 +74,8 @@ class ClientRegistrationRestControllerTest {
     private final String clientId = ClientKeyGenerator.clientId();
 
     private ClientRegistrationDto clientRegistrationDto;
+
+    private final String accessToken = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiIwNjkxNmE5Yy1iNjFhLTQ4ZjItODlkOS00YWJjZmQ4ZWM2ZmIiLCJhZGRpdGlvbmFsSW5mb3JtYXRpb24iOm51bGwsInVzZXJfbmFtZSI6InRlc3QiLCJzY29wZSI6WyJyZWFkIl0sIm5hbWUiOiLthYzsiqTtirgiLCJleHAiOjE2NTgzMDA3NjgsImp0aSI6IjVreU1HRFUxc1hhZGpxU2xKSmZqdzJyZU84WSIsImNsaWVudF9pZCI6IjI1M2MzOTA2N2Y2NTk2Yjk4ZWZlMzBkZTFlMjVhMWFlZWRhNDc0ZTAwMGM4ZmRkNTRkN2NmZTk1NTBlODFhNzBjNGQxMDVkNGNhMDYyYzQwIn0.Ux-f1beiH1-dXj9dTBep42xFy0jB4OmOfg_C8LJLUdDaeo5IfpkvjsW8a2QClxlAXKPTZr-AchN-y_ufE23DLBQZr5OELBUOMyjmuYlWGLdNEr8ujLiwwQNKal6qA6ac5DcpZILnr14yRoIGjleZ4RsKp2wtfiSimNmWOrWok6tvTHStj6OjsvqJD2JyKa-KEfxnzLXO-BFmTxWy5oEbpKBTLQuSp2NTex9HxqIfHGO1sbQxSANnuTE2wcvQoZ7hIE45JnCEDunNnSwVR1tXkAmD7Z-2dRea-FFK1XR5_8gFDoaq8DnRNPkKQdWd_R7AeBcT_KXtxWZOUg-FkV-RFQ";
 
     @BeforeEach
     void init() {
@@ -93,12 +97,14 @@ class ClientRegistrationRestControllerTest {
         when(clientRegistrationService.object(clientId)).thenReturn(clientRegistrationDto);
 
         mvc.perform(get("/client-registrations/{clientId}", clientId)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .accept(MediaType.APPLICATION_JSON)
             )
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.clientSecret", nullValue()))
             .andDo(document(restdocsPath,
                 requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("Bearer accessToken"),
                     headerWithName(HttpHeaders.ACCEPT).description(MediaType.APPLICATION_JSON)
                 ),
 
@@ -130,11 +136,13 @@ class ClientRegistrationRestControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(register))
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
             )
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.clientSecret", notNullValue()))
             .andDo(document(restdocsPath,
                 requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("Bearer accessToken"),
                     headerWithName(HttpHeaders.CONTENT_TYPE).description(MediaType.APPLICATION_JSON),
                     headerWithName(HttpHeaders.ACCEPT).description(MediaType.APPLICATION_JSON)
                 ),
@@ -178,11 +186,13 @@ class ClientRegistrationRestControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(register))
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
             )
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.clientSecret", nullValue()))
             .andDo(document(restdocsPath,
                 requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("Bearer accessToken"),
                     headerWithName(HttpHeaders.CONTENT_TYPE).description(MediaType.APPLICATION_JSON),
                     headerWithName(HttpHeaders.ACCEPT).description(MediaType.APPLICATION_JSON)
                 ),
@@ -213,10 +223,17 @@ class ClientRegistrationRestControllerTest {
 
     @Test
     void remove() throws Exception {
-        mvc.perform(delete("/client-registrations/{clientId}", clientId))
+        mvc.perform(
+                delete("/client-registrations/{clientId}", clientId)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+            )
             .andExpect(status().isOk())
             .andExpect(content().bytes(new byte[0]))
             .andDo(document(restdocsPath,
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("Bearer accessToken")
+                ),
+
                 pathParameters(parameterWithName(ClientRegistrationField.clientId.name()).description(
                     ClientRegistrationField.clientId.getDescription()))
             ))
@@ -231,11 +248,13 @@ class ClientRegistrationRestControllerTest {
 
         mvc.perform(patch("/client-registrations/{clientId}/reset-client-secrets", clientId)
                 .accept(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
             )
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.clientSecret", notNullValue()))
             .andDo(document(restdocsPath,
                 requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("Bearer accessToken"),
                     headerWithName(HttpHeaders.ACCEPT).description(MediaType.APPLICATION_JSON)
                 ),
 

@@ -1,0 +1,20 @@
+apply plugin: "java"
+
+dependencies {
+    implementation project(":core")
+    implementation "org.springframework.boot:spring-boot-starter-oauth2-resource-server"
+    implementation 'com.nimbusds:oauth2-oidc-sdk:9.37.2'
+    testImplementation "org.springframework.security:spring-security-test"
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+    systemProperty 'spring.profiles.active', 'test'
+}
+
+jar {
+    enabled = true
+}

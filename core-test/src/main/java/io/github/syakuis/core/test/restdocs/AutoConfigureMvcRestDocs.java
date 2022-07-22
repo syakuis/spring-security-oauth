@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.restdocs;
+package io.github.syakuis.core.test.restdocs;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

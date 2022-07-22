@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.restdocs.constraints;
+package io.github.syakuis.core.test.restdocs.constraints;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

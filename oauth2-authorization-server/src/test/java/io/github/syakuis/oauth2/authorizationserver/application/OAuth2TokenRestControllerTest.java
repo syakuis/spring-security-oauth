@@ -14,14 +14,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import io.github.syakuis.core.test.restdocs.AutoConfigureMvcRestDocs;
+import io.github.syakuis.core.test.restdocs.constraints.DescriptorCollectors;
+import io.github.syakuis.core.test.restdocs.constraints.RestDocsDescriptor;
+import io.github.syakuis.core.test.restdocs.constraints.SingleDescriptor;
 import io.github.syakuis.oauth2.authorizationserver.application.restdocs.AccessTokenCheckField;
 import io.github.syakuis.oauth2.authorizationserver.application.restdocs.AccessTokenField;
 import io.github.syakuis.oauth2.authorizationserver.application.restdocs.AuthorizationHeaderField;
 import io.github.syakuis.oauth2.authorizationserver.application.restdocs.JwtKeysField;
-import io.github.syakuis.oauth2.restdocs.AutoConfigureMvcRestDocs;
-import io.github.syakuis.oauth2.restdocs.constraints.DescriptorCollectors;
-import io.github.syakuis.oauth2.restdocs.constraints.RestDocsDescriptor;
-import io.github.syakuis.oauth2.restdocs.constraints.SingleDescriptor;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -111,7 +111,7 @@ class OAuth2TokenRestControllerTest {
                 ),
 
                 responseFields(
-                    accessTokenCheckFields.of().exclude(AccessTokenCheckField.token)
+                    accessTokenCheckFields.of().exclude(AccessTokenCheckField.token, AccessTokenCheckField.aud)
                         .collect(DescriptorCollectors::fieldDescriptor)
                 )
             ))

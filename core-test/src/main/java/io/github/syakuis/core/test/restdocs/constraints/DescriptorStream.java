@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.restdocs.constraints;
+package io.github.syakuis.core.test.restdocs.constraints;
 
 import java.util.Arrays;
 import java.util.List;

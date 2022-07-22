@@ -24,6 +24,8 @@ spring:
     name: oauth2-account
   main:
     banner-mode: console
+  banner:
+    location: classpath:io/github/syakuis/oauth2/banner.txt
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver

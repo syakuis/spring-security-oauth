@@ -1,4 +1,4 @@
-package io.github.syakuis.oauth2.restdocs.constraints;
+package io.github.syakuis.core.test.restdocs.constraints;
 
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
